@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Thinking</title>
-    <link>http://replace-this-with-your-hugo-site.com/tags/vim/index.xml</link>
+    <link>http://nukr.github.io/tags/vim/index.xml</link>
     <description>Recent content on Thinking</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://replace-this-with-your-hugo-site.com/tags/vim/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://nukr.github.io/tags/vim/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>vim tips</title>
-      <link>http://replace-this-with-your-hugo-site.com/post/vim-tips/</link>
+      <link>http://nukr.github.io/post/vim-tips/</link>
       <pubDate>Thu, 04 Aug 2016 11:41:14 -0500</pubDate>
       
-      <guid>http://replace-this-with-your-hugo-site.com/post/vim-tips/</guid>
+      <guid>http://nukr.github.io/post/vim-tips/</guid>
       <description>&lt;p&gt;我想要重新調整文章的格式讓我整篇文章都在 80 行換行，且要考慮到 word 的完整性
 &lt;a href=&#34;http://stackoverflow.com/questions/3033423/vim-command-to-restructure-force-text-to-80-columns&#34;&gt;source&lt;/a&gt;&lt;/p&gt;
 

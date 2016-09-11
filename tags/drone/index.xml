@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Thinking</title>
-    <link>http://replace-this-with-your-hugo-site.com/tags/drone/index.xml</link>
+    <link>http://nukr.github.io/tags/drone/index.xml</link>
     <description>Recent content on Thinking</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://replace-this-with-your-hugo-site.com/tags/drone/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://nukr.github.io/tags/drone/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>drone-0.5-build-process</title>
-      <link>http://replace-this-with-your-hugo-site.com/post/drone-0-5-build-process/</link>
+      <link>http://nukr.github.io/post/drone-0-5-build-process/</link>
       <pubDate>Sat, 30 Jul 2016 12:45:32 -0500</pubDate>
       
-      <guid>http://replace-this-with-your-hugo-site.com/post/drone-0-5-build-process/</guid>
+      <guid>http://nukr.github.io/post/drone-0-5-build-process/</guid>
       <description>
 
 &lt;h1 id=&#34;drone-0-5-build-process&#34;&gt;Drone 0.5 build process&lt;/h1&gt;
