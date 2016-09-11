@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> Redis Install and basics &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/Redis-Install-and-basics/">Redis Install and basics</a></h2>
+          <span class="post-date">Nov 11, 2013 </span>
+          <div class="post-content">
+            <p>剛剛用brew install redis 後出現了以下訊息，覺得有必要記錄一下</p>
+
+<pre><code>To have launchd start redis at login:
+    ln -sfv /usr/local/opt/redis/*.plist ~/Library/LaunchAgents
+Then to load redis now:
+    launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
+Or, if you don't want/need launchctl, you can just run:
+    redis-server /usr/local/etc/redis.conf
+</code></pre>
+
+<p>再來裝個redis-commander</p>
+
+<p><code>npm install -g redis-commander</code></p>
+
+<p>接著run</p>
+
+<p><code>redis-commander</code></p>
+
+<p>專案裡面這樣裝</p>
+
+<p><code>npm install redis</code></p>
+
+<p>redis command line 這樣開</p>
+
+<p><code>redis-cli</code></p>
+
+<p>在cli run 一些簡單的指令</p>
+
+<pre><code>set
+get
+lpush
+rpush
+lrange
+rrange
+incr
+incrby
+sadd
+smember
+</code></pre>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://replace-this-with-your-hugo-site.com/post/MTG-Combo/"> Prev</a>  
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/Coffeescript-note/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

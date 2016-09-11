@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> AngularJS E2E test by protractor &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/AngularJS-E2E-test-by-protractor/">AngularJS E2E test by protractor</a></h2>
+          <span class="post-date">Dec 28, 2013 </span>
+          <div class="post-content">
+            <p>測試是我寫程式到現在，都沒有去執行的項目，一直以來很想好好的搞懂，隨著程式肥大，維護變得越來越困難了，再不導入測試真的會死人</p>
+
+<p>我現在專注在AngularJS 上面所以首先處理AngularJS 的E2E Test，這是屬於前端的測試，有別于後端，前端有非常惱人的Brower 相容性的問題</p>
+
+<p>現在AngularJS Team 推薦使用Protractor 來做E2E Test，請看<a href="http://docs.angularjs.org/guide/dev_guide.e2e-testing">連結</a>，好像很強大</p>
+
+<p>Protractor：量角器，這個名字真的超適合作為AngularJS 的Testing framework</p>
+
+<p>Protractor 是什麼？</p>
+
+<p>Webdriver 是什麼？</p>
+
+<p>Selenium 是什麼？</p>
+
+<pre><code class="language-bash">npm install protractor -g
+
+webdriver-manager update
+
+webdriver-manager start
+
+protractor conf.js
+</code></pre>
+
+<p>因為protractor default 是用jasmine，我如果想改用mocha的話要做一些修改</p>
+
+<pre><code class="language-bash">npm install -g protractor@canary
+
+webdriver-manager update
+
+webdriver-manager start
+
+npm install -g mocha
+npm install -g chai
+npm install -g chai-as-promised
+
+</code></pre>
+
+<p><code>vi conf.js</code></p>
+
+<pre><code class="language-javascript">var chai = require('chai');
+var chaiAsPromised = require('chai-as-promised');
+
+chai.use(chaiAsPromised);
+var expect = chai.expect;
+</code></pre>
+
+<p>之後就要用<code>expect(myElement.getText()).to.eventually.equal('some text');</code></p>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://replace-this-with-your-hugo-site.com/post/Fix-vim-indent/"> Prev</a>  
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/MTG-Combo/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> raspberry gpio permissions fix &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/raspberry-gpio-permissions-fix/">raspberry gpio permissions fix</a></h2>
+          <span class="post-date">Mar 5, 2013 </span>
+          <div class="post-content">
+            <p><code>sudo nano /etc/rc.local</code></p>
+
+<p><code>chgrp -R dialout /sys/class/gpio</code></p>
+
+<p><code>chmod -R g+rw /sys/class/gpio</code></p>
+
+<p>then reboot</p>
+
+<p>結果好像沒用fuck</p>
+
+<p>直接sudo -s搞定</p>
+
+<p>2013年 3月 6日 周三 01時32分52秒 CST 後記：</p>
+
+<p>還是要用<a href="https://github.com/quick2wire/quick2wire-gpio-admin">gpio-admin</a>，比較安全，root太危險了</p>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://replace-this-with-your-hugo-site.com/post/nodejs-with-raspberry-pi-gpio-development/"> Prev</a>  
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/chrome%E7%9A%84%E5%B1%95%E7%A4%BA%E6%A8%A1%E5%BC%8F/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

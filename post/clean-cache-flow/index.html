@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> clean cache flow &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/clean-cache-flow/">clean cache flow</a></h2>
+          <span class="post-date">Jul 24, 2015 </span>
+          <div class="post-content">
+            <p>客戶取得資料的方法有2</p>
+
+<p>get</p>
+
+<p>這種方式是 get by id 一定只會取出一筆資料</p>
+
+<p>getAll</p>
+
+<p>這種方式有可能一個 query 會跨多個 table</p>
+
+<p>清 cache 的機會有三個</p>
+
+<p>create</p>
+
+<p>新增一筆資料，不管如何都是一筆一筆，even 是 batch 的，所以清 cache 的方式也很單純，清掉所有 affect 到的 table</p>
+
+<p>update</p>
+
+<p>更新一筆</p>
+
+<p>更新多筆</p>
+
+<p>delete</p>
+
+<p>刪除一筆</p>
+
+<p>刪除多筆</p>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://replace-this-with-your-hugo-site.com/post/Promise-all-should-use-function-as-params/"> Prev</a>  
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/taxas-holdem-api/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

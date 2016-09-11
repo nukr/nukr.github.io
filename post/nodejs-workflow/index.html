@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> nodejs workflow &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/nodejs-workflow/">nodejs workflow</a></h2>
+          <span class="post-date">May 16, 2013 </span>
+          <div class="post-content">
+            <p>本來是想用yeoman，享受那種yo→grunt server之後就可以開始coding的生活，但是事與願違，yeoman是乎沒有支援backend的generator（還是我不會用 &hellip;），只好退而求其次，使用grunt + bower，我的yo &hellip;，但是其實express其實就是一種scaffolding，不廢話了，開始吧。</p>
+
+<p>{% codeblock lang:bash %}
+npm install -g express
+npm install -g bower
+npm install -g grunt
+{% endcodeblock %}</p>
+
+<p>這些就是我們本次的三大主角，都裝好之後<code>express &lt;project name&gt;</code>，就會產生一個專案資料夾，裡面有一些express必要的module，所以<code>cd &lt;project name&gt;</code>，<code>npm install</code>會安裝express的dependency，express的部分就到這邊結束了，但是我個人會加上一個<code>mkdir controllers</code>，我不喜歡用<code>routes</code>。</p>
+
+<p>接下來是<code>bower</code>，這是twitter寫的一個package manager，前端的套件就由他來管理，安裝套件的語法跟npm類似，ex. <code>bower install jquery</code>、<code>bower install angular</code>，這樣你就不用一個一個用網站download新版了。如果你想把package裝到一個指定的位置可以加入以下檔案在project的根目錄<code>touch .bowerrc</code></p>
+
+<p>{% codeblock lang:js %}
+{
+  &ldquo;directory&rdquo;: &ldquo;public/components&rdquo;
+}
+{% endcodeblock %}</p>
+
+<p>再來就難了，<a href="gruntjs.com">Grunt</a>是什麼？，你想像它是一個助理，你可以交待他任何你可能要做的事，當你交待的事發生了，這個助理就會照你所交代的去應對，從此之後你只需要專心寫你的程式，任何衍生的重複性工作，類似compile coffee-script、compile sass、unit test、uglify，這個助理都會幫你在你指定的檔案更動時，做出相對應的行動。</p>
+
+<p>怎麼交代助理呢？列張清單給他吧，<code>touch Gruntfile.coffee</code></p>
+
+<pre><code class="language-coffee-script">  # Project configuration.
+  grunt.initConfig
+
+  # Load the plugin that provides the &quot;uglify&quot; task.
+  grunt.loadNpmTasks('grunt-contrib-uglify')
+
+  # Default task(s).
+  grunt.registerTask('default', ['jshint', 'compass', 'coffee', 'watch'])
+</code></pre>
+
+<pre><code class="language-bash">npm install -g nodemon
+npm install -g coffee-script
+touch .npmignore
+</code></pre>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://replace-this-with-your-hugo-site.com/post/jsdc-tw-2013-first-day/"> Prev</a>  
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/project-prepare/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

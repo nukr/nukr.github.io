@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> nodejs with raspberry pi gpio development &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/nodejs-with-raspberry-pi-gpio-development/">nodejs with raspberry pi gpio development</a></h2>
+          <span class="post-date">Mar 6, 2013 </span>
+          <div class="post-content">
+            
+
+<h3 id="gpio是什麼">GPIO是什麼?</h3>
+
+<p>GPIO = General Purpose Input/Output</p>
+
+<p>其實看英文就大概能瞭解了，簡單來說GPIO就是一組針腳，可以讓你用來輸出輸入訊號給Raspberry Pi，進而可以讓你開發一些軟體for周邊的裝置關於Raspberry Pi的GPIO看<a href="http://elinux.org/RPi_Low-level_peripherals">這裡</a>最準，裡面有接腳的定義。</p>
+
+<h3 id="如何控制gpio">如何控制GPIO</h3>
+
+<p>最低階的做法系統灌好就能用：</p>
+
+<p><code>sudo -s</code></p>
+
+<pre><code>這很危險，請小心，這指令會讓你變root
+</code></pre>
+
+<p><code>echo &quot;23&quot; &gt; /sys/class/gpio/export</code></p>
+
+<pre><code>這指令會開啓這個port，你就可以開始控制這個port
+</code></pre>
+
+<p><code>echo &quot;out&quot; &gt; /sys/class/gpio/gpio23/direction</code></p>
+
+<pre><code>GPIO的方向，是想要讀入或是輸出
+</code></pre>
+
+<p><code>echo &quot;1&quot; &gt; /sys/class/gpio/gpio23/value</code></p>
+
+<pre><code>將gpio23(pin16)，設成高電位，按照此範例，你將LED的正極接上gpio23(pin16)，負極接上GND，就會亮了
+</code></pre>
+
+<p>但是這方法很危險(要用到root)，可以用抓<a href="https://github.com/quick2wire/quick2wire-gpio-admin">gpio-admin</a>解決這問題</p>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://replace-this-with-your-hugo-site.com/post/git-note/"> Prev</a>  
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/raspberry-gpio-permissions-fix/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

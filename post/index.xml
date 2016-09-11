@@ -1,0 +1,1808 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Post-rsses on Thinking</title>
+    <link>http://replace-this-with-your-hugo-site.com/post/index.xml</link>
+    <description>Recent content in Post-rsses on Thinking</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 11 Sep 2016 17:07:12 -0500</lastBuildDate>
+    <atom:link href="http://replace-this-with-your-hugo-site.com/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>how to use cli tool read email.(mutt, offlineimap)</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/how-to-use-cli-tool-read-email-mutt-offlineimap/</link>
+      <pubDate>Sun, 11 Sep 2016 17:07:12 -0500</pubDate>
+      
+      <guid>http://replace-this-with-your-hugo-site.com/post/how-to-use-cli-tool-read-email-mutt-offlineimap/</guid>
+      <description>
+
+&lt;p&gt;放假沒事又在自虐，如何使用 commandline tool 收發 email，過程實在麻煩，不得不紀錄一下。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;brew install offlineimap&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;offlineimap&#34;&gt;offlineimap&lt;/h2&gt;
+
+&lt;p&gt;touch ~/.offlineimaprc
+vi ~/.offlineimaprc&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-conf&#34;&gt;[general]
+accounts = myaccount
+# 郵件帳戶在本地電腦上的稱謂名，將它改為你任何你想要的名字
+ui = ttyui
+fsync = False
+# ui = Noninteractive.Quiet
+# 如果啟用此行，則不會輸出任何東西。最適宜cronjobs 在幕後運行了。
+
+[Account myaccount]
+# 這裡的“myaccount”就是你在剛剛在上面改過的稱謂名了。
+localrepository = mylocal
+# 這裡是特定的稱謂名“myaccount”之下的本地郵件暫存處的名字，起個自己喜歡的名字。
+remoterepository = Gmail
+# 這裡是特定的稱謂名“myaccount”之下的遠程郵件暫存處的名字，起個自己喜歡的名字,比如：Gmail。
+# autorefresh = 5
+# 如果啟用此行，則每隔五分鐘抓取一下電郵
+
+[Repository mylocal]
+# 這裡的“mylocal”就是你在剛剛在上面改過的本地郵件暫存處的名字。
+type = Maildir
+# 在本地存儲郵件的方式。當然只支持 Maildir 方式。
+localfolders = ~/Mail
+# 指定~/Mail這個文件夾來跟電郵服務器同步電郵。當然必須事先創建好這個文件夾了，不過文件夾的名字可改為你任何你想要的名字。
+
+[Repository Gmail]
+# 這裡的“Gmail”就是你在剛剛在上面改過的遠程郵件暫存處的名字。
+type = Gmail
+# 遠程郵箱的類型。當前僅支持 IMAP 類型的郵箱。
+# remotehost = imap.gmail.com
+# 連接什么地方的電郵呢？比如Gmail郵箱就是：imap.gmail.com
+ssl = yes
+sslcacertfile = /usr/local/etc/openssl/cert.pem
+# 啟用安全的 SSL 支持，需事先安裝OpenSSL。
+# remoteport = 993
+# 如果郵箱能支持的話，就一定要啟用，這將指定一個特定的加密通訊埠：993。否則將使用缺省的普通通訊埠，也起不到加密的作用了。
+remoteuser = nukrs.w@gmail.com
+# 就是你的郵箱登入名啦。
+# remotepass = g2cBK]FJQkrLb3
+# 郵箱的密碼。 -- 當然，像這樣直接列出密碼，是不太安全。所以你要確信該文件只有你才有讀取權限。還有更好的辦法，不過就請自行參看OfflineIMAP的手冊吧。
+auth_mechanisms = XOAUTH2
+oauth2_request_url = https://accounts.google.com/o/oauth2/token
+oauth2_client_id = 543499001283-a7dashab41cfqbbamp1c5akr680k9ud8.apps.googleusercontent.com
+oauth2_client_secret = pWlWNLvTkfrKGgDAJJ_R_mcj
+oauth2_refresh_token = 1/iu9r6Z31LG21dgUEDaqdGF24CTWvFnRsuhsWJQH_zSk
+nametrans = lambda folder: {&#39;[Gmail]/Drafts&#39;:    &#39;Drafts&#39;,
+                            &#39;[Gmail]/Sent Mail&#39;: &#39;Sent&#39;,
+                            &#39;[Gmail]/Starred&#39;:   &#39;Starred&#39;,
+                            &#39;[Gmail]/Trash&#39;:     &#39;Trash&#39;,
+                            &#39;[Gmail]/All Mail&#39;:  &#39;Archive&#39;,
+                            }.get(folder, folder)
+folderfilter = lambda folder: folder in [&#39;INBOX&#39;, &#39;Label1&#39;, &#39;Label2&#39;, &#39;Work&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;oauth2_client_id&lt;/code&gt;、&lt;code&gt;oauth2_client_secret&lt;/code&gt;、&lt;code&gt;oauth2_refresh_token&lt;/code&gt;，要如何取得？
+要先到 [](&lt;a href=&#34;https://console.developers.google.com&#34;&gt;https://console.developers.google.com&lt;/a&gt;) 點擊左側的 Credentials，然後在點擊 Create credentials -&amp;gt; Oauth client ID，
+如果你先前沒有建立過OAuth consent screen，網頁會引導你建立一個，這樣就會取得 &lt;code&gt;oauth_client_id&lt;/code&gt; 跟 &lt;code&gt;oauth_client_secret&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;oauth2_refresh_token&lt;/code&gt; 要透過一個 python 的工具，先把它 clone 下來 &lt;code&gt;git clone https://github.com/google/gmail-oauth2-tools&lt;/code&gt;，
+&lt;code&gt;python2 python/oauth2.py --generate_oauth2_token --client_id=&amp;lt;your_client_id&amp;gt; --client_secret=&amp;lt;your_client_secret&amp;gt;&lt;/code&gt;，
+把有角括弧跟內容替換成剛剛申請的 client_id 跟 client_secret，會給你一個網址，點擊後照著指示做，會給你一串verification code，
+把它輸入進去 gmail-oauth2-tools 的 prompt 中，就會拿到 refresh token 跟 access token 我測試的結果是只要 refresh token 就能收信了。&lt;/p&gt;
+
+&lt;p&gt;接著執行 offlineimaps 就會開始收信了&lt;/p&gt;
+
+&lt;h2 id=&#34;mutt&#34;&gt;mutt&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;brew install mutt&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-conf&#34;&gt;set mbox_type=Maildir
+#設置郵件存儲方式為：Maildir
+set folder=~/Mail
+#設置郵件的存儲目錄為：~/Mail ，這個目錄跟上面 offlineimaprc  中設置的 localfolders 目錄必須是一致的。否則 offlineimap 收到的信，Mutt 是找不到的。
+set spoolfile=+/INBOX
+#將接收/閱讀新郵件的目錄設置為：~/Mail/INBOX 。因為 offlineimap 會默認把新郵件放到 INBOX 這個目錄中。該行也可以這樣寫：set spoolfile = &amp;quot;+INBOX&amp;quot; ，這种寫法跟上面是一樣的含義。
+set mbox = &amp;quot;+inbox&amp;quot;
+#新郵件閱讀後，轉移到 ~/Mail/inbox 這個目錄。
+set record = &amp;quot;+sent&amp;quot;
+#郵件被成功發送後，轉移到 ~/Mail/sent 這個目錄。
+set postponed = &amp;quot;+draft&amp;quot;
+#郵件如果暫時不能發送或要推遲發送，就轉移到 ~/Mail/draft 這個目錄。
+set header_cache=~/Mail/.hcache
+#設置郵件頭的暫存目錄
+
+macro index G &amp;quot;!/usr/local/bin/offlineimap \n&amp;quot; &amp;quot;Checking mails......&amp;quot;
+#設置一個快捷鍵：G ，來調用 offlineimap 查閱新電郵
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;mutt&lt;/code&gt; 就可以開始使用了&lt;/p&gt;
+
+&lt;p&gt;蛤！發信？累了有空再寫&lt;/p&gt;
+
+&lt;h2 id=&#34;reference&#34;&gt;reference&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://wiki.archlinux.org/index.php/Mutt_(%E6%AD%A3%E9%AB%94%E4%B8%AD%E6%96%87)&#34;&gt;https://wiki.archlinux.org/index.php/Mutt_(%E6%AD%A3%E9%AB%94%E4%B8%AD%E6%96%87)&lt;/a&gt;
+&lt;a href=&#34;https://maskray.me/blog/2016-02-12-gmail-offlineimap-xoauth2&#34;&gt;Gmail的OfflineIMAP XOAUTH2認證&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>golang test pattern</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/golang-test-pattern/</link>
+      <pubDate>Sun, 04 Sep 2016 01:38:53 -0500</pubDate>
+      
+      <guid>http://replace-this-with-your-hugo-site.com/post/golang-test-pattern/</guid>
+      <description>&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func TestGetReleaseTagMessage(t *testing.T) {
+        cases := []struct {
+                f           FakeReleaseInfoer
+                repo        string
+                expectedMsg string
+                expectedErr error
+        }{
+                {
+                        f: FakeReleaseInfoer{
+                                Tag: &amp;quot;v0.1.0&amp;quot;,
+                                Err: nil,
+                        },
+                        repo:        &amp;quot;doesnt/matter&amp;quot;,
+                        expectedMsg: &amp;quot;The latest release is v0.1.0&amp;quot;,
+                        expectedErr: nil,
+                },
+                {
+                        f: FakeReleaseInfoer{
+                                Tag: &amp;quot;v0.1.0&amp;quot;,
+                                Err: errors.New(&amp;quot;TCP timeout&amp;quot;),
+                        },
+                        repo:        &amp;quot;doesnt/foo&amp;quot;,
+                        expectedMsg: &amp;quot;&amp;quot;,
+                        expectedErr: errors.New(&amp;quot;Error querying GitHub API: TCP timeout&amp;quot;),
+                },
+        }
+
+        for _, c := range cases {
+                msg, err := getReleaseTagMessage(c.f, c.repo)
+                if !reflect.DeepEqual(err, c.expectedErr) {
+                        t.Errorf(&amp;quot;Expected err to be %q but it was %q&amp;quot;, c.expectedErr, err)
+                }
+
+                if c.expectedMsg != msg {
+                        t.Errorf(&amp;quot;Expected %q but got %q&amp;quot;, c.expectedMsg, msg)
+                }
+        }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>mo hotkey</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/mo-hotkey/</link>
+      <pubDate>Tue, 16 Aug 2016 21:26:30 -0500</pubDate>
+      
+      <guid>http://replace-this-with-your-hugo-site.com/post/mo-hotkey/</guid>
+      <description>&lt;pre&gt;&lt;code&gt;MO熱鍵中英文對照表
+F2 – &amp;quot;Pass Priority/OK&amp;quot; The system will click OK to the current prompt.
+按下OK：
+對於任何需要你按下ok的時候，按下F2就等於用滑鼠去按螢幕上的ok鈕。  F3 – &amp;quot;Remove all Auto-Yields&amp;quot; The system will remove all auto-yields, including auto yes, and auto no.  This is used to stop commands like F4 and F6, as well as any right clicked auto-yields within a game. 關掉Auto-Yields『自動跳過觸發』功能：
+關掉F4, F6的功能
+ F4 - &amp;quot;Pass Until You Can Respond&amp;quot; This tells the system that you&#39;re done, but will give you a chance to play spells or abilities if something happens that you can respond to. If you press it during your turn and have creatures that can attack, the game will pause during the declare attackers phase. Once you attack or respond to something, the effect of F4 is cancelled and you have to press it again if you still don’t want to do anything that turn. 『自動跳過觸發』功能：任何異能觸發而你都沒有事情可做的時候，自動跳過。直到你有能力做事為止，這功能會自動關掉。
+例如：你已經沒有mana或是可用的手牌了。開啟這個功能會自動跳過所有你無法回應的事件，直到你可以回應為止。可以回應指的是生物的攻防，或是你的永久物觸發式異能被觸發。到了你的回合地全部重置後，你鐵定可以做事，所以這個功能通常會在你的維持階段就自動關掉。
+ F5 – &amp;quot;Look at Face-down Cards (hold)&amp;quot; Hold this key to look at all your face down cards.  Release this key to put them back face down. 觀看你所有牌面朝下的牌。
+這邊指的是那些牌面朝下，有morph異能或是被顯化機制放置進場的牌。
+ F6 - &amp;quot;Pass until End-of-Turn&amp;quot; Yield to everything until the end of the current turn.  If you select this, the system will not prompt you again during that turn.  You will only be prompted if you are put into a situation where you are required to make a choice.
+『直到這個回合，忽略所有回應』功能：
+開啟這個功能後，系統會直接幫你跳過所有的『優先權讓過』，即使是你還有魔法力、手牌或是啟動式異能等資源，都會跳過，直到回合結束。或是有任何你需要選擇的時候（通常指的就是生物攻防或你操控的觸發式異能被觸發，而要你選擇Yes/No的時候）。  F7 – &amp;quot;Stack Abilities Automatically&amp;quot; Until the end of the current game, the system will put all triggers with the same text that trigger at the same time on the stack automatically, if they do not target. For example, if you have three creatures with bushido that all are blocked at the same time, this will place all the bushido triggers on the stack without having to click to choose the order.
+『自動跳過同名觸發效應』功能：
+開始這個功能後，直到遊戲結束，系統會自動把同名的觸發一起送上堆疊，不用讓你選擇先後。舉個例：例如你操控擬態缸並施放了神怒。開啟這個功能後，系統就會自動把所有生物的進墳觸發送上堆疊等你確認是否要放逐，而不用一個一個選擇順序上堆疊。  F8 – &amp;quot;Disable Bluffing&amp;quot; The system will automatically pass priority for the rest of the game when you are unable to do anything.   『關掉呼嚨』功能：
+按下F8之後，直到遊戲結束，系統會自動判斷，如果你真的可以回應，那系統就會停下來問你是否要回應。如果你沒事可做，則系統會自動跳過。這一個跟F4的差別在於：F4到新回合就會自動關掉，F8會持續到遊戲結束。
+這個功能通常會用在多人EDH中，按下F8可以省掉很多無謂的等待回應時間。
+ Alt+Y – &amp;quot;Yes&amp;quot; The system will choose yes for the current system prompt. 等同於用滑鼠去按螢幕上的Yes鈕。  Alt+N – &amp;quot;No&amp;quot; The system will choose no for the current system prompt. 等同於用滑鼠去按螢幕上的No鈕。  Z – &amp;quot;Zoom (hold)&amp;quot; Hold this key to zoom in on the currently highlighted card.  Release this key to zoom back out. 放大縮小目前滑鼠正指定的牌張，等於同時按下滑鼠的左右鍵。  Esc – &amp;quot;Cancel&amp;quot; This will cancel the current selection.  For example, if you begin the steps to cast a card but change your mind before finishing, you can hit escape to cancel the casting. 取消目前正在進行的動作，等同於用滑鼠去按螢幕上的Cancel鈕。
+ Ctrl+Z – &amp;quot;Undo&amp;quot; This will undo the last click.  You can repeat this process to undo multiple clicks, until the beginning of the current phase or until you reach a point where a choice cannot be undone by the game rules.  This is most often used to untap land that you have changed your mind about tapping.
+回覆上一個滑鼠點擊的動作，等同於滑鼠右鍵功能表的undo功能。通常是回復一個連續性的動作中的某一步驟，例如轉地或是咒語的模式選擇。無法回復已經優先權讓過的動作。
+
+M – &amp;quot;Auto-Tap Mana (hold)&amp;quot; Holding this key while clicking land for mana will cause the system to automatically choose the color of mana to pull from that land, if it can provide multiple colors, based on the spell you are attempting to cast.  You must click the spell to cast it first, before tapping the land for mana, for this to have any effect. 『自動選擇地產出的顏色』功能：
+先選擇施放咒語，按住M，然後再用滑鼠去選擇可產多色的地，系統會自動根據你的咒語來選擇適合產出的顏色。
+ Ctrl – &amp;quot;Maintain Priority (hold)&amp;quot; (NOTE: This key binding cannot be changed) Holding down the control key while casting a spell will maintain priority and allow you to cast another spell before giving your opponent a chance to respond.
+根據MTG規則，玩家在施放咒語或是啟動異能上堆疊後，會進行優先權讓過，一般系統在你進行完動作後的優先權讓過行為先直接讓過，等對方回應。
+如果你有這個需要是進行一個動作後馬上進行下一個動作，則需要在進行第一個動作時按住control鍵不放，則第一個咒語異能上堆疊後，系統會停下來等你在繼續下個動作。
+永久物的auto-yield:
+
+如上圖，如果某個永久物的觸發式異能一直跳出來讓你覺得很煩。當該異能在堆疊上的時候你可以對著那個異能按右鍵，然後選取適當的自動功能。
+
+我們以右圖的靈魂照護僧為例，這個永久物具有觸發式異能，一旦觸發，玩家可以決定是否要結算該異能。因此，一旦有其他生物進場，系統會進行兩階段的提示：
+先提醒玩家所操控的觸發式異能被觸發。倘若有多個同一位玩家的異能同時被觸發，則，這個時候就是決定各異能上堆疊的順序。
+一旦玩家決定後，異能上堆疊，若沒有被反擊，在結算前，系統會問玩家是否要結算該異能。（請注意，靈魂照護僧的觸發式異能有個may字樣。）
+
+此時，玩家可以對該異能按下右鍵：以靈魂照護僧來說，會有四個選項：
+永久自動接受這個永久物的觸發式異能。（亦即上述的系統通知A，系統將會自動接受直到遊戲結束。）
+直到這個回合結束，自動接受這個永久物的觸發式異能。同上，只是這個功能只有維持到該回合結束。
+對這個永久物的觸發式異能，永遠接受。（亦即上述的系統詢問B，系統會直接以Yes來自動進行。）
+對這個永久物的觸發式異能，永遠拒絕。
+請注意，永久物各自分開，如果你已經設定了第一個靈魂照護僧，然後之後又施放了第二個靈魂照護僧，則第二個靈魂照護僧還是要重新設定。
+
+再舉另外一個例子。以右圖的護靈師為例。他有類似靈魂照護僧的觸發式異能，但是卻沒有may字樣，代表該異能只會有第一個系統通知A。而不會有系統詢問B。因此，如果對著該觸發式異能按下右鍵，玩家只會看到上述的前兩個選項，不會有後兩個選項。
+
+在任何時候，如果想要關掉自動功能，玩家只要在螢幕任何地方按下右鍵，選擇『移除自動功能』即可。
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>vim tips</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/vim-tips/</link>
+      <pubDate>Thu, 04 Aug 2016 11:41:14 -0500</pubDate>
+      
+      <guid>http://replace-this-with-your-hugo-site.com/post/vim-tips/</guid>
+      <description>&lt;p&gt;我想要重新調整文章的格式讓我整篇文章都在 80 行換行，且要考慮到 word 的完整性
+&lt;a href=&#34;http://stackoverflow.com/questions/3033423/vim-command-to-restructure-force-text-to-80-columns&#34;&gt;source&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;首先 &lt;code&gt;set textwidth=80&lt;/code&gt; 選擇我們要的寬度&lt;/p&gt;
+
+&lt;p&gt;再來 &lt;code&gt;gqG&lt;/code&gt; 就會 format 整篇文章&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Rules of Thumb for HTTP/2 Push (translate 9%)</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/Rules-of-Thumb-for-HTTP-2-Push-translate/</link>
+      <pubDate>Thu, 04 Aug 2016 11:31:20 -0500</pubDate>
+      
+      <guid>http://replace-this-with-your-hugo-site.com/post/Rules-of-Thumb-for-HTTP-2-Push-translate/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;https://docs.google.com/document/d/1K0NykTXBbbbTlv60t5MyJvXjqKGsCVNYHyLEXIxYMv0/edit#heading=h.ke8t5vjw3jh4&#34;&gt;source&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;rules-of-thumb-for-http-2-push&#34;&gt;Rules of Thumb for HTTP/2 Push&lt;/h1&gt;
+
+&lt;p&gt;Tom Bergan, Simon Pelchat, Michael Buettner
+{tombergan, spelchat, buettner}@chromium.org&lt;/p&gt;
+
+&lt;p&gt;HTTP/2 has a new feature called server push that promises to improve page load
+times. The idea: rather than waiting for the client to send a request, the
+server preemptively pushes a resource that it predicts the client will request
+soon afterwards. For example, if the server sends the client an HTML document,
+the server can reasonably predict that the client will also request subresources
+linked from that HTML document, such as JS and CSS files.&lt;/p&gt;
+
+&lt;p&gt;HTTP/2 有一個新功能叫做 server push，他承諾增進讀取時間。
+這個想法取代了等待使用者送出 request， 伺服器搶先送出我們預測到使用者之後想要的資源。
+舉例來說，假設伺服器送出了一個HTML document，伺服器可以合理的預測使用者也會請求連接到這個
+HTML document 的子資源，像是JS and CSS。&lt;/p&gt;
+
+&lt;p&gt;More broadly, we can build a fetch dependency graph for a page. This graph has
+an edge from A to B if resource A reveals the need to fetch resource B. For
+example, given that doc.html imports a.js and a.js import b.js via
+document.write, there is an edge from doc.html -&amp;gt; a.js and another edge from
+a.js -&amp;gt; b.js. Each time a client requests a.js, the server can proactively push
+b.js along with any or all of the other descendants of a.js in the fetch
+dependency graph.&lt;/p&gt;
+
+&lt;p&gt;更廣泛地說，我們可以幫這個頁面建立一個 fetch dependency graph。
+假設資源 A 表明他需要 fetch 資源B，這個 graph 就有一個 edge 從 A 到 B 。
+舉例來說，考慮到 doc.html 引入了 a.js 並且 a.js 透過 document.write 引入了 b.js，
+我們就有了一個 edge 從 doc.html -&amp;gt; a.js 並且有另一個 edge 從 b.js 沿著任何或是所有其他
+a.js 的後裔在 fetch dependency graph。&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, server push does not always improve page load performance. It is
+not always obvious why this is so. Further, indiscriminate use of server push
+can actually make page load times worse. This document compiles lessons we
+learned while experimenting with server push. Many of these lessons will be
+obvious and common-sense, at least in retrospect; others may not be so obvious.&lt;/p&gt;
+
+&lt;p&gt;很不幸的，server push 不是總是增進頁面讀取效能。為什麼他並不總是這樣。進一步來說，
+濫用 server push 可以讓頁面讀取時間變得很糟。本文件編寫的是當我們實驗 server push
+時我們學習到的教訓。&lt;/p&gt;
+
+&lt;p&gt;To summarize, we recommend the following:&lt;/p&gt;
+
+&lt;p&gt;總結來說，我們建議如下列：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Push just enough resources to fill idle network time, and no more.  Server
+push eliminates idle network time between the server sending one response to
+the client and waiting for the next request. During this idle time, the
+server can fill the network with as many bytes as are allowed by the current
+TCP congestion window (cwnd). Pushing more than cwnd bytes has no additional
+benefit and can actually hurt performance, for reasons described below. A
+corollary is that TCP slow start makes server push less effective on cold
+connections than on warm connections.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;推送剛好足夠的資源去填滿閒置的網路就好。
+   Server push 消除閒置網路時間在 server 送出一個 response 到用戶端並且等待下一個 request 之間。
+   在這個閒置時間中，伺服器可以填滿這個網路伴隨盡可能多的位元組到被允許的當前的 TCP congestion window (cwnd)。
+   推送多餘 cwnd bytes 沒有額外的好處還可能傷害效能，根據下面描述的原因。
+   一個推論是 TCP slow start 讓 server push 在 cold connections 比 warm connections 較沒效率。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Push resources in evaluation-dependence order.  The browser evaluates each
+subresource in a specific order. Pushing resources in the wrong order
+delays evaluation, which can delay discovery of hidden resources that are
+requested dynamically, which can make page load time worse. For this
+reason, it may be better to avoid pushing resources when their evaluation
+order is not precisely known, especially when those resources cumulatively
+exceed the current cwnd (recall rule #1).&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;推送資源在評估依賴（evaluation-dependence）的順序。
+   瀏覽器評估每一個子資源透過特定的順序。
+   推送資源在不對的順序會延遲評估，會延遲發現隱藏那些動態請求的資源，
+   會讓頁面載入時間變得更長。
+   根據這個原因，也許最好避免當評估順序還不是精確的被瞭解時推送資源，
+   特別是當這些資源累積超過 cwnd（回想 rule #1）&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Consider using special strategies to track the client-side cache.  Push
+wastes bandwidth when the client has already cached the resource being
+pushed. Further, pushing more than cwnd bytes makes page load time
+worse if the extra bytes pushed are already cached (again, recall rule#1).
+Unfortunately, there is no perfect, well-tested method to avoid pushing
+cached resources. We mention a few recent proposals.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;考慮使用特別的策略去追蹤用戶端的快取。
+   推送浪費頻寬當用戶端已經快取這項正在推送的資源。
+   更進一步來說，推送多於一個 cwnd bytes 讓頁面載入速度更慢，
+   假如多餘的位元組已經被快取了（再次回想 rule #1）。
+   不幸的是，沒有完美，良好測試的方法去避免推送被快取的資源。
+   我們會提到一些最近的提案。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Use the right cookies when pushing resources that vary by cookie.
+Unlike the above issues, this is a correctness problem, not a
+performance problem. This is particularly important when a pushed
+resource depends on path-scoped cookies that may not have been sent
+with the mainframe request that initiated the push.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;使用正確的 cookies 當推送資源是根據 cookie 的改變。
+   不像上面的問題，這是正確性的問題，並非效能的問題。
+   這是格外重要當推送的資源取決於 path-scoped cookies 可能沒有送出過 with 大型機請求 that 初始過的推送（看不懂自己在翻什麼）&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Use server push to fill the initial cwnd and consider using preload
+links to reveal the remaining critical or hidden resources.  In
+cases where a resource should not be pushed due to the above rules,
+a preload link may make more sense. Preload links cannot eliminate
+idle network time as well as server push. However, preload links are
+cache- and cookie-aware, and further, they can be applied to
+cross-domain or third-party resources, while a server can only push
+resources for which it is authoritative.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;使用伺服器推送&lt;/p&gt;
+
+&lt;p&gt;Table of contents:&lt;/p&gt;
+
+&lt;p&gt;Intended Audience and Scope Experimental Methodology Rule #1: Push Enough to
+Fill Idle Network Time, and No More A Simple Example Slow Start Means Slow Push
+How Resource Evaluation Speed Affects Idle Time Generalizing to Multiple RTTs
+Implications for Developers Rule #2: Push Resources in the Right Order Push and
+HTTP/2 Priorities Bad Interactions Between HTTP/2 Priorities and Bufferbloat
+Don’t Let Pushed Responses Delay the Main Response Implications for Developers
+Rule #3: Don’t Push Resources the Client has Already Cached Rule #4: Use the
+Right Cookies What Happens if the Server Uses the Wrong Request Headers?  Rule
+#5: Consider Preload Instead of Push Case Studies on Actual Pages Straw Man
+Comparison&lt;/p&gt;
+
+&lt;p&gt;Intended Audience and Scope The intended audience is HTTP/2 server implementers,
+who want to support server push in their servers, and web developers, who think
+their pages may be benefit from server push. We assume the reader is already
+familiar with basic web concepts a high-level, particularly HTTP/2 and HTML, and
+also basic networking concepts like BDP, congestion control, and head-of-line
+blocking. Ilya Grigorik&amp;rsquo;s High Performance Browser Networking gives a great
+overview of these topics.&lt;/p&gt;
+
+&lt;p&gt;Our examples focus on using server push to improve page load performance in web
+browsers. This is not the only case where server push is useful. Other cases
+include: responses to user actions on already-loaded web pages, or responses to
+RPC requests where the RPC transport layer uses HTTP/2. Our rules of thumb
+should generalize to these other cases as well, although rules #3-#5 apply only
+when the client is a web browser.&lt;/p&gt;
+
+&lt;p&gt;When we discuss response ordering, particularly in rule #2, we assume responses
+should be ordered as atomic units. This matches HTTP/2&amp;rsquo;s notion of stream
+dependence, where each response corresponds with a single HTTP/2 stream.
+Advanced servers may want to carefully interleave pushed responses with the main
+response to micro-optimize resource delivery. For example, a server may &amp;ldquo;inline&amp;rdquo;
+a JS file by pushing it just after sending the corresponding &lt;script&gt; tag from
+the main HTML. This effectively splits the HTML into two parts. If you treat
+these two parts as separate &amp;ldquo;responses&amp;rdquo;, our rules of thumb should apply
+directly. However, the implementation may be tricky. We do not discuss this idea
+further.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Experimental Methodology Unless otherwise stated, all experiments used the
+following setup:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;        * Pages were served from a version of WebPageReplay (WPR)
+        * implemented in Go, with support for custom HTTP/2 push policies
+        * for each replay.  The server ran in a GCE instance with 2 vcpus
+        * and 5GB memory.  The client was Chrome version 51 running on a
+        * Moto G.  The network was simulated using WebPageTest.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Unless otherwise stated, all measurements are medians over at least 25 runs,
+where the number of runs is high enough that the median is stable. We consider a
+median stable if the inter-quartile range is at most 1% of the median.
+Concretely, this means (p(75)-p(25))/p(50) ≤ 1%, where p(x) is the xth
+percentile. All page loads used a cold browser cache.&lt;/p&gt;
+
+&lt;p&gt;We configured WebPageTest to simulate 2G and 3G networks using the parameters
+shown below. We disabled simulated packet loss to minimize variability. After
+setting the simulation parameters, we measured the actual throughput and RTT for
+our setup. Throughput was computed from the time to download a 1MB file. RTT was
+computed from the TCP connect time. Measured results are shown below:&lt;/p&gt;
+
+&lt;p&gt;Network Throughput (kbps) RTT (ms) Bandwidth-Delay Product (measured) Measured
+Expected Measured Expected India-3G 1360 1800 209 200 35 KB India-2G 113 120
+1420 1400 20 KB&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Rule #1: Push Enough to Fill Idle Network Time, and No More Push helps when
+there is idle network time. If there is no idle time, then push cannot deliver
+resources any faster than the browser can request them. The amount of data that
+can be pushed during idle time depends on the network’s bandwidth-delay product
+(BDP, see above table), the TCP congestion window (cwnd), bufferbloat, and the
+amount of idle time itself, which depends on how quickly the browser evaluates
+the page. We explores the effect of these parameters on server push. We make the
+following recommendation:&lt;/p&gt;
+
+&lt;p&gt;Push enough resources to fill idle network time, but no more.  A Simple Example
+To illustrate, we start with a simple HTML page that loads a synchronous
+Javascript file in the &lt;head&gt; section. We assume the server can generate the JS
+and HTML responses instantly. The server will push the JS file after sending the
+HTML. Our expected improvement from push depends on the size of the HTML file
+relative to the BDP:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;        * If size(HTML) ≤ BDP/2, the page should load about 1 RTT faster.
+        * If size(HTML) ∊ (BDP/2, BDP), the page should load &amp;lt; 1 RTT faster.
+        * If size(HTML) ≥ BDP, the page will not load faster.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Suppose size(HTML) ≤ BDP/2 and push is disabled. By the time the client receives
+the first few bytes of HTML, the entire HTML document is already on the wire.
+The client can send the JS request instantly (since the JS link is in the &lt;head&gt;
+of the document), but it must wait 1 RTT to get the first byte of JS. Push can
+eliminate this 1 RTT penalty by sending the JS file immediately after the HTML.&lt;/p&gt;
+
+&lt;p&gt;However, if size(HTML) ≥ BDP, then even with server push enabled, the server
+cannot put the JS file onto the wire any more quickly because it takes at least
+one full RTT to put the entire HTML document on the wire. By this point, the
+client’s request for the JS has already arrived.[1]&lt;/p&gt;
+
+&lt;p&gt;To demonstrate this effect, we use a simple HTML page that imports a single
+Javascript file in the &lt;head&gt; section and contains random text in the &lt;body&gt;.
+The page is loaded once both files have been downloaded. We request this page
+with push disabled, then again with push enabled. The JS file is pushed
+immediately after the HTML is sent.&lt;/p&gt;
+
+&lt;p&gt;The table below shows results. The HTML document size is varied as shown in the
+left column; the JS file was a constant 10KB in all cases. The Diff column gives
+the percentage improvement from push, if any (rounded to the nearest percent).&lt;/p&gt;
+
+&lt;p&gt;HTML Size Load Times for Cold Connections (ms) India-3G (BDP = 35KB) India-2G
+(BDP = 20KB) No Push With Push Diff No Push With Push Diff 5 KB 1231 1097 +11%
+7240 6721 +7% 20 KB 1233 1175 +5% 7760 7781
+    -
+  40 KB 1344 1349
+    -
+  9136 9164
+    -
+  80 KB 1532 1537
+    -
+  11813 11832
+    -
+  200 KB 2120 2134
+    -
+  19930 19953
+    -&lt;/p&gt;
+
+&lt;p&gt;We can estimate what the above table should look like given our basic model of
+push. First, we should see no improvements for push when size(HTML) ≥ BDP. This
+holds true. Second, the following formula predicts the Diff column in the above
+table:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    Tnopush = rtt + max(rtt, size(HTML)/bw) + size(JS)/bw Tpush   = rtt +
+    size(HTML)/bw + size(JS)/bw Diff    = 1 - Tpush/Tnopush
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For the cases where size(HTML) ≤ BDP, we get:
+            * 2G, size(HTML)=5KB, Expected Diff = +29.5% 3G, size(HTML)=5KB,
+            * Expected Diff = +37.6% 3G, size(HTML)=20KB, Expected Diff = +18.9%&lt;/p&gt;
+
+&lt;p&gt;These predictions are much higher than the measurements shown in the above
+table. Why?  Slow Start Means Slow Push BDP is actually limited by the server’s
+congestion window (cwnd), which may not reflect the actual network bandwidth. In
+fact, the above experiments used cold connections, which means cwnd is
+artificially low due to TCP slow start. Hence, the inequalities from the
+beginning of this section should actually read:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;        * If size(HTML) ≤ cwnd/2, we expect the page should load about 1 RTT
+        * faster.  If size(HTML) ∊ (cwnd/2, cwnd), the page should load &amp;lt; 1
+        * RTT faster.  If size(HTML) ≥ cwnd, the page should not load
+        * faster.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For warm connections, cwnd should approximately match the network’s actual BDP.
+For cold connections, cwnd can be lower, effectively lowering the amount of data
+we can push during idle network times. Unfortunately, many page loads occur on
+cold TCP connections &amp;ndash; we expect this will limit the benefits of server push in
+practice.&lt;/p&gt;
+
+&lt;p&gt;Modern TCP implementations use an initial cwnd of about 14KB. After completing a
+TCP handshake and sending the first 14KB, the server must wait one RTT for an
+ACK, after which cwnd doubles and the server can send another 28KB.[2] We wrote
+a simple simulation in Python to estimate the expected performance of push on
+cold connections after TCP Slow Start is accounted for.&lt;/p&gt;
+
+&lt;p&gt;Our simulation results are given below. These numbers match the measured numbers
+in the above table much more closely:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;        * 2G, size(HTML)=5KB, Expected Diff = +11.3% 3G, size(HTML)=5KB,
+        * Expected Diff = +13.6% 3G, size(HTML)=20KB, Expected Diff = 0%
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To verify that push performs better over warm connections, we reran the above
+experiments using warm connections. We created a warm connection by first
+loading a 100KB HTML page, where the bottom of that HTML contains Javascript
+code that redirects to the actual HTML page. Our page load timer starts when the
+browser makes this redirect request. Results are shown in the table below:&lt;/p&gt;
+
+&lt;p&gt;HTML Size Load Times for Warm Connections (ms) India-3G (BDP = 35KB) India-2G
+(BDP = 20KB) No Push With Push Diff No Push With Push Diff 5 KB 746 462 +38%
+3876 2691 +30% 20 KB 1378 1161 +16% 3884 3763 +3% 40 KB 3319 3237 +2% 5143 5166
+    -
+  80 KB 5885 5891
+    -
+  7899 7910
+    -
+  200 KB 14142 14150
+    -
+  16226 16228
+    -&lt;/p&gt;
+
+&lt;p&gt;These numbers match the above formulas for Diff, Tpush, and Tnopush much more
+closely.&lt;/p&gt;
+
+&lt;p&gt;How Resource Evaluation Speed Affects Idle Time If we modify the above example
+to import the JS file from the end of the HTML, instead of &lt;head&gt;, then the
+browser won’t request the JS file until after the HTML file has been entirely
+downloaded. There is now exactly one RTT’s worth of network idle time regardless
+of the HTML size. Still, our basic rule has not changed &amp;ndash; there is no benefit
+to pushing more resources than necessary to occupy the entire idle time.&lt;/p&gt;
+
+&lt;p&gt;To illustrate, we load a simple HTML page that imports two JS files (1.js and
+2.js) just before the closing &lt;/body&gt; tag. We push both 1.js and 2.js after
+sending the HTML. We vary size(HTML) and size(1.js) but fix size(2.js) at a
+constant 10KB. Note that for any fixed size(1.js), size(HTML) does not affect
+whether any benefits are seen from push. However, size(1.js) matters &amp;ndash; we see
+no additional benefit from pushing 2.js once size(1.js) exceeds cwnd (20KB):&lt;/p&gt;
+
+&lt;p&gt;size(HTML) size(1.js) India-2G Load Times (ms) Warm Connection, BDP = 20KB Push
+(1.js only) Push (1.js, 2.js) Diff 5 KB 5 KB 4125 2995 +27% 20 KB 5 KB 5204 4067
++21% 40 KB 5 KB 6685 5461 +18% 40 KB 20 KB 6681 6580
+    -
+  40 KB 40 KB 8079 8089
+    -&lt;/p&gt;
+
+&lt;p&gt;The above example is not very practical &amp;ndash; servers will likely push resources
+from the &lt;head&gt;, not the tail, since the &lt;head&gt; section likely contains
+critically important resources. However, the example is a good model for the
+following scenario:&lt;/p&gt;
+
+&lt;p&gt;Suppose a page uses many resources, one of which is a script that inserts images
+into the page. Perhaps that script and images are not important enough to push
+with the HTML, but the server would like to push the images when the script is
+eventually requested. The key observation is that browsers typically do not
+evaluate scripts incrementally like HTML. Instead, the entire script file must
+be downloaded. Further, evaluating a script can introduce significant extra
+delays when the script is slow or the device is low-powered. Hence, in this
+case, the idle network time includes one RTT plus the time to evaluate the
+script. We recommend that the server should push just enough images to fill this
+idle time, and no more.[3] Generalizing to Multiple RTTs So far we have seen
+cases where the idle network time covers one RTT. Now we should how our rule
+generalizes when idle time spans multiple RTTs. Consider an HTML page that
+imports a JS file (1.js) just before &lt;/body&gt;, where 1.js imports two more JS
+files (2.js and 3.js) via calls to document.write. Without push, this page load
+has about two RTTs worth of idle network time:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;        1. Between receiving the last byte of HTML and the first byte of
+        1.js.
+        2. Between receiving the last byte of 1.js and the first byte of
+        2.js.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Push can eliminate both of these RTTs. Let’s suppose the connection is warm. We
+expect a performance improvement from pushing both 1.js and 2.js with the HTML.
+These two pushes eliminate the two RTTs above, respectively. It may be
+beneficial to push 3.js as well, but this depends on whether 2.js is large
+enough to occupy the entire second RTT:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;        * If size(2.js) &amp;lt; BDP, we expect an improvement from pushing both
+        * 2.js and 3.js If size(2.js) &amp;gt; BDP, there is no additional
+        * improvement from pushing 3.js.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For completeness, we demonstrate this with an experiment:&lt;/p&gt;
+
+&lt;p&gt;size(2.js) India-2G Load Times (ms) Warm Connection, BDP = 20KB HTML, 1.js, and
+3.js are all 10KB Push (1.js, 2.js only) Push (1.js, 2.js, 3.js) Diff 5 KB 5419
+4206 +22% 20 KB 5491 5303 +3% 40 KB 6813 6786
+    -&lt;/p&gt;
+
+&lt;p&gt;Implications for Developers Server developers should be aware of the
+connection’s current cwnd and should take this into account when deciding how
+much data to push. On Linux, the current cwnd can be obtained through
+getsockopt(fd, SOL_TCP, TCP_INFO), which returns a tcp_info struct that contains
+the send congestion window size (also see this article). The default initial
+cwnd can be changed with the global initcwnd setting (see this article). Note
+that Linux lowers cwnd and reverts to slow-start if keep-alives are enabled and
+the TCP connection has become idle. This means even “warm” connections may
+behave like cold connections. This behavior can be disabled by setting
+tcp_slow_start_after_idle=0 (see the tcp manpage).&lt;/p&gt;
+
+&lt;p&gt;Server developers should also be aware that the kernel-reported cwnd may be
+inaccurate in two respects. First, the true cwnd may be artificially limited by
+the client’s receive window. For this reason, the effective cwnd is actually the
+minimum of tcpi_snd_cwnd and tcpi_rcv_space (in the tcp_info struct). Second,
+cwnd may over-estimate the true BDP due to bufferbloat. We have more to say
+about bufferbloat in the next section, where we discuss rule #2.&lt;/p&gt;
+
+&lt;p&gt;Web developers should be aware of typical BDP sizes and how those sizes compare
+to the resources they want to push. Below is a table estimating BDP for a
+variety of connection types:&lt;/p&gt;
+
+&lt;p&gt;Connection Type RTT (ms) Bandwidth (kbps) BDP 2G (as defined above) 1420 113 20
+KB 3G (as defined above) 209 1360 35 KB 4G LTE (sprint) 150 4500 85 KB 4G LTE
+(verizon) 150 8500 160 KB 25 Mbps cable 50 25000 156 KB 1 Mbps satellite 638
+1000 80 KB&lt;/p&gt;
+
+&lt;p&gt;A network sees the largest improvement from push if it has high RTT (maximizing
+idle time to remove) and high bandwidth (maximizing data pushed during idle
+times). Unfortunately, such networks don’t really exist. The closest is probably
+satellite internet, which is becoming increasingly rare.&lt;/p&gt;
+
+&lt;p&gt;The httparchive has stats for a large corpus of web pages.  Suppose we served
+all of these web pages using server push, where a set of “critical” resources
+are pushed along with each HTML document. Based on stats from httparchive and
+our data above, we can make a few tentative observations:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;        * We expect no improvement from push on cold 2G connections when the
+        * HTML document is larger than 5KB. This covers 80% of HTML
+        * documents.
+
+        * The situation is better for warm 2G connections, where we expect
+        * small improvements for HTML documents up to 20KB. This covers 85%
+        * of HTML documents.
+
+        * We expect more relative improvement for faster connections than
+        * for slow connections, since faster connections generally have a
+        * higher BDP. It is unfortunate that this trend is not reversed.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Rule #2: Push Resources in the Right Order Web pages are evaluated in a
+well-defined order. For example, synchronous scripts are executed sequentially
+in the order they appear in the HTML file. When a server decides to push one or
+more resources, it must schedule those resources on the wire in some order.
+Sending resources in the wrong order will delay client-side evaluation, which
+can cause slower page loads for a number of reasons, but most importantly:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;           * Rendering is delayed if a non-render-blocking resource is sent
+           * on the wire before a render-blocking resource.
+
+
+           * Evaluation of one resource may reveal the need to fetch another
+           * resource, such as when a synchronous script injects a reference
+           * to another script via document.write. Delay of the first script
+           * delays the request for the second script. Note that it may not
+           * be possible to push the second script since the URL may be
+           * determined dynamically.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To demonstrate this effect, we load the following web page:&lt;/p&gt;
+
+&lt;p&gt;&lt;html&gt; &lt;head&gt; &lt;script src=”1.js”&gt;&lt;/script&gt; &lt;script src=”3.js”&gt;&lt;/script&gt; &lt;script
+src=”4.js”&gt;&lt;/script&gt; &lt;/head&gt; &lt;body&gt;&amp;hellip; 10 KB of junk …&lt;/body&gt; &lt;/html&gt;&lt;/p&gt;
+
+&lt;p&gt;The first script (1.js) loads another script (2.js) via a document.write call at
+the end of the script. The other scripts (3.js, 4.js) are no-ops. The first
+script (1.js) is 5KB. All other files are 10KB. We assume 2.js cannot be pushed
+&amp;ndash; for example, it may be a dynamic URL. We experimented with different push
+strategies to measure how push order affects load time. Using a 2G connection,
+there is 10KB left in the BDP after sending the HTML file. This means we expect
+a performance improvement when we push a single JS file. However, when we push
+multiple JS files, expected improvement depends on the files we choose to push
+and the order we push them in.&lt;/p&gt;
+
+&lt;p&gt;Results are shown in the table below. Some of these push orders seem contrary to
+common sense. Obviously a server would not push 3.js and 4.js when 1.js is
+clearly more important! However, a server may be tempted into this scenario if
+it cannot push 1.js for some reason, for example, when 1.js is a dynamic URL, or
+when 1.js is hosted on a different domain (perhaps a CDN or third-party site).
+The point of this experiment is to demonstrate the danger of this temptation.
+Push Order India-2G Load Times (ms) Warm Connection, BDP = 20KB Load Time Diff
+to No Push No Push 3593
+    -
+  1.js 2740 +23% 3.js 2789 +22% 1.js, 2.js 2796 +22% 3.js, 1.js 3465
+    -
+  3.js, 4.js 4179 -16%&lt;/p&gt;
+
+&lt;p&gt;These results are most easily explained by timelines. Below is the timeline for
+“No Push”. The first row shows the passage of time in terms of RTTs, the second
+row shows when requests are made, and the third row shows when responses are
+downloaded:&lt;/p&gt;
+
+&lt;p&gt;1 RTT 2 RTT 3 RTT 4 RTT 5 RTT HTML 1.js,3.js,4.js&lt;/p&gt;
+
+&lt;p&gt;2.js&lt;/p&gt;
+
+&lt;p&gt;(idle) HTML (idle) 1.js 3.js 4.js 2.js&lt;/p&gt;
+
+&lt;p&gt;Up to 10KB can be pushed during the idle time in the second RTT. This explains
+why the first three push examples are faster. Below is the timeline for the
+fourth example (“Push Order = 3.js, 1.js”). This is not any faster than No Push
+because 1.js is not received any sooner:&lt;/p&gt;
+
+&lt;p&gt;1 RTT 2 RTT 3 RTT 4 RTT 5 RTT HTML 4.js&lt;/p&gt;
+
+&lt;p&gt;2.js&lt;/p&gt;
+
+&lt;p&gt;(idle) HTML 3.js 1.js 4.js (idle) 2.js&lt;/p&gt;
+
+&lt;p&gt;The final example performs worse than No Push because it orders 1.js after both
+3.js and 4.js. This delays the request of 2.js, adding extra idle time into the
+page load.&lt;/p&gt;
+
+&lt;p&gt;1 RTT 2 RTT 3 RTT 4 RTT 5 RTT HTML 1.js 2.js (idle) HTML 3.js 4.js 1.js (idle)
+2.js&lt;/p&gt;
+
+&lt;p&gt;Push and HTTP/2 Priorities HTTP/2 encodes request priorities using a weighted
+  dependence tree. By default, pushed streams depend on the request that
+  initiated the push (see Section 5.3.5). We suggest using an exclusive
+  dependence for pushed streams.&lt;/p&gt;
+
+&lt;p&gt;To illustrate, suppose the client makes requests for A and B, where B depends on
+A and the server decides to push C and D when A is requested. The server should
+not decide to push C and D in the first place unless C+D are needed immediately
+after A. Otherwise, there is a risk that concurrent requests (like B) are
+actually more important, in which case pushing C+D can steal bandwidth from
+those more important requests. Further, if C is more important than D, then
+those resources should be ordered relative to each other. Exclusive dependencies
+are the simplest way to express these orderings:&lt;/p&gt;
+
+&lt;p&gt;default dependence tree: A ⟶ {B, C, D} using exclusive dependencies: A ⟶ C ⟶ D ⟶
+B&lt;/p&gt;
+
+&lt;p&gt;One way to implement this is for the server to update its HTTP/2 priority tree,
+then send PRIORITY frames to the client that make A the exclusive parent of C
+and C the exclusive parent of D. This is an attractive implementation because
+the server can continue using the HTTP/2 priority tree to order requests C, D,
+and B.&lt;/p&gt;
+
+&lt;p&gt;However, this is fundamentally racey: if both ends (client and server) update
+the priority tree concurrently, it can easily become out-of-sync. For this
+reason, we advocate not mutating the priority tree on the server. Instead, the
+server should continue using the default priority tree, but should make a note
+in its tree that siblings {C,D,B} should be prioritized in that order. If the
+client later sends a PRIORITY frame to reorder one of these streams, that new
+priority should take precedence.&lt;/p&gt;
+
+&lt;p&gt;Bad Interactions Between HTTP/2 Priorities and Bufferbloat A known problem with
+HTTP/2 priorities is that you cannot reprioritize data that has already been
+buffered in the kernel. If the kernel’s send buffer is considerably larger than
+the TCP cwnd, the server may write data to the kernel “too soon”, resulting in
+suboptimal scheduling. This blog post has a great discussion. For cellular
+networks, the problem is even worse due to bufferbloat in ISPs &amp;ndash; data can be
+buffered in cellular networks in far excess of the link’s true BDP, and once
+data has been pushed into network buffers, it cannot be reprioritized.&lt;/p&gt;
+
+&lt;p&gt;What does this mean for server push? It turns out that server push is one
+possible work-around for the above problem. Suppose the client makes N
+concurrent requests. The first request is for a JS file that will load a
+render-blocking CSS file. After evaluating the JS, the client will request the
+CSS file with high priority (as of version 51, Chrome moves the CSS file to the
+top of the priority tree). In theory the server should respond with that CSS
+file immediately. However, if the kernel and network buffers are already full,
+those buffers must be drained before the CSS file can be received. In
+bufferbloat scenarios, this can require multiple RTTs.&lt;/p&gt;
+
+&lt;p&gt;Suppose the server instead pushes the CSS file with the JS file. This avoids the
+above prioritization problem entirely because the CSS will be sent immediately
+after the JS, without being preempted by a long sequence of buffered responses.
+Note that we do not consider server push the best solution for this
+prioritization problem &amp;ndash; we mention it only because we’ve spent time puzzling
+over waterfalls, wondering why we were seeing more improvement from server push
+than expected, only to realize that server push was masking the true problem
+(bufferbloat). It is better to avoid bufferbloat directly. To fix excessive
+kernel-level buffering, the server should take control using options like
+TCP_NOTSENT_LOWAT (also see this paper). Another solution is to switch from TCP
+to QUIC. Unlike TCP, QUIC is implemented entirely in user-space &amp;ndash; this allows
+QUIC to use a priority queue for its send buffer, effectively eliminating
+head-of-line blocking due to large kernel send buffers (although this behavior
+is not currently standardized).&lt;/p&gt;
+
+&lt;p&gt;We revisit this problem at the end of this document as we have seen it happen in
+practice (see the “artofliving” example in “Case Studies on Actual Pages”).&lt;/p&gt;
+
+&lt;p&gt;Don’t Let Pushed Responses Delay the Main Response We encountered an interesting
+ordering problem in the following scenario:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;           1. The client sends an HTML request to a frontend server (e.g.,
+           an edge proxy), which forwards the request to a backend server.
+           2. The backend server responds with response headers for the
+           HTML. This includes a special header “X-Push: foo.js”.
+           3. On receiving that header, the frontend server sends the client
+           a PUSH_PROMISE for foo.js and creates an internal request to
+           handle foo.js.
+           4. This JS file is cached locally in the frontend server, so that
+           response is served instantly.
+           5. The HTML response body finally arrives at the frontend server
+           from the backend server.
+           6. The frontend has already written the JS file into the outgoing
+           kernel socket, which means that the JS file will arrive at the
+           client before the HTML. This delays parsing of the HTML, which
+           delays requests for other subresources that were not pushed.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We can deterministically reproduce the above race by ensuring there is enough
+latency between the frontend and backend. Why don’t HTTP/2 stream dependencies
+solve this problem? The HTTP/2 spec is clear that priorities are only a
+suggestion. In fact, it can be a good idea to start pushing the JS file before
+the HTML response is ready. Suppose it takes a long time for the backend to
+generate the HTML response body. If the frontend follows HTTP/2 priorities
+strictly, the network will stay idle until the HTML is finally received. It is a
+good idea is to start pushing the JS file during this idle time, even though
+that push is technically out-of-order.&lt;/p&gt;
+
+&lt;p&gt;The problem comes when we introduce bufferbloat, either in the kernel or the
+network. Now, a careless frontend may write a very large JS file into the
+kernel’s send buffer. If the HTML arrives before that send buffer is flushed,
+the HTML will be delayed, which can hurt page load performance. This is the
+scenario we ran into above. The moral of this story is that out-of-order pushes
+can be useful when higher-priority responses are not yet ready, but this benefit
+can be completely reversed if the low-priority responses get buffered ahead of
+the high-priority responses, due to bufferbloat.&lt;/p&gt;
+
+&lt;p&gt;It is tempting to believe that the above race triggers only when responses are
+generated by slow backends. Alas, that is not the case. We encountered this same
+problem in our simple replay server that serves all responses from an in-memory
+cache. Briefly, the problem is randomized thread scheduling &amp;ndash; if a server has
+one main response and N pushes in flight, the main response handler will be
+scheduled after N/2 push handlers on average if scheduling is random. If the
+pushes occupy exactly one BDP, this delays the main response by ½ RTT. On actual
+pages, we observed a performance degradation of up to 10% (see the
+“bollywoodhungama” example in “Case Studies on Actual Pages”). Once again, the
+solution is to avoid buffering low-priority responses in front of
+higher-priority responses, either by using QUIC, by following priorities
+strictly, or by throttling writes for low-priority responses.&lt;/p&gt;
+
+&lt;p&gt;Implications for Developers Developers should understand how their page will be
+evaluated and should arrange to have resources pushed in evaluation order. An
+optimal strategy is to build a topological sort of the page evaluation graph,
+label each resource by its size, then push the first N resources from the
+topological order, where the cumulative size of the HTML and the first N-1
+resources is less than cwnd, while the Nth resource brings the cumulative size
+just above cwnd.&lt;/p&gt;
+
+&lt;p&gt;This optimal strategy is not always possible. For example, sometimes a very
+“critical” resource is either computed dynamically by a script (meaning it
+cannot be pushed) or the resource is hosted on a third-party domain (recall that
+a server cannot push resources for which the server is not authoritative). When
+the optimal strategy cannot be used, it is always safe to push any N resources
+where the cumulative size of the HTML and those N resources is less than cwnd &amp;ndash;
+this may not result in a performance improvement, but at minimum it should avoid
+degrading performance relative to “no push”.&lt;/p&gt;
+
+&lt;p&gt;It is risky to start a push in the middle of a page load (i.e., from a response
+other than the initial HTML response) because there may already be
+higher-priority requests in flight. Developers should push resources in this
+situation only if the resources are truly needed immediately.&lt;/p&gt;
+
+&lt;p&gt;Developers should be aware of the bufferbloat problem as it may help explain
+unintuitive performance results. Servers should respect HTTP/2 priorities as
+much as possible, particularly when the priorities are intended to order the
+main HTML response relative to pushed responses. Servers should consider
+switching from TCP to QUIC, as QUIC can eliminate kernel-level head-of-line
+blocking.  ________________&lt;/p&gt;
+
+&lt;p&gt;Rule #3: Don’t Push Resources the Client has Already Cached A challenge arises
+due to client caches. It wastes bandwidth to push resources that the client has
+already cached. This is particularly bad for data-conscious users.&lt;/p&gt;
+
+&lt;p&gt;Suppose the server pushes a resource that the client has already cached. Recall
+rule #1: if the server’s push fits in existing idle time, then at worst this
+wastes bandwidth without degrading performance. However, if the server’s push
+exceeds idle time, it is easy to see how pushing unneeded bytes can delay needed
+bytes, thus degrading performance.&lt;/p&gt;
+
+&lt;p&gt;If a server had perfect knowledge, it would simply skip any resource the client
+has already cached. However, it is difficult to know the state of the client’s
+cache. A few techniques have been proposed. The most promising are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;           1. Each time the client requests a resource from a server, the
+           server updates a cookie that contains a Bloom filter summarizing
+           all resources the client has requested from that server. The
+           client sends this cookie with each request. The server inspects
+           the cookie when deciding what to push and does not push any
+           resources the client has requested recently. (This approach has
+           been implemented in H20.)
+
+           2. A variation on the prior approach is to use a separate cookie
+           for each resource. The server can then use cookie expiration
+           times to model cache expiration times, at the cost of more
+           cookies. (We read this idea somewhere but cannot remember the
+           reference.) Note that using too many cookies may run afoul of
+           browser cookie limits.
+
+           3. An obvious extension is for the client to describe its cache
+           directly via a header, perhaps using a Bloom filter. This only
+           works for specific client/server pairs that understand the new
+           header. Or, in cases where service workers control the cache, it
+           may be possible to implement this directly in a service worker
+           without any browser changes. An IETF draft has been written for a
+           new HTTP/2 frame to communicate the client’s cache state to the
+           server.
+
+           4. If the server predicts the client has a cached version of a
+           resource, it can preemptively push a 304 to the client. This
+           removes the latency penalty from revalidation of stale resources.
+           Unfortunately, current browsers don’t respect 304 pushes in this
+           way (see discussion in this blog post).
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Other proposed techniques are less promising:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;              1. If the page request includes a conditional header, like
+              If-None-Match, the client has requested the page previously
+              and has likely cached all cacheable subresources needed  by
+              the page, assuming the contents of the page have changed only
+              slightly. This idea works only for repeat visits to the same
+              page, not visits across a site where many pages share a
+              standard set of resources. (Idea proposed in this mailing list
+              thread.)
+
+              2. The server can include If-Match in its PUSH_PROMISE to name
+              the version of the resource being pushed. If the client has
+              already cached that version, the client can close the stream
+              with RST_STREAM. This idea seems impractical in most cases
+              because it relies on the client to cancel unneeded pushes. The
+              delay between the server sending a PUSH_PROMISE and receiving
+              the client’s cancellation is 1 RTT, at which point the server
+              will likely have written the entire pushed response on the
+              wire. However, this idea may work for resources that are very
+              large relative to the network’s BDP. (Idea proposed in this
+              mailing list thread.)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;An evaluation of the above approaches is meaningful only if the evaluation is
+done at scale. We are not aware of any evaluation that has been done so far. We
+leave such an evaluation for future work.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Rule #4: Use the Right Cookies Each server push event is a response to a pseudo
+request that is generated by the server. The server serializes these pseudo
+requests into PUSH_PROMISE frames that are sent to the client, where each pseudo
+request corresponds to a hypothetical future request that the client is expected
+to make shortly. The server must predict the headers the client will use for
+that future request. An incorrect prediction can lead to the server pushing the
+wrong response should the response depend on specific header values.&lt;/p&gt;
+
+&lt;p&gt;One solution is to not push any response with a non-empty Vary header. However,
+this is overly restrictive. For example, it’s reasonable to expect that all
+requests from the same client will contain the same User-Agent header.&lt;/p&gt;
+
+&lt;p&gt;Special care is needed when handling cookies. Suppose a server receives a
+request for page A and wants to push resource B with the response. The server
+knows the cookies the client sent when requesting A. However:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                 * Which of A’s cookies are applicable to B? If any of A’s
+                 * cookies are path-scoped, some cookies may not apply to B.
+                 * If the server is authoritative on multiple hosts or
+                 * domains, then it is possible that none of A’s cookies are
+                 * applicable to B.
+
+                 * Is the set of cookies sent with request A the complete
+                 * set of cookies needed to handle B? Similarly to the prior
+                 * question: the client may have cookies applicable to B but
+                 * not A. Those cookies are not sent in the request for A,
+                 * so they are not known when the push is started.
+
+                 * If the response for A includes Set-Cookie, should those
+                 * cookies be forwarded to B? The server may need to
+                 * generate the response headers for A before it can
+                 * generate the push for B, in case it needs to copy any
+                 * newly-set cookies into the pseudo request for B.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Answers to these questions are fundamentally application-specific and
+server-specific.  What Happens if the Server Uses the Wrong Request Headers?  If
+the server generates a push response using the wrong cookies, or more generally,
+using the wrong pseudo-request headers, the HTTP/2 spec does not explicitly say
+what should happen. Current browsers match pushed responses to client requests
+using the URL only, without matching the Vary header in the pushed response with
+headers from the client request, although some developers consider this behavior
+wrong (see discussion here and here).&lt;/p&gt;
+
+&lt;p&gt;We suggest the following rule:&lt;/p&gt;
+
+&lt;p&gt;Servers should not push a resource unless: (1) the resource does not vary on any
+request headers, or (2) the server is confident that it knows the correct value
+for all headers the resource varies on.&lt;/p&gt;
+
+&lt;p&gt;In the current state, where browsers do not validate headers when matching
+pushed responses to requests, breaking the above rule can result in broken
+pages. Further, it would be a bad idea to violate this rule even if browsers
+correctly validated request headers &amp;ndash; each time the server pushes a response
+that violates the above rule, it risks pushing a response that will not match
+any client requests, in which case the push is useless and wastes bandwidth.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Rule #5: Consider Preload Instead of Push The Link: rel=preload header is a way
+to tell the browser that a resource will be needed for the current document.
+This lets the browser request resources before they are discovered through
+evaluation of the page. The HTML will be received immediately after the preload
+header. Therefore, unlike for push, there is little value in preloading
+resources that will be discovered quickly by the browser’s preload scanner.&lt;/p&gt;
+
+&lt;p&gt;Unlike push, where requests are initiated by the server, preloaded requests are
+initiated by the browser using the browser’s standard request flow. This
+sidesteps issues regarding caching and cookies (see rules #3 and #4). Further,
+cross-domain resources can be preloaded but not pushed. However, issues around
+scheduling and prioritization of requests remain: just like push, it is possible
+that preload requests will take bandwidth from more important requests. In other
+words, rule #2 applies to preload too.[4]&lt;/p&gt;
+
+&lt;p&gt;Preload has a single drawback compared to push: there is an extra RTT during
+which the server has to wait for the browser’s requests. Note that the cwnd rule
+(rule #1) does not apply to preload. In fact, we see push and preload as
+complementary:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                    * Push can be used to fill the initial cwnd after
+                    * downloading the page’s HTML, which preload cannot do.
+                    * If the pushed resources plus the HTML are smaller or
+                    * equal to one cwnd, there is no worry about the pushed
+                    * resources interfering with the other requests
+                    * scheduled (rule #1).
+
+
+                    * Push can be used to let the browser know of new
+                    * resources that were discovered by the server when
+                    * serving requests other than HTML requests (e.g.. the
+                    * server could scan a CSS file for @imports statements).
+                    * In this scenario, it’s likely that the connection is
+                    * already being used to serve concurrent requests,
+                    * meaning the network may not be idle. We recommend
+                    * pushing in this scenario only if it is certain that no
+                    * higher-priority requests are in flight. Otherwise,
+                    * push can degrade performance by mis-ordering requests
+                    * (rule #2). If push is used in this scenario, there is
+                    * no reason to continue pushing resources beyond one
+                    * cwnd (rule #1). It can be difficult to ensure that
+                    * push will help in this scenario. We suggest using
+                    * preload instead.
+
+
+                    * Preload should be used to inform the browser of
+                    * resources it cannot learn of easily from scanning the
+                    * HTML. Since preload requests are likely to interfere
+                    * with non-preload requests, it is essential to make
+                    * sure that preloaded resources are critical and that
+                    * downloading them early actually improves key metrics.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Case Studies on Actual Pages We ran experiments on a few arbitrarily-selected
+HTTP web pages. We don’t claim this set of pages is representative&amp;ndash; these are
+intended to be case studies, not large-scale conclusions. Our target metric is
+SpeedIndex as computed by WPT. Each page was served from our replay server
+running on GCE to minimize variability from run-to-run. Our replay server
+doesn’t support DNS hijacking, so we configured Chrome to use the replay server
+as an HTTP-to-HTTP/2 proxy server. This setup has several differences compared
+to a real-world deployment:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                    * HTTPS requests are not served through the replay
+                    * server. This limits us to mostly-HTTP pages. Note that
+                    * there are very few entirely-HTTP pages since ads are
+                    * commonly served over HTTPS. This means some pages
+                    * experienced replay nondeterminism due to
+                    * nondeterministic ad selection, though this effect
+                    * should be averaged away given enough runs.
+
+                    * Chrome opens a single H2 connection to the replay
+                    * server since it’s configured to use the replay server
+                    * as a proxy. In a real deployment, Chrome would need to
+                    * open a new H2 connection for each authority (e.g., for
+                    * each host).
+
+
+                       * Developers will typically have control of how the
+                       * web page is constructed and may change its
+                       * structure to better take advantage of push.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;All page loads used a cold browser cache and a warm TCP connection to the replay
+server. Since our server does not dynamically generate responses (all responses
+are copied directly from the replay archive), we can ignore the cookie problem
+mentioned in rule #4.&lt;/p&gt;
+
+&lt;p&gt;To prepare the experiments, we ran each page through a program that computes the
+fetch dependency graph (as defined at the beginning of this document) along with
+the evaluation order of CSS and JS files need by the page. We discarded dynamic
+URLs from the fetch graph, where dynamic URLs were identified from two
+consecutive PSI runs for a given page: if a URL is fetched in one run but not
+the other, it is dynamic.&lt;/p&gt;
+
+&lt;p&gt;After constructing fetch graphs, we loaded each page in four configurations to
+evaluate the best practices suggested by our rules of thumb:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                       * NoOpt
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Push and preload are both disabled.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                          * Push
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When resource R is requested, we lookup the immediate children of R in the fetch
+graph, sort those children in evaluation order, then push the first N resources
+from this order such that the cumulative size of those N resources just exceeds
+the BDP. We ignore cross-origin children of R since servers are not allowed to
+push resources for which they are not authoritative.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                             * Preload
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We inject the Link:rel=preload header into the HTML response to preload all
+resources that are hidden, meaning they cannot be learned from parsing the HTML.
+Further, we restrict to resources that are critical, meaning they are required
+to render above-the-fold content. The critical restriction ensures that
+preloaded URLs are all high-priority &amp;ndash; this is necessary since there is
+currently no good way to specify relative priorities for preloaded requests (see
+the footnote in the discussion of rule #5).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                                * PushAndPreload
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Combines Push with Preload. Following our suggestion in rule #5, we apply Push
+to the main HTML request only &amp;ndash; we rely on Preload to make the browser aware of
+other resources hidden further down the fetch graph.&lt;/p&gt;
+
+&lt;p&gt;The list of resources to push or preload was generated automatically based on
+the dependency graph. Results follow. All experiments were done on the same
+simulated 3G network described earlier. Results may vary on different networks
+(recall the discussion at the end of rule #1). We measure SpeedIndex for each
+configuration, with the relative improvement over NoOpt shown in parentheses. We
+consider all changes under 3% within the margin of error (they are rounded down
+to 0%).&lt;/p&gt;
+
+&lt;p&gt;Page Median SpeedIndex (ms) over 50 runs India-3G, Warm Connection, BDP = 35KB
+NoOpt Push (Diff to NoOpt) Preload (Diff to NoOpt) PushAndPreload (Diff to
+NoOpt) artofliving 7557 7744 (0%) 6269 (+17%) 6231 (+17%) t24mobile 2319 2097
+(+9%) 2048 (+11%) 2067 (+10%) bleacherreport 10671 10455 (0%) 10609 (0%) 10655
+(0%) bollywoodhungama 2809 2421 (+13%) 2816 (0%) 2455 (+12%) vguard 5712 5394
+(+5%) 5716 (0%) 5708 (0%) pornhub 4031 4009 (0%) 3550 (+11%) 3537 (+12%)&lt;/p&gt;
+
+&lt;p&gt;Throughout this doc we have described pathological cases where server push can
+hurt performance. We designed our “rules of thumb” to avoid these cases. The
+table above suggests we have succeeded &amp;ndash; there are no cases where Push hurts
+performance, although it doesn’t always help. Next, we comment on each page
+individually: artofliving This page sees no improvement from Push. This page
+uses a lot of bandwidth, nearly 2MB, from over 200 total requests. Much of this
+bandwidth is needed to render above-the-fold content (e.g., there are 37 CSS
+files imported from the &lt;head&gt; of the HTML). Without push, the network is idle
+for only about ½ RTT after the initial HTML is downloaded. It then takes over 50
+RTTs until the page is downloaded. This means we expect at most a 1% improvement
+from Push, which is within our measurement error.&lt;/p&gt;
+
+&lt;p&gt;However, we do see a significant improvement from Preload. We preload just two
+CSS files that are imported by a render-blocking script. Both of these CSS files
+are tiny (&amp;lt;1KB). How can preloading two tiny CSS files improve SpeedIndex by
+nearly 20%? Digging into the waterfalls, we noticed the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                                   * For Preload, the two CSS files were
+                                   * requested at the beginning of the
+                                   * pageload and each request completed in
+                                   * under 500ms. This is expected.  For
+                                   * NoOpt, the two CSS files were requested
+                                   * in the middle of the pageload
+                                   * (expected) but it took 3s for each
+                                   * request to complete (unexpected!).
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It should not take 3s to download each CSS file in the NoOpt case. The CSS files
+are important, because they are imported by a render-blocking script, so Chrome
+moves them to the top of the HTTP/2 priority tree. We verified that our replay
+server respected this priority &amp;ndash; as soon as it received requests for those CSS
+files, it wrote the responses to the wire immediately. Why did it take 3s to
+download these responses? After more digging, we realized the TCP cwnd and the
+kernel send buffer had both exploded by the time those CSS files were requested:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                                   * Near the beginning of the pageload,
+                                   * cwnd was around 25 packets (35KB at
+                                   * 1500 bytes/packet) and the kernel send
+                                   * buffer was 85KB.  When the CSS files
+                                   * were requested, cwnd had increased to
+                                   * 50 packets (75KB) and the kernel send
+                                   * buffer was 435KB.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This means the kernel had buffered 400KB that must be flushed before the CSS
+files could be sent (not counting 35KB already on the wire). With BDP=35KB, it
+takes 12 RTTs to flush this buffer, or about 2.5s. Yikes! This is a classic
+bufferbloat scenario. Not only is the kernel’s buffer too big, but it also turns
+out that WPT’s traffic shaper has a 100-packet buffer. (WPT’s buffer is not a
+bug &amp;ndash; it is intended to emulate the bloated buffers found in most ISP
+networks.)&lt;/p&gt;
+
+&lt;p&gt;This is a case where Preload “fixes” bufferbloat by making important requests
+early, before bufferbloat has taken effect (recall the discussion in rule #2).
+We believe Push would have the same effect had we decided to push those CSS
+files, although we have not tested this to verify.&lt;/p&gt;
+
+&lt;p&gt;t24mobile This page sees a 10% improvement from both Push and Preload. Push
+sends one file, style.css, which is the first stylesheet referenced in the HTML.
+Note that style.css is not preloaded because it is mentioned in the static HTML,
+hence there is no reason to preload it. However, Preload loads a CSS from
+fonts.googleapis.com, which happens to be loaded by style.css. It seems the key
+is downloading that fonts file quickly. Push does this by making style.css
+available immediately for parsing. Preload does this by requesting the fonts
+file concurrently with style.css. Both approaches work equally well.&lt;/p&gt;
+
+&lt;p&gt;bleacherreport Like the artofliving page, this page is very large (over 3MB of
+assets). Further, the main HTML file is 41KB, which exceeds our BDP of 35KB,
+which means there is no idle time to fill after the main HTML response. There is
+some idle time later in the page load while ads and other analytics requests are
+loading. However, these requests have little impact on SpeedIndex because the
+page is essentially fully loaded above-the-fold by this point. Further, although
+there are five cases where we can push ads assets (mostly we can push ads script
+“bar.js” when it is loaded by ads script “foo.js”), the majority of ads requests
+are HTTPS, which our replay server doesn’t support, and/or cross-domain, which
+we cannot push.&lt;/p&gt;
+
+&lt;p&gt;We noticed this same two-phase pattern for most pages: The first phase loads the
+main HTML and the majority of the above-the-fold content. This phase is largely
+bandwidth-limited with relatively little idle network time. (Pages with large
+HTML files have no idle time, while pages with small HTML files have some idle
+time.) The second phase loads ads and analytics requests. This phase is largely
+latency-limited with many redirects and other chains of dependencies.
+Unfortunately, many hops in these dependence chains are cross-origin, meaning
+they cannot be optimized with server push.&lt;/p&gt;
+
+&lt;p&gt;bollywoodhungama This is an example where the main HTML file is small (9KB),
+most CSS and JS files in the &lt;head&gt; section are also small, and none of those
+resources are cross-origin. We are able to fit the main HTML plus six pushed
+resources within the first BDP. Basically, this is the textbook case for Push.
+Hence, we see a 10%+ improvement when using Push.&lt;/p&gt;
+
+&lt;p&gt;Interestingly, the first time we ran this experiment, performance was 10% worse
+with Push rather than 10% better. After digging, we realized the pushed
+resources were being sent on the wire before the main HTML response. This
+delayed parsing of the HTML, which delayed other requests, which ultimately
+delayed rendering. This is the resource ordering problem described by rule #2.&lt;/p&gt;
+
+&lt;p&gt;To explain how this happened, we need to explain how our replay server is
+implemented. Our server is written in Go, which uses a “goroutine” (i.e.,
+thread) per request. Each request handler generates HTTP responses by calling
+“Write” methods on a ResponseWriter object. A special “Push” method generates a
+PUSH_PROMISE frame and spawns a concurrent request handler to serve the pushed
+response. The main HTML handler makes a sequence of “Push” calls to initiate
+pushes, followed by “Write” calls to generate the response. Note that “Push”
+must happen before “Write”, otherwise there is a race where the client receives
+and parses the HTML (and sends requests) before it receives any PUSH_PROMISE
+frames. This race is actually documented in the HTTP/2 spec. Hence, by the time
+the main HTML handler gets to the first “Write” call, the push handlers are
+already running concurrently.&lt;/p&gt;
+
+&lt;p&gt;Our server respects HTTP/2 priorities, which means it should prioritize the HTML
+before the pushes. However, our response scheduler has a dilemma &amp;ndash; if a push
+handlers calls “Write” before the HTML handler calls “Write”, should the
+scheduler wait for the HTML handler, or should it eagerly send the data it has
+already received from the push handler? Our original implementation sent data
+eagerly. Unfortunately, multiple push handlers frequently won the race with the
+HTML handler, causing pushes to be sent before the HTML. After realizing this,
+we changed our implementation to strictly adhere to priorities. Although this
+implementation has proved sufficient for our experiments so far, we are not
+convinced it is the right implementation in the general case.&lt;/p&gt;
+
+&lt;p&gt;vguard This page sees a small improvement from Push but none from Preload or
+PushAndPreload. The HTML page is much larger than BDP (70KB) so we do not push
+any resources with the HTML. The only pushes happen in the middle of the
+pageload: with two CSS files, we push a few small images that are referenced by
+those files. All of these images appear above-the-fold. We were unable to
+determine exactly why Push performs faster than NoOpt for this page, though we
+believe this is another bufferbloat scenario similar to the artofliving example
+above (except in this case, bufferbloat is less severe since the page is
+smaller).&lt;/p&gt;
+
+&lt;p&gt;For Preload, the page has no hidden and critical resources, so nothing is
+preloaded. For PushAndPreload, since the HTML is larger than BDP, nothing is
+pushed. Hence, both of these configurations are equivalent to NoOpt.&lt;/p&gt;
+
+&lt;p&gt;pornhub This page sees improvements from Preload but not Push. The page loads
+all of its assets from a CDN, which effectively disables push since those assets
+are cross-origin. Further, the HTML page is 49KB, which exceeds our BDP of 35KB,
+so even if we could push cross-origin resources, there is no idle time that push
+can fill. The Preload configuration preloads a single file, a render-blocking
+CSS from &lt;a href=&#34;https://fonts.googleapis.com/&#34;&gt;https://fonts.googleapis.com/&lt;/a&gt;, which is loaded by a script.  Straw Man
+Comparison Lastly, we show results from a straw man comparison that uses two new
+configurations:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                                   * PushStaticWithHTML
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is intended to emulate a naive developer who wants to “push all the
+resources!” (they are not aware of rule #1). In this configuration, we push all
+same-origin resources that are statically defined in the main HTML. We follow
+rule #2: resources are pushed in evaluation order. We also assume the service
+has been at least partially redesigned for HTTP/2 &amp;ndash; specifically, we assume
+that first-party resources are delivered from the same host (no CDNs), which
+considerably increases the number of pushable resources for some pages.
+Third-party resources are still ineligible for push.&lt;/p&gt;
+
+&lt;p&gt;Note that we push resources on first-party CDNs, but not on third-party CDNs. We
+made this distinction by inspecting the URLs manually. For example, given
+“www.foo.com”, “cdn.foo.com” is a first-party CDN while “cdn.bootstrap.com” is a
+third-party CDN.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                                      * PushStaticWithHTMLOneBDP
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is like PushStaticWithHTML, except that it respects rule #1 and sends no
+more than 1 BDP worth of resources.&lt;/p&gt;
+
+&lt;p&gt;Results follow. Note that the numbers for NoOpt are slightly different from
+those in the above table because the numbers below were computed in a separate
+run and with different replay archives (meaning the pages may have changed):&lt;/p&gt;
+
+&lt;p&gt;Page First-Party CDN?  Median SpeedIndex (ms) over 50 runs India-3G, Warm
+Connection, BDP = 35KB NoOpt PushStaticWithHTMLOneBDP (Diff to NoOpt)
+PushStaticWithHTML (Diff to NoOpt) artofliving Yes 7720 7740 (0%) 9872 (-27%)
+t24mobile No 2286 2078 (+9%) 2962 (-29%) bleacherreport Yes 13487
+    -
+  13311 (0%) bollywoodhungama Yes 5479 4857 (+11%) 5058 (+7%) vguard No 5687
+    -
+  7176 (-26%) pornhub Yes 4538
+    -
+  4623 (0%)&lt;/p&gt;
+
+&lt;p&gt;Note that PushStaticWithHTMLOneBDP is equivalent to NoOpt for all pages where
+the main HTML is larger than BDP (which disables push, due to rule #1). These
+cases are marked with a dash.&lt;/p&gt;
+
+&lt;p&gt;PushStaticWithHTML always pushes at least one resource, often more than ten. For
+two pages, it performs no better than NoOpt. Both of these pages have a main
+HTML that is larger than BDP, so we expect no improvement from push. For three
+pages, PushStaticWithHTML is worse than NoOpt. We believe this happens due to
+ordering problems caused by pushing too many requests, particularly for larger
+pages (like artofliving) where bufferbloat can have a significant impact. For
+the bollywoodhungama page, PushStaticWithHTML performs better than NoOpt. This
+is the page we called a “textbook case for push” in the prior section. However,
+it performs no better than PushStaticWithHTMLOneBDP &amp;ndash; it actually performs very
+slightly worse &amp;ndash; demonstrating once again that there is no benefit to pushing
+more than is needed to fill idle network time.  ________________ [1] We send the
+entire HTML followed by the JS for demonstration. A clever server may want to
+interleave the JS file (and perhaps other resources) with the &lt;head&gt; section of
+the HTML to truly minimize the latency of JS evaluation. In this case, it may
+makes sense to push the JS even if size(HTML) ≥ BDP, however our high-level
+point still holds &amp;ndash; there is no benefit to pushing more than the BDP.  [2] This
+explanation is approximate &amp;ndash; ACKs can be pipelined, meaning cwnd can increase
+slightly more quickly in practice, but the high-level effect is the same. Note
+that our simulation uses a more precise model that accounts for pipelined ACKs.
+[3] We actually recommend using preload links in this scenario when possible.
+Starting a push in the middle of a page load introduces other challenges since
+that push can now steal bandwidth from other in-flight requests. See rules #2
+and #5.  [4] Moreover, the preload spec has not yet finalized the semantics for
+how preload requests should be prioritized relative to other requests. See the
+discussion here.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>drone-0.5-build-process</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/drone-0-5-build-process/</link>
+      <pubDate>Sat, 30 Jul 2016 12:45:32 -0500</pubDate>
+      
+      <guid>http://replace-this-with-your-hugo-site.com/post/drone-0-5-build-process/</guid>
+      <description>
+
+&lt;h1 id=&#34;drone-0-5-build-process&#34;&gt;Drone 0.5 build process&lt;/h1&gt;
+
+&lt;p&gt;All process build on ubuntu 16.04 and
+&lt;a href=&#34;https://fishshell.com/&#34;&gt;fish-shell&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;server&#34;&gt;server&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;curl -sSL https://get.docker.com/ | sh
+
+docker run \
+  --env DRONE_GITHUB=true \
+  --env DRONE_GITHUB_CLIENT=&amp;lt;your-github-client-id&amp;gt; \
+  --env DRONE_GITHUB_SECRET=&amp;lt;your-github-client-secret&amp;gt; \
+  --env DRONE_SECRET=&amp;lt;your-secret-that-nobody-know&amp;gt; \
+  --env DRONE_OPEN=true \
+  --env DRONE_ADMIN=nukr \
+  --env DRONE_DEBUG=true \
+  --volume /var/lib/drone:/var/lib/drone \
+  --restart=always \
+  --publish=80:8000 \
+  --detach=true \
+  --name=drone \
+  drone/drone:0.5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;agent&#34;&gt;agent&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;docker run \
+  --env DRONE_SERVER=http://&amp;lt;your-server-domain-or-ip&amp;gt; \
+  --env DRONE_SECRET=&amp;lt;your-secret-that-nobody-know-as-you-set-before&amp;gt; \
+  --volume /var/run/docker.sock:/var/run/docker.sock \
+  --restart=always \
+  --detach=true \
+  --name=drone-agent \
+  drone/drone:0.5 agent
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;project&#34;&gt;project&lt;/h2&gt;
+
+&lt;p&gt;.drone.yml&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yml&#34;&gt;pipeline:
+  test:
+    image: node:6.3.1
+    commands:
+      - echo hihi
+  docker:
+    repo: project/repo
+    tag:
+      - latest
+      - ${DRONE_TAG##v}
+    when:
+      event: tag
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;put .drone.yml to your repo root then sign&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;drone sign account/repo
+# create .drone.yml.sig
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;client&#34;&gt;client&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# drone secret add --image=&amp;lt;image-your-want-limit&amp;gt; account/repo KEY VALUE
+
+# docker login
+set -x DRONE_TOKEN &amp;lt;your-token-copy-from-gui&amp;gt;
+set -x DRONE_SERVER http://&amp;lt;your-drone-domain-or-ip&amp;gt;
+drone secret add --image=docker account/repo DOCKER_REGISTRY asia.gcr.io
+drone secret add --image=docker account/repo DOCKER_USERNAME _json_key
+
+set -lx PASSWORD (cat credential.json)
+drone secret add --image=docker account/repo DOCKER_PASSWORD &amp;quot;$PASSWORD&amp;quot;
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>How to avoid relative paths hell in nodejs?</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/How-to-avoid-relative-paths-hell-in-nodejs/</link>
+      <pubDate>Wed, 04 Nov 2015 10:32:06 -0500</pubDate>
+      
+      <guid>http://replace-this-with-your-hugo-site.com/post/How-to-avoid-relative-paths-hell-in-nodejs/</guid>
+      <description>&lt;p&gt;我只推薦一個方法就是 package.json postinstall script&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;&amp;quot;postinstall&amp;quot;: &amp;quot;ln -s ../src node_modules/mc&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Promise.all should use function as params</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/Promise-all-should-use-function-as-params/</link>
+      <pubDate>Fri, 16 Oct 2015 23:12:27 -0500</pubDate>
+      
+      <guid>http://replace-this-with-your-hugo-site.com/post/Promise-all-should-use-function-as-params/</guid>
+      <description>&lt;p&gt;今天我們要聊的是：&lt;code&gt;Promise.all&lt;/code&gt;，他吃一個 Array，Promise.all 會試著去 resolve 每一個 array 中的 element，直到 throw error。&lt;/p&gt;
+
+&lt;p&gt;重點來了，當 &lt;code&gt;Promise.all&lt;/code&gt; throw error 之後整個 &lt;code&gt;Promise.all&lt;/code&gt; 就 reject 了，我想要拿到部分 resolve 的值就拿不到了，我只能選擇全部成功或是全部失敗，這樣好像有點爛。&lt;/p&gt;
+
+&lt;p&gt;我有想到幾個解決方案：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;把每一個可能會 throw error 的 Promise 包起來自己 handle error，意味著我們的這個 Promise wrapper 只會 resolve，這個方法的缺點是你必須去包裝每一個 Promise 很費工。
+2.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;我就想到了Promise.all為什麼不做成 &lt;code&gt;Promise.all(arrayToBeResolve, arrayResolver, arrayRejector)&lt;/code&gt;，讓 arrayResolver 跟 arrayRejector 去處理每一個 Promise.all 遍歷到的元素，但這樣又衍生了一個問題，就是 Promise.all 是 parallel 的處理 array，如果我想要 series 怎麼辦。&lt;/p&gt;
+
+&lt;p&gt;所以我就應該有兩隻 function，一個是PromiseTryResolveAllParallel，一個是PromiseTryResolveAllSeries，signiture 一樣&lt;/p&gt;
+
+&lt;p&gt;先來實作 PromiseTryResolveAllParallel：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function PromiseTryResolveAllParallel (arrayToBeResolve, elementResolver, elementRejector) {
+  return new Promise((resolve, reject) =&amp;gt; {
+    let counter = 0
+    let result = Array(arrayToBeResolve.length)
+    arrayToBeResolve.forEach((element, index) =&amp;gt; {
+      element.then
+    })
+  })
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>clean cache flow</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/clean-cache-flow/</link>
+      <pubDate>Fri, 24 Jul 2015 15:15:24 -0500</pubDate>
+      
+      <guid>http://replace-this-with-your-hugo-site.com/post/clean-cache-flow/</guid>
+      <description>&lt;p&gt;客戶取得資料的方法有2&lt;/p&gt;
+
+&lt;p&gt;get&lt;/p&gt;
+
+&lt;p&gt;這種方式是 get by id 一定只會取出一筆資料&lt;/p&gt;
+
+&lt;p&gt;getAll&lt;/p&gt;
+
+&lt;p&gt;這種方式有可能一個 query 會跨多個 table&lt;/p&gt;
+
+&lt;p&gt;清 cache 的機會有三個&lt;/p&gt;
+
+&lt;p&gt;create&lt;/p&gt;
+
+&lt;p&gt;新增一筆資料，不管如何都是一筆一筆，even 是 batch 的，所以清 cache 的方式也很單純，清掉所有 affect 到的 table&lt;/p&gt;
+
+&lt;p&gt;update&lt;/p&gt;
+
+&lt;p&gt;更新一筆&lt;/p&gt;
+
+&lt;p&gt;更新多筆&lt;/p&gt;
+
+&lt;p&gt;delete&lt;/p&gt;
+
+&lt;p&gt;刪除一筆&lt;/p&gt;
+
+&lt;p&gt;刪除多筆&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>taxas holdem api</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/taxas-holdem-api/</link>
+      <pubDate>Wed, 08 Jul 2015 20:03:54 -0500</pubDate>
+      
+      <guid>http://replace-this-with-your-hugo-site.com/post/taxas-holdem-api/</guid>
+      <description>
+
+&lt;h2 id=&#34;flow&#34;&gt;flow&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;signup&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;signin&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;open-table&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;decide blind&lt;/li&gt;
+&lt;li&gt;people&lt;/li&gt;
+&lt;li&gt;limit&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;join-table&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;charge coin&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;table-process&#34;&gt;table process&lt;/h2&gt;
+
+&lt;p&gt;draw card
+dealer
+blind
+river
+match card type
+raise
+check
+all in&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>neovim python YouCompleteMe 安裝紀錄</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/neovim-python-YouCompleteMe-%E5%AE%89%E8%A3%9D%E7%B4%80%E9%8C%84/</link>
+      <pubDate>Tue, 07 Jul 2015 09:52:31 -0500</pubDate>
+      
+      <guid>http://replace-this-with-your-hugo-site.com/post/neovim-python-YouCompleteMe-%E5%AE%89%E8%A3%9D%E7%B4%80%E9%8C%84/</guid>
+      <description>
+
+&lt;p&gt;注意！不要用內建 python 安裝任何東西&lt;/p&gt;
+
+&lt;p&gt;我是全新安裝Mac OSX Yosemite、Xcode、Commandline Tools&lt;/p&gt;
+
+&lt;h3 id=&#34;homebrew&#34;&gt;Homebrew&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ brew install python
+$ pip install neovim --user
+
+$ brew install python3
+$ pip3 install neovim --user
+
+$ brew tap neovim/neovim
+$ brew install --HEAD neovim
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;install-youcompleteme-with-vundle&#34;&gt;install YouCompleteMe with Vundle&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ cd ~/.vim/bundle/YouCompleteMe
+$ ./install.sh --clang-completer
+
+$ cd ~/.vim/tern_for_vim
+$ npm i
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;不照這個步驟裝很容易失敗&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>登入流程詳解</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/%E7%99%BB%E5%85%A5%E6%B5%81%E7%A8%8B%E8%A9%B3%E8%A7%A3/</link>
+      <pubDate>Wed, 17 Jun 2015 10:13:09 -0500</pubDate>
+      
+      <guid>http://replace-this-with-your-hugo-site.com/post/%E7%99%BB%E5%85%A5%E6%B5%81%E7%A8%8B%E8%A9%B3%E8%A7%A3/</guid>
+      <description>
+
+&lt;h2 id=&#34;preface&#34;&gt;Preface&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;let user = yield r.db(‘system’)
+  .table(‘accounts’)
+  .insert({
+    username: username,
+    password: yield pbkdf2(password),
+    services: [
+      {name: serviceName, token: uuid.v4()}
+    ]
+  })
+
+yield r.dbCreate(user.generated_keys[0].replace(/-/g, ‘_’))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;signup&#34;&gt;Signup&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Register Account Form from frontend&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;username&lt;/li&gt;
+&lt;li&gt;password&lt;/li&gt;
+&lt;li&gt;first service name&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Post to Backend service&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;username&lt;/li&gt;
+&lt;li&gt;password (pbkdf2 encrypted)&lt;/li&gt;
+&lt;li&gt;use rethinkdb account id replace - to _ as db name&lt;/li&gt;
+&lt;li&gt;generate a service token for first service&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Return Login Data to Frontend&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;services with tokens (maybe not)&lt;/li&gt;
+&lt;li&gt;Application Id ??&lt;/li&gt;
+&lt;li&gt;current login session token (maybe jsonwebtoken)&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;FrontEnd need to tell me every request&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;X-Meepcloud-Access-Token&lt;/li&gt;
+&lt;li&gt;X-Meepcloud-Application-Id&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;eg.&lt;/p&gt;
+
+&lt;p&gt;url
+    &lt;a href=&#34;https://api.meepcloud.com/v1/Object/Products/&#34;&gt;https://api.meepcloud.com/v1/Object/Products/&lt;/a&gt; &amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;header
+    X-Meepcloud-Access-Token
+    X-Meepcloud-Application-Id&lt;/p&gt;
+
+&lt;h2 id=&#34;login&#34;&gt;Login&lt;/h2&gt;
+
+&lt;p&gt;Login for maintain token only otherwise just application with token&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Install MongoDB in Ubuntu 14.10</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/Install-MongoDB-in-Ubuntu-14-10/</link>
+      <pubDate>Sat, 13 Jun 2015 09:24:02 -0500</pubDate>
+      
+      <guid>http://replace-this-with-your-hugo-site.com/post/Install-MongoDB-in-Ubuntu-14-10/</guid>
+      <description>&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+$ echo &amp;quot;deb http://repo.mongodb.org/apt/ubuntu &amp;quot;$(lsb_release -sc)&amp;quot;/mongodb-org/3.0 multiverse&amp;quot; | sudo tee /etc/apt/sources.list.d/mongodb.list
+$ sudo apt-get update
+$ sudo apt-get install mongodb-org
+$ sudo service mongod start
+$ sudo service mongod stop
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>How to monitor dd progress in Mac OSX</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/How-to-monitor-dd-progress-in-Mac-OSX/</link>
+      <pubDate>Mon, 27 Apr 2015 00:37:28 -0500</pubDate>
+      
+      <guid>http://replace-this-with-your-hugo-site.com/post/How-to-monitor-dd-progress-in-Mac-OSX/</guid>
+      <description>&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;brew install pv
+sudo dd /dev/urandom | pv | sudo dd of=/dev/null
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;輸出&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;1,74MB 0:00:09 [ 198kB/s] [      &amp;lt;=&amp;gt;                            ]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;也可以這樣用&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;pv /home/user/bigfile.iso | md5sum
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>The Basic Of ES6 Generators （翻譯）</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/The-Basic-Of-ES6-Generators-%EF%BC%88%E7%BF%BB%E8%AD%AF%EF%BC%89/</link>
+      <pubDate>Sun, 11 Jan 2015 15:49:36 -0500</pubDate>
+      
+      <guid>http://replace-this-with-your-hugo-site.com/post/The-Basic-Of-ES6-Generators-%EF%BC%88%E7%BF%BB%E8%AD%AF%EF%BC%89/</guid>
+      <description>
+
+&lt;p&gt;One of the most exciting new features coming in JavaScript ES6 is a new breed of function, called a generator. The name is a little strange, but the behavior may seem a lot stranger at first glance. This article aims to explain the basics of how they work, and build you up to understanding why they are so powerful for the future of JS.&lt;/p&gt;
+
+&lt;p&gt;Javascript ES6 有一項最令人興奮的新特性是一種新型態的 function 叫做 generator。這個名字有點奇怪，但是第一瞥他的行為似乎更奇怪了。本篇文章目標是解釋基本上他是如何運作的，並且讓你了解為何他在未來的 JS 中如此強大。&lt;/p&gt;
+
+&lt;h2 id=&#34;run-to-completion&#34;&gt;Run-To-Completion&lt;/h2&gt;
+
+&lt;h2 id=&#34;運行到完成&#34;&gt;運行到完成&lt;/h2&gt;
+
+&lt;p&gt;The first thing to observe as we talk about generators is how they differ from normal functions with respect to the &amp;ldquo;run to completion&amp;rdquo; expectation.&lt;/p&gt;
+
+&lt;p&gt;第一件事去觀察像我們談論關於 generators 是如何不同於普通的 function 並且遵照我們的「運行到完成」的期待。&lt;/p&gt;
+
+&lt;p&gt;Whether you realized it or not, you&amp;rsquo;ve always been able to assume something fairly fundamental about your functions: once the function starts running, it will always run to completion before any other JS code can run.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-language-javascript&#34;&gt;setTimeout(function(){
+    console.log(&amp;quot;Hello World&amp;quot;);
+},1);
+
+function foo() {
+    // NOTE: don&#39;t ever do crazy long-running loops like this
+    for (var i=0; i&amp;lt;=1E10; i++) {
+        console.log(i);
+    }
+}
+
+foo();
+// 0..1E10
+// &amp;quot;Hello World&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> Avoid implicit return in coffeescript &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/Avoid-implicit-return-in-coffeescript/">Avoid implicit return in coffeescript</a></h2>
+          <span class="post-date">Dec 29, 2013 </span>
+          <div class="post-content">
+            
+
+<h2 id="避免coffeescript-自動幫你加入-return">避免Coffeescript 自動幫你加入 return</h2>
+
+<p>Coffeescript 會在function 的最後自動幫你加入<code>return</code> ，有時候會造成一些錯誤，解決的方法就是在function的最後手動加上一個<code>return</code></p>
+
+<pre><code class="language-coffeescript">controller: ($scope) -&gt;
+
+    $scope.abilities = []
+
+    this.addStrength = -&gt;
+        $scope.abilities.push &quot;strength&quot;
+
+    this.addSpeed = -&gt;
+        $scope.abilities.push &quot;speed&quot;
+
+    this.addFlight = -&gt;
+        $scope.abilities.push &quot;flight&quot;
+    return
+
+</code></pre>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://replace-this-with-your-hugo-site.com/post/frenquency-use-information/"> Prev</a>  
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/AngularJS-Notes/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> 登入流程詳解 &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/%E7%99%BB%E5%85%A5%E6%B5%81%E7%A8%8B%E8%A9%B3%E8%A7%A3/">登入流程詳解</a></h2>
+          <span class="post-date">Jun 17, 2015 </span>
+          <div class="post-content">
+            
+
+<h2 id="preface">Preface</h2>
+
+<pre><code class="language-javascript">let user = yield r.db(‘system’)
+  .table(‘accounts’)
+  .insert({
+    username: username,
+    password: yield pbkdf2(password),
+    services: [
+      {name: serviceName, token: uuid.v4()}
+    ]
+  })
+
+yield r.dbCreate(user.generated_keys[0].replace(/-/g, ‘_’))
+</code></pre>
+
+<h2 id="signup">Signup</h2>
+
+<ol>
+<li><p>Register Account Form from frontend</p>
+
+<ol>
+<li>username</li>
+<li>password</li>
+<li>first service name</li>
+</ol></li>
+
+<li><p>Post to Backend service</p>
+
+<ol>
+<li>username</li>
+<li>password (pbkdf2 encrypted)</li>
+<li>use rethinkdb account id replace - to _ as db name</li>
+<li>generate a service token for first service</li>
+</ol></li>
+
+<li><p>Return Login Data to Frontend</p>
+
+<ol>
+<li>services with tokens (maybe not)</li>
+<li>Application Id ??</li>
+<li>current login session token (maybe jsonwebtoken)</li>
+</ol></li>
+
+<li><p>FrontEnd need to tell me every request</p>
+
+<ol>
+<li>X-Meepcloud-Access-Token</li>
+<li>X-Meepcloud-Application-Id</li>
+</ol></li>
+</ol>
+
+<p>eg.</p>
+
+<p>url
+    <a href="https://api.meepcloud.com/v1/Object/Products/">https://api.meepcloud.com/v1/Object/Products/</a> &hellip;</p>
+
+<p>header
+    X-Meepcloud-Access-Token
+    X-Meepcloud-Application-Id</p>
+
+<h2 id="login">Login</h2>
+
+<p>Login for maintain token only otherwise just application with token</p>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://replace-this-with-your-hugo-site.com/post/neovim-python-YouCompleteMe-%E5%AE%89%E8%A3%9D%E7%B4%80%E9%8C%84/"> Prev</a>  
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/Install-MongoDB-in-Ubuntu-14-10/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

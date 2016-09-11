@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> drone-0.5-build-process &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/drone-0-5-build-process/">drone-0.5-build-process</a></h2>
+          <span class="post-date">Jul 30, 2016 </span>
+          <div class="post-content">
+            
+
+<h1 id="drone-0-5-build-process">Drone 0.5 build process</h1>
+
+<p>All process build on ubuntu 16.04 and
+<a href="https://fishshell.com/">fish-shell</a></p>
+
+<h2 id="server">server</h2>
+
+<pre><code class="language-bash">curl -sSL https://get.docker.com/ | sh
+
+docker run \
+  --env DRONE_GITHUB=true \
+  --env DRONE_GITHUB_CLIENT=&lt;your-github-client-id&gt; \
+  --env DRONE_GITHUB_SECRET=&lt;your-github-client-secret&gt; \
+  --env DRONE_SECRET=&lt;your-secret-that-nobody-know&gt; \
+  --env DRONE_OPEN=true \
+  --env DRONE_ADMIN=nukr \
+  --env DRONE_DEBUG=true \
+  --volume /var/lib/drone:/var/lib/drone \
+  --restart=always \
+  --publish=80:8000 \
+  --detach=true \
+  --name=drone \
+  drone/drone:0.5
+</code></pre>
+
+<h2 id="agent">agent</h2>
+
+<pre><code class="language-bash">docker run \
+  --env DRONE_SERVER=http://&lt;your-server-domain-or-ip&gt; \
+  --env DRONE_SECRET=&lt;your-secret-that-nobody-know-as-you-set-before&gt; \
+  --volume /var/run/docker.sock:/var/run/docker.sock \
+  --restart=always \
+  --detach=true \
+  --name=drone-agent \
+  drone/drone:0.5 agent
+</code></pre>
+
+<h2 id="project">project</h2>
+
+<p>.drone.yml</p>
+
+<pre><code class="language-yml">pipeline:
+  test:
+    image: node:6.3.1
+    commands:
+      - echo hihi
+  docker:
+    repo: project/repo
+    tag:
+      - latest
+      - ${DRONE_TAG##v}
+    when:
+      event: tag
+</code></pre>
+
+<p>put .drone.yml to your repo root then sign</p>
+
+<pre><code class="language-bash">drone sign account/repo
+# create .drone.yml.sig
+</code></pre>
+
+<h2 id="client">client</h2>
+
+<pre><code class="language-bash"># drone secret add --image=&lt;image-your-want-limit&gt; account/repo KEY VALUE
+
+# docker login
+set -x DRONE_TOKEN &lt;your-token-copy-from-gui&gt;
+set -x DRONE_SERVER http://&lt;your-drone-domain-or-ip&gt;
+drone secret add --image=docker account/repo DOCKER_REGISTRY asia.gcr.io
+drone secret add --image=docker account/repo DOCKER_USERNAME _json_key
+
+set -lx PASSWORD (cat credential.json)
+drone secret add --image=docker account/repo DOCKER_PASSWORD &quot;$PASSWORD&quot;
+
+</code></pre>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://replace-this-with-your-hugo-site.com/post/Rules-of-Thumb-for-HTTP-2-Push-translate/"> Prev</a>  
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/How-to-avoid-relative-paths-hell-in-nodejs/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

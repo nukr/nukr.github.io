@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> how to use cli tool read email.(mutt, offlineimap) &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/how-to-use-cli-tool-read-email-mutt-offlineimap/">how to use cli tool read email.(mutt, offlineimap)</a></h2>
+          <span class="post-date">Sep 11, 2016 </span>
+          <div class="post-content">
+            
+
+<p>放假沒事又在自虐，如何使用 commandline tool 收發 email，過程實在麻煩，不得不紀錄一下。</p>
+
+<p><code>brew install offlineimap</code></p>
+
+<h2 id="offlineimap">offlineimap</h2>
+
+<p>touch ~/.offlineimaprc
+vi ~/.offlineimaprc</p>
+
+<pre><code class="language-conf">[general]
+accounts = myaccount
+# 郵件帳戶在本地電腦上的稱謂名，將它改為你任何你想要的名字
+ui = ttyui
+fsync = False
+# ui = Noninteractive.Quiet
+# 如果啟用此行，則不會輸出任何東西。最適宜cronjobs 在幕後運行了。
+
+[Account myaccount]
+# 這裡的“myaccount”就是你在剛剛在上面改過的稱謂名了。
+localrepository = mylocal
+# 這裡是特定的稱謂名“myaccount”之下的本地郵件暫存處的名字，起個自己喜歡的名字。
+remoterepository = Gmail
+# 這裡是特定的稱謂名“myaccount”之下的遠程郵件暫存處的名字，起個自己喜歡的名字,比如：Gmail。
+# autorefresh = 5
+# 如果啟用此行，則每隔五分鐘抓取一下電郵
+
+[Repository mylocal]
+# 這裡的“mylocal”就是你在剛剛在上面改過的本地郵件暫存處的名字。
+type = Maildir
+# 在本地存儲郵件的方式。當然只支持 Maildir 方式。
+localfolders = ~/Mail
+# 指定~/Mail這個文件夾來跟電郵服務器同步電郵。當然必須事先創建好這個文件夾了，不過文件夾的名字可改為你任何你想要的名字。
+
+[Repository Gmail]
+# 這裡的“Gmail”就是你在剛剛在上面改過的遠程郵件暫存處的名字。
+type = Gmail
+# 遠程郵箱的類型。當前僅支持 IMAP 類型的郵箱。
+# remotehost = imap.gmail.com
+# 連接什么地方的電郵呢？比如Gmail郵箱就是：imap.gmail.com
+ssl = yes
+sslcacertfile = /usr/local/etc/openssl/cert.pem
+# 啟用安全的 SSL 支持，需事先安裝OpenSSL。
+# remoteport = 993
+# 如果郵箱能支持的話，就一定要啟用，這將指定一個特定的加密通訊埠：993。否則將使用缺省的普通通訊埠，也起不到加密的作用了。
+remoteuser = nukrs.w@gmail.com
+# 就是你的郵箱登入名啦。
+# remotepass = g2cBK]FJQkrLb3
+# 郵箱的密碼。 -- 當然，像這樣直接列出密碼，是不太安全。所以你要確信該文件只有你才有讀取權限。還有更好的辦法，不過就請自行參看OfflineIMAP的手冊吧。
+auth_mechanisms = XOAUTH2
+oauth2_request_url = https://accounts.google.com/o/oauth2/token
+oauth2_client_id = 543499001283-a7dashab41cfqbbamp1c5akr680k9ud8.apps.googleusercontent.com
+oauth2_client_secret = pWlWNLvTkfrKGgDAJJ_R_mcj
+oauth2_refresh_token = 1/iu9r6Z31LG21dgUEDaqdGF24CTWvFnRsuhsWJQH_zSk
+nametrans = lambda folder: {'[Gmail]/Drafts':    'Drafts',
+                            '[Gmail]/Sent Mail': 'Sent',
+                            '[Gmail]/Starred':   'Starred',
+                            '[Gmail]/Trash':     'Trash',
+                            '[Gmail]/All Mail':  'Archive',
+                            }.get(folder, folder)
+folderfilter = lambda folder: folder in ['INBOX', 'Label1', 'Label2', 'Work']
+</code></pre>
+
+<p><code>oauth2_client_id</code>、<code>oauth2_client_secret</code>、<code>oauth2_refresh_token</code>，要如何取得？
+要先到 [](<a href="https://console.developers.google.com">https://console.developers.google.com</a>) 點擊左側的 Credentials，然後在點擊 Create credentials -&gt; Oauth client ID，
+如果你先前沒有建立過OAuth consent screen，網頁會引導你建立一個，這樣就會取得 <code>oauth_client_id</code> 跟 <code>oauth_client_secret</code></p>
+
+<p><code>oauth2_refresh_token</code> 要透過一個 python 的工具，先把它 clone 下來 <code>git clone https://github.com/google/gmail-oauth2-tools</code>，
+<code>python2 python/oauth2.py --generate_oauth2_token --client_id=&lt;your_client_id&gt; --client_secret=&lt;your_client_secret&gt;</code>，
+把有角括弧跟內容替換成剛剛申請的 client_id 跟 client_secret，會給你一個網址，點擊後照著指示做，會給你一串verification code，
+把它輸入進去 gmail-oauth2-tools 的 prompt 中，就會拿到 refresh token 跟 access token 我測試的結果是只要 refresh token 就能收信了。</p>
+
+<p>接著執行 offlineimaps 就會開始收信了</p>
+
+<h2 id="mutt">mutt</h2>
+
+<p><code>brew install mutt</code></p>
+
+<pre><code class="language-conf">set mbox_type=Maildir
+#設置郵件存儲方式為：Maildir
+set folder=~/Mail
+#設置郵件的存儲目錄為：~/Mail ，這個目錄跟上面 offlineimaprc  中設置的 localfolders 目錄必須是一致的。否則 offlineimap 收到的信，Mutt 是找不到的。
+set spoolfile=+/INBOX
+#將接收/閱讀新郵件的目錄設置為：~/Mail/INBOX 。因為 offlineimap 會默認把新郵件放到 INBOX 這個目錄中。該行也可以這樣寫：set spoolfile = &quot;+INBOX&quot; ，這种寫法跟上面是一樣的含義。
+set mbox = &quot;+inbox&quot;
+#新郵件閱讀後，轉移到 ~/Mail/inbox 這個目錄。
+set record = &quot;+sent&quot;
+#郵件被成功發送後，轉移到 ~/Mail/sent 這個目錄。
+set postponed = &quot;+draft&quot;
+#郵件如果暫時不能發送或要推遲發送，就轉移到 ~/Mail/draft 這個目錄。
+set header_cache=~/Mail/.hcache
+#設置郵件頭的暫存目錄
+
+macro index G &quot;!/usr/local/bin/offlineimap \n&quot; &quot;Checking mails......&quot;
+#設置一個快捷鍵：G ，來調用 offlineimap 查閱新電郵
+</code></pre>
+
+<p><code>mutt</code> 就可以開始使用了</p>
+
+<p>蛤！發信？累了有空再寫</p>
+
+<h2 id="reference">reference</h2>
+
+<p><a href="https://wiki.archlinux.org/index.php/Mutt_(%E6%AD%A3%E9%AB%94%E4%B8%AD%E6%96%87)">https://wiki.archlinux.org/index.php/Mutt_(%E6%AD%A3%E9%AB%94%E4%B8%AD%E6%96%87)</a>
+<a href="https://maskray.me/blog/2016-02-12-gmail-offlineimap-xoauth2">Gmail的OfflineIMAP XOAUTH2認證</a></p>
+
+          </div>
+        </div>
+        <div class="pagination"> 
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/golang-test-pattern/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

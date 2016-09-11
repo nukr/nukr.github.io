@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/</loc>
+    <lastmod>2016-09-11T17:07:12-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/how-to-use-cli-tool-read-email-mutt-offlineimap/</loc>
+    <lastmod>2016-09-11T17:07:12-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/golang-test-pattern/</loc>
+    <lastmod>2016-09-04T01:38:53-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/mo-hotkey/</loc>
+    <lastmod>2016-08-16T21:26:30-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/vim-tips/</loc>
+    <lastmod>2016-08-04T11:41:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Rules-of-Thumb-for-HTTP-2-Push-translate/</loc>
+    <lastmod>2016-08-04T11:31:20-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/drone-0-5-build-process/</loc>
+    <lastmod>2016-07-30T12:45:32-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/How-to-avoid-relative-paths-hell-in-nodejs/</loc>
+    <lastmod>2015-11-04T10:32:06-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Promise-all-should-use-function-as-params/</loc>
+    <lastmod>2015-10-16T23:12:27-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/clean-cache-flow/</loc>
+    <lastmod>2015-07-24T15:15:24-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/taxas-holdem-api/</loc>
+    <lastmod>2015-07-08T20:03:54-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/neovim-python-YouCompleteMe-%E5%AE%89%E8%A3%9D%E7%B4%80%E9%8C%84/</loc>
+    <lastmod>2015-07-07T09:52:31-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/%E7%99%BB%E5%85%A5%E6%B5%81%E7%A8%8B%E8%A9%B3%E8%A7%A3/</loc>
+    <lastmod>2015-06-17T10:13:09-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Install-MongoDB-in-Ubuntu-14-10/</loc>
+    <lastmod>2015-06-13T09:24:02-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/How-to-monitor-dd-progress-in-Mac-OSX/</loc>
+    <lastmod>2015-04-27T00:37:28-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/The-Basic-Of-ES6-Generators-%EF%BC%88%E7%BF%BB%E8%AD%AF%EF%BC%89/</loc>
+    <lastmod>2015-01-11T15:49:36-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/How-to-Use-npm-as-a-Build-Tool/</loc>
+    <lastmod>2015-01-08T09:34:39-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/%E5%BE%9E-Octopress-%E6%90%AC%E5%AE%B6%E5%88%B0-Ghost/</loc>
+    <lastmod>2014-12-29T00:50:17-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Android-Studio-JVM-not-found-problem/</loc>
+    <lastmod>2014-12-28T19:00:18-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/how-yield-actually-work/</loc>
+    <lastmod>2014-10-18T19:03:21-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/30-books-worth-to-read/</loc>
+    <lastmod>2014-10-18T09:53:27-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/zsh-and-tmux-fixed-window-name/</loc>
+    <lastmod>2014-10-01T15:16:20-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/host-multiple-node-js-on-single-VPS-with-nginx/</loc>
+    <lastmod>2014-09-12T13:17:07-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/how-to-build-a-minecraft-server-with-msm/</loc>
+    <lastmod>2014-09-12T09:20:55-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Restore-tmux-session-after-reboot/</loc>
+    <lastmod>2014-06-15T14:41:35-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Understand-ui-route-and-stateProvider-in-Angularjs/</loc>
+    <lastmod>2014-06-11T12:27:27-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/About-resource/</loc>
+    <lastmod>2014-06-11T08:47:55-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Front-end-best-test-suit/</loc>
+    <lastmod>2014-06-10T18:11:16-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Vim%E5%9C%A8Tmux%E4%B8%AD%E6%9C%83%E6%B2%92%E6%9C%89colorscheme/</loc>
+    <lastmod>2014-06-09T17:37:55-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/play-gulp/</loc>
+    <lastmod>2014-06-05T23:52:49-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/%E5%A5%BD%E5%90%83%E5%A5%BD%E7%8E%A9%E8%A8%98%E9%8C%84/</loc>
+    <lastmod>2014-04-15T00:22:37-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/holder-js-with-angularjs-workaround/</loc>
+    <lastmod>2014-03-20T13:25:19-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Open-Tmux-new-panes-in-current-directory/</loc>
+    <lastmod>2014-03-20T12:50:16-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Mongoose-MapReduce-with-populate-experiment/</loc>
+    <lastmod>2014-02-25T00:54:59-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Translation-Javascript-Closures/</loc>
+    <lastmod>2014-02-19T11:35:27-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/MEAN-note/</loc>
+    <lastmod>2014-02-11T00:53:41-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/reload-vimrc-without-restarting-vim/</loc>
+    <lastmod>2014-02-05T16:53:56-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/tmux-share-clipboard-with-vim/</loc>
+    <lastmod>2014-02-05T16:41:39-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/frenquency-use-information/</loc>
+    <lastmod>2014-01-05T19:11:17-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Avoid-implicit-return-in-coffeescript/</loc>
+    <lastmod>2013-12-29T21:49:08-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/AngularJS-Notes/</loc>
+    <lastmod>2013-12-29T14:31:02-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Fix-vim-indent/</loc>
+    <lastmod>2013-12-29T13:25:20-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/AngularJS-E2E-test-by-protractor/</loc>
+    <lastmod>2013-12-28T18:27:04-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/MTG-Combo/</loc>
+    <lastmod>2013-12-08T21:51:46-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Redis-Install-and-basics/</loc>
+    <lastmod>2013-11-11T17:41:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Coffeescript-note/</loc>
+    <lastmod>2013-11-11T10:54:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Coffeescript-watch-file-and-compile/</loc>
+    <lastmod>2013-11-10T18:55:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Tmux-%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/</loc>
+    <lastmod>2013-11-10T01:03:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Install-MariaDB/</loc>
+    <lastmod>2013-07-13T03:10:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/building-webapp-with-express-and-yeoman/</loc>
+    <lastmod>2013-07-07T16:42:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/MTG-Wish-List/</loc>
+    <lastmod>2013-07-05T20:30:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Install-Vundle-in-Windows/</loc>
+    <lastmod>2013-07-05T17:16:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/nohup-%E8%AE%93%E7%A8%8B%E5%BC%8F%E5%9C%A8%E8%83%8C%E6%99%AF%E5%9F%B7%E8%A1%8C%EF%BC%8C%E4%B8%94%E4%B8%8D%E5%9B%A0%E7%99%BB%E5%87%BA%E8%80%8C%E4%B8%AD%E6%96%B7/</loc>
+    <lastmod>2013-06-26T21:05:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/oop-in-javascript/</loc>
+    <lastmod>2013-06-23T20:10:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Problem-with-AngularJS-and-CoffeeScript/</loc>
+    <lastmod>2013-05-18T23:39:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/jsdc-tw-2013-first-day/</loc>
+    <lastmod>2013-05-18T09:33:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/nodejs-workflow/</loc>
+    <lastmod>2013-05-16T23:19:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/project-prepare/</loc>
+    <lastmod>2013-04-28T00:53:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/git-note/</loc>
+    <lastmod>2013-04-18T01:36:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/nodejs-with-raspberry-pi-gpio-development/</loc>
+    <lastmod>2013-03-06T01:02:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/raspberry-gpio-permissions-fix/</loc>
+    <lastmod>2013-03-05T22:42:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/chrome%E7%9A%84%E5%B1%95%E7%A4%BA%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2013-03-05T00:29:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/%E5%A6%82%E4%BD%95%E6%8A%8ARaspberry-Pi%E7%9A%84image%E6%94%BE%E5%88%B0SD%E5%8D%A1%E8%A3%A1%E9%9D%A2/</loc>
+    <lastmod>2013-03-04T22:13:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/%E5%A4%A7%E9%91%AB%E7%9F%B3%E6%9D%90-work-recode/</loc>
+    <lastmod>2013-01-27T12:26:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/century-21-network-settings/</loc>
+    <lastmod>2013-01-24T11:18:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/webconf/</loc>
+    <lastmod>2013-01-12T09:41:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/how-to-make-a-newpost-in-octopress/</loc>
+    <lastmod>2012-12-03T17:36:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/20%E5%88%86%E9%90%98%EF%BC%81%E7%94%A8Node-js%E5%92%8Cexpress%E5%BB%BA%E7%AB%8BC-R-U-D%E6%87%89%E7%94%A8/</loc>
+    <lastmod>2012-10-30T17:58:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Javascript-presentation-libraries/</loc>
+    <lastmod>2012-10-27T10:24:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/%E5%A6%82%E4%BD%95%E7%94%A8Node-js%E5%92%8Cgithub%E4%BE%86%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E6%96%B0%E5%B0%88%E6%A1%88/</loc>
+    <lastmod>2012-10-26T18:09:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/%E9%80%8F%E9%81%8Ersync-ssh-deploy-nodejs%E5%88%B0%E9%81%A0%E7%AB%AFserver%EF%BC%8C%E4%BB%A5%E5%8F%8AMongoDB%E7%9A%84%E5%82%99%E4%BB%BD%E8%88%87%E9%82%84%E5%8E%9F/</loc>
+    <lastmod>2012-10-26T11:09:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://replace-this-with-your-hugo-site.com/post/Setup-Octopress-for-Mac-OS-X/</loc>
+    <lastmod>2012-10-26T01:16:00-05:00</lastmod>
+  </url>
+  
+</urlset>

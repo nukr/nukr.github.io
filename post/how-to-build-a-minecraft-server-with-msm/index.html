@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> how to build a minecraft server with msm &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/how-to-build-a-minecraft-server-with-msm/">how to build a minecraft server with msm</a></h2>
+          <span class="post-date">Sep 12, 2014 </span>
+          <div class="post-content">
+            <p><a href="MSM">http://msmhq.com/</a></p>
+
+<p>###安裝</p>
+
+<p>####Debian*(Ubuntu)
+wget -q <a href="http://git.io/Sxpr9g">http://git.io/Sxpr9g</a> -O /tmp/msm &amp;&amp; bash /tmp/msm</p>
+
+<p>####Redhat
+wget -q <a href="http://git.io/lu0ULA">http://git.io/lu0ULA</a> -O /tmp/msm &amp;&amp; bash /tmp/msm</p>
+
+<p>###建立 Minecraft Server</p>
+
+<pre><code>sudo jargroup add craftbukkit-beta http://xxxxxx.xxxxx.xxxx.xxxx.xxxx.xxx/xxx/xxx
+sudo msm server create bukkit-public
+sudo msm bukkit-public jar craftbukkit-beta
+sudo echo msm-version=craftbukkit/1.7.9 &gt;&gt; /opt/msm/servers/bukkit-public/server.properties
+sudo msm bukkit-public start
+</code></pre>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://replace-this-with-your-hugo-site.com/post/host-multiple-node-js-on-single-VPS-with-nginx/"> Prev</a>  
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/Restore-tmux-session-after-reboot/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

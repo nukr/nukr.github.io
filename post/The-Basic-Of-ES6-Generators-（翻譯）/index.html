@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> The Basic Of ES6 Generators （翻譯） &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/The-Basic-Of-ES6-Generators-%EF%BC%88%E7%BF%BB%E8%AD%AF%EF%BC%89/">The Basic Of ES6 Generators （翻譯）</a></h2>
+          <span class="post-date">Jan 11, 2015 </span>
+          <div class="post-content">
+            
+
+<p>One of the most exciting new features coming in JavaScript ES6 is a new breed of function, called a generator. The name is a little strange, but the behavior may seem a lot stranger at first glance. This article aims to explain the basics of how they work, and build you up to understanding why they are so powerful for the future of JS.</p>
+
+<p>Javascript ES6 有一項最令人興奮的新特性是一種新型態的 function 叫做 generator。這個名字有點奇怪，但是第一瞥他的行為似乎更奇怪了。本篇文章目標是解釋基本上他是如何運作的，並且讓你了解為何他在未來的 JS 中如此強大。</p>
+
+<h2 id="run-to-completion">Run-To-Completion</h2>
+
+<h2 id="運行到完成">運行到完成</h2>
+
+<p>The first thing to observe as we talk about generators is how they differ from normal functions with respect to the &ldquo;run to completion&rdquo; expectation.</p>
+
+<p>第一件事去觀察像我們談論關於 generators 是如何不同於普通的 function 並且遵照我們的「運行到完成」的期待。</p>
+
+<p>Whether you realized it or not, you&rsquo;ve always been able to assume something fairly fundamental about your functions: once the function starts running, it will always run to completion before any other JS code can run.</p>
+
+<pre><code class="language-language-javascript">setTimeout(function(){
+    console.log(&quot;Hello World&quot;);
+},1);
+
+function foo() {
+    // NOTE: don't ever do crazy long-running loops like this
+    for (var i=0; i&lt;=1E10; i++) {
+        console.log(i);
+    }
+}
+
+foo();
+// 0..1E10
+// &quot;Hello World&quot;
+</code></pre>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://replace-this-with-your-hugo-site.com/post/How-to-monitor-dd-progress-in-Mac-OSX/"> Prev</a>  
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/How-to-Use-npm-as-a-Build-Tool/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

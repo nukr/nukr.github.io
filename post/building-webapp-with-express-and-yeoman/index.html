@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> building webapp with express and yeoman &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/building-webapp-with-express-and-yeoman/">building webapp with express and yeoman</a></h2>
+          <span class="post-date">Jul 7, 2013 </span>
+          <div class="post-content">
+            <p>開始之前先說一下我想達成的目標，簡單來說就是<code>yo something</code>，<code>grunt</code>。搞定！</p>
+
+<p><code>yo</code>要幫我scaffold 的有</p>
+
+<ol>
+<li>expressjs</li>
+<li>angularjs</li>
+<li>test/e2e</li>
+<li>test/unit</li>
+</ol>
+
+<p>[Yeoman]()真的是太酷了！配上Express要怎麼做呢？讓我們step by step</p>
+
+<p>[Yeoman]()首先我們要了解它是什麼？</p>
+
+<p>[Yeoman]()是由三個套件組成的，分別是：</p>
+
+<ul>
+<li>yo</li>
+<li>grunt</li>
+<li>bower</li>
+</ul>
+
+<p>由[Google]()帶領的開放原始碼專案。</p>
+
+<p>[Yeoman]()主要想達成的是，自動化專案模板，舉例來說你在指令列下<code>yo webapp</code>他就會幫你把所有你需要的檔案產生出來，像是<code>.gitignore</code>，<code>test/</code>，然後再下<code>grunt server</code>，他會幫你watch sass，*.coffee，還有live-reload等等，整個專案只要你設定好之後，就只要下這兩個指令。</p>
+
+<p>##設定還是最困難的</p>
+
+<p>前面說的是個大概，我試著把它條列出來。</p>
+
+<p>yo是個scaffold tool，用來建立專案的架構，靠得是generator，npm上面已經有許多generator了，你可以下載你需要的generator，例如<code>npm install -g generator-angular</code>，之後就可以用<code>yo angular</code>去建立專案，裡面就會有你需要用來建構angular專案所需的一切，當然像我這種自定魂，一定要建立自己的generator囉！</p>
+
+<p>需要<code>yo</code>幫我建立的資料夾與檔案有：</p>
+
+<ul>
+<li>views/</li>
+<li>views/layout.jade</li>
+<li>views/index.jade</li>
+<li>models/</li>
+<li>controllers/</li>
+<li>controllers/index.js</li>
+<li>public/</li>
+<li>public/components/</li>
+<li>public/sass/</li>
+<li>public/stylesheets/</li>
+<li>public/javascripts/</li>
+<li>test/</li>
+<li>.gitignore</li>
+<li>.bowerrc</li>
+<li>.editorconfig</li>
+<li>.jshintrc</li>
+<li>package.json</li>
+<li>bower.json</li>
+<li>config.json</li>
+<li>Gruntfile.js</li>
+</ul>
+
+<p><code>npm install -d generator-generator</code>，</p>
+
+<p><code>mkdir generator-blog &amp;&amp; cd $_</code></p>
+
+<p><code>yo generator</code>，輸入自己想要的generator名稱，這邊是用blog</p>
+
+<p><code>npm link</code>，你才可以用<code>yo blog</code></p>
+
+<p>你就可以去別的資料夾用<code>yo blog</code>了，當然這樣還不夠，我們還沒自定我們需要的東西</p>
+
+<p>用你喜愛的editor開啟，app/index.js，這就是yo主要的設定檔</p>
+
+<p>先讓我們看一下這段</p>
+
+<pre><code class="language-js">var prompts = [{
+  type: 'confirm',
+  name: 'someOption',
+  message: 'Would you like to enable this option?',
+  default: true
+}];
+</code></pre>
+
+<p>這是預設的prompts，也就是你下<code>yo</code>的互動問題，我們把它改成:</p>
+
+<pre><code class="language-js">var prompts = [{
+  name: 'blogName',
+  message: 'What do you want to call your blog ?',
+}];
+</code></pre>
+
+<p>接著，我們把這項資訊存入變數裡面</p>
+
+<p>原本是：</p>
+
+<pre><code class="language-js">this.prompt(prompts, function (props) {
+  this.someOption = props.someOption;
+
+  cb();
+}.bind(this));
+</code></pre>
+
+<p>改成：</p>
+
+<pre><code class="language-js">this.prompt(prompts, function (props) {
+  this.blogName = props.blogName;
+
+  cb();
+}.bind(this));
+</code></pre>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://replace-this-with-your-hugo-site.com/post/Install-MariaDB/"> Prev</a>  
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/MTG-Wish-List/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

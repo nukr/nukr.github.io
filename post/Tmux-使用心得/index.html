@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> Tmux 使用心得 &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/Tmux-%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">Tmux 使用心得</a></h2>
+          <span class="post-date">Nov 10, 2013 </span>
+          <div class="post-content">
+            
+
+<p>Tmux在MacOSX上的modify key預設是<code>ctrl + b</code>，底下的指令皆為加上<code>ctrl + b</code></p>
+
+<p>其實只要在tmux裡面<code>ctrl + b -&gt; ?</code>，就會列出所有shortcut</p>
+
+<pre><code>s 列出sessions
+$ 命名session
+</code></pre>
+
+<h3 id="window-tab">Window(tab)</h3>
+
+<pre><code>c 新視窗
+, 命名視窗
+w 列出清單
+f 尋找視窗
+&amp; 關閉視窗
+. 更改視窗編號
+:movew&lt;CR&gt;  move window to the next unused number
+</code></pre>
+
+<h3 id="panes">Panes</h3>
+
+<pre><code>% 水平分割
+&quot; 垂直分割
+
+o 交換窗格
+q 顯示窗格編號
+x 關閉窗格
+⍽ space - toggle between layouts&quot;
+</code></pre>
+
+<h3 id="window-pane-surgery">Window/pane surgery</h3>
+
+<pre><code>:joinp -s :2&lt;CR&gt;  move window 2 into a new pane in the current window
+:joinp -t :1&lt;CR&gt;  move the current pane into a new pane in window 1
+</code></pre>
+
+<p><a href="http://unix.stackexchange.com/questions/14300/tmux-move-window-to-pane">Move window to pane</a>
+<a href="http://superuser.com/questions/343572/tmux-how-do-i-reorder-my-windows">How to reorder windows</a></p>
+
+<h3 id="misc">Misc</h3>
+
+<pre><code>d  detach
+t  big clock
+?  list shortcuts
+:  prompt
+</code></pre>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://replace-this-with-your-hugo-site.com/post/Coffeescript-watch-file-and-compile/"> Prev</a>  
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/Install-MariaDB/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

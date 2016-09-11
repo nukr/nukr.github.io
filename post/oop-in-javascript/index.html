@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> oop in javascript &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/oop-in-javascript/">oop in javascript</a></h2>
+          <span class="post-date">Jun 23, 2013 </span>
+          <div class="post-content">
+            
+
+<h2 id="chapter-3-understanding-object">Chapter 3: Understanding Object</h2>
+
+<p>Even though there are a number of built-in reference types in JavaScript, you will most likely be createing your own objects fairly frequently. A large part of JavaScript programming is managing objects. Having a good understanding of how objects work is key to understanding JavaScript as a whole. Keep in mind that objects in JavaScript are dynamic, meaning that they can change at any point during code execution. Where class-based languages lock down objects based on a class definition, JavaScript objects have no such restrictions.</p>
+
+<p>雖然在JavaScript中有數種內建的參照型別，你將非常頻繁的建立你自己的物件。在JavaScript程式設計中很大的一部分是管理物件。對於物件如何運作有相當良好的了解是作為一個整體瞭解JavaScript之鑰，牢記在JavaScript中物件是動態的，意思是他們可以改變在程式運作中的任一個時機。class為基礎的語言鎖定物件基於class定義，JavaScript物件沒有這種限制。</p>
+
+<h3 id="defining-properties">Defining Properties</h3>
+
+<p>Recall From Chapter 1 that there are two basic ways to create your own objects, using that <code>Object</code> constructor and using an object literal. For example:</p>
+
+<p>回憶第一章有兩個基本的方法去建立你自己的物件，使用物件建構子和物件實字。例如：</p>
+
+<pre><code class="language-js">var person1 = {
+  name: &quot;Nicholas&quot;
+};
+
+var person2 = new Object();
+person2.name = &quot;Nicholas&quot;;
+
+person1.age = &quot;Redacted&quot;;
+person2.age = &quot;Redacted&quot;;
+
+person1.name = &quot;Greg&quot;;
+person2.name = &quot;Michael&quot;;
+</code></pre>
+
+<p>Both <code>person1</code> and <code>person2</code> are objects with a <code>name</code> property. Later in the example, both objects are assigned an <code>age</code> property. This could happen immediately after the definition of the object or quite a bit later. Objects you create are always wide open for modification unless you specify otherwise (more on that later in the book). The last part of this example changes the value of <code>name</code> on each object. Property values can be changed at any time as well.</p>
+
+<p>When a property is first added to an object, JavaScript uses an internal method called [[Put]]</p>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://replace-this-with-your-hugo-site.com/post/nohup-%E8%AE%93%E7%A8%8B%E5%BC%8F%E5%9C%A8%E8%83%8C%E6%99%AF%E5%9F%B7%E8%A1%8C%EF%BC%8C%E4%B8%94%E4%B8%8D%E5%9B%A0%E7%99%BB%E5%87%BA%E8%80%8C%E4%B8%AD%E6%96%B7/"> Prev</a>  
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/Problem-with-AngularJS-and-CoffeeScript/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> AngularJS Notes &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/AngularJS-Notes/">AngularJS Notes</a></h2>
+          <span class="post-date">Dec 29, 2013 </span>
+          <div class="post-content">
+            
+
+<h2 id="filter">Filter</h2>
+
+<h2 id="directive">Directive</h2>
+
+<p>一個最基本的Directive 是這樣的</p>
+
+<pre><code class="language-coffeescript">app = angular.module 'myApp', []
+
+app.directive &quot;superman&quot;, -&gt;
+    restrict: &quot;E&quot;
+    template: &quot;&lt;div&gt;superman save the world&lt;/div&gt;&quot;
+
+</code></pre>
+
+<p>restrict 中文叫限制，前面的例子<code>restrict: 'E'</code>就是限制directive 爲Element，default 是<code>restrict: 'A'</code></p>
+
+<p>再看下一個</p>
+
+<pre><code class="language-coffeescript">app = angular.module 'myApp', []
+
+app.directive &quot;superman&quot;, -&gt;
+    restrict: &quot;A&quot;
+    link: -&gt;
+        alert('it's work)
+
+</code></pre>
+
+<p><code>restrict: 'A'</code> A for attritube 就是用在html element 的attritubes</p>
+
+<p><code>restrict: 'C'</code> C for class</p>
+
+<p><code>restrict: 'M'</code> M for comment，comment 用法比較詭異，來看例子</p>
+
+<pre><code class="language-html">&lt;!-- directive:superman --&gt;
+</code></pre>
+
+<h3 id="簡化">簡化</h3>
+
+<pre><code class="language-coffeescript">app = angular.module 'myApp', []
+
+app.directive &quot;superman&quot;, -&gt;
+    (scope, element)-&gt;
+        console.log element
+</code></pre>
+
+<h2 id="isolate-scope">Isolate Scope</h2>
+
+<p>isolate scope 這東西是有點難懂，我還是儘量的把它搞懂了isolate scope 有三種形式</p>
+
+<p>```coffeescript main.coffee
+app.directive &ldquo;drink&rdquo;, -&gt;
+    scope:
+        flavor: &lsquo;@&rsquo;
+    template: &ldquo;{{flavor}}&rdquo;</p>
+
+<pre><code>
+```jade index.jade
+div(ng-controller=&quot;AppCtrl&quot;)
+    div(drink flavor=&quot;cherry&quot;)
+</code></pre>
+
+<pre><code class="language-coffeescript">app.controller &quot;AppCtrl&quot;, ($scope) -&gt;
+    $scope.ctrlFlavor = &quot;shit&quot;
+
+app.directive &quot;drink&quot;, -&gt;
+    scope:
+        flavor: &quot;=&quot;
+    template: &quot;{{flavor}} flavor is good&quot;
+</code></pre>
+
+<p><code>jade index.jade
+div(ng-controller=&quot;AppCtrl&quot;)
+    div(drink flavor=&quot;ctrlFlavor&quot;)
+</code></p>
+
+<h2 id="transclusion">Transclusion</h2>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://replace-this-with-your-hugo-site.com/post/Avoid-implicit-return-in-coffeescript/"> Prev</a>  
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/Fix-vim-indent/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

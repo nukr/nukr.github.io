@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> neovim python YouCompleteMe 安裝紀錄 &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/neovim-python-YouCompleteMe-%E5%AE%89%E8%A3%9D%E7%B4%80%E9%8C%84/">neovim python YouCompleteMe 安裝紀錄</a></h2>
+          <span class="post-date">Jul 7, 2015 </span>
+          <div class="post-content">
+            
+
+<p>注意！不要用內建 python 安裝任何東西</p>
+
+<p>我是全新安裝Mac OSX Yosemite、Xcode、Commandline Tools</p>
+
+<h3 id="homebrew">Homebrew</h3>
+
+<pre><code class="language-bash">$ brew install python
+$ pip install neovim --user
+
+$ brew install python3
+$ pip3 install neovim --user
+
+$ brew tap neovim/neovim
+$ brew install --HEAD neovim
+</code></pre>
+
+<h3 id="install-youcompleteme-with-vundle">install YouCompleteMe with Vundle</h3>
+
+<pre><code class="language-bash">$ cd ~/.vim/bundle/YouCompleteMe
+$ ./install.sh --clang-completer
+
+$ cd ~/.vim/tern_for_vim
+$ npm i
+</code></pre>
+
+<p>不照這個步驟裝很容易失敗</p>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://replace-this-with-your-hugo-site.com/post/taxas-holdem-api/"> Prev</a>  
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/%E7%99%BB%E5%85%A5%E6%B5%81%E7%A8%8B%E8%A9%B3%E8%A7%A3/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

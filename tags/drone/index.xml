@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Thinking</title>
+    <link>http://replace-this-with-your-hugo-site.com/tags/drone/index.xml</link>
+    <description>Recent content on Thinking</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://replace-this-with-your-hugo-site.com/tags/drone/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>drone-0.5-build-process</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/drone-0-5-build-process/</link>
+      <pubDate>Sat, 30 Jul 2016 12:45:32 -0500</pubDate>
+      
+      <guid>http://replace-this-with-your-hugo-site.com/post/drone-0-5-build-process/</guid>
+      <description>
+
+&lt;h1 id=&#34;drone-0-5-build-process&#34;&gt;Drone 0.5 build process&lt;/h1&gt;
+
+&lt;p&gt;All process build on ubuntu 16.04 and
+&lt;a href=&#34;https://fishshell.com/&#34;&gt;fish-shell&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;server&#34;&gt;server&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;curl -sSL https://get.docker.com/ | sh
+
+docker run \
+  --env DRONE_GITHUB=true \
+  --env DRONE_GITHUB_CLIENT=&amp;lt;your-github-client-id&amp;gt; \
+  --env DRONE_GITHUB_SECRET=&amp;lt;your-github-client-secret&amp;gt; \
+  --env DRONE_SECRET=&amp;lt;your-secret-that-nobody-know&amp;gt; \
+  --env DRONE_OPEN=true \
+  --env DRONE_ADMIN=nukr \
+  --env DRONE_DEBUG=true \
+  --volume /var/lib/drone:/var/lib/drone \
+  --restart=always \
+  --publish=80:8000 \
+  --detach=true \
+  --name=drone \
+  drone/drone:0.5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;agent&#34;&gt;agent&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;docker run \
+  --env DRONE_SERVER=http://&amp;lt;your-server-domain-or-ip&amp;gt; \
+  --env DRONE_SECRET=&amp;lt;your-secret-that-nobody-know-as-you-set-before&amp;gt; \
+  --volume /var/run/docker.sock:/var/run/docker.sock \
+  --restart=always \
+  --detach=true \
+  --name=drone-agent \
+  drone/drone:0.5 agent
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;project&#34;&gt;project&lt;/h2&gt;
+
+&lt;p&gt;.drone.yml&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yml&#34;&gt;pipeline:
+  test:
+    image: node:6.3.1
+    commands:
+      - echo hihi
+  docker:
+    repo: project/repo
+    tag:
+      - latest
+      - ${DRONE_TAG##v}
+    when:
+      event: tag
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;put .drone.yml to your repo root then sign&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;drone sign account/repo
+# create .drone.yml.sig
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;client&#34;&gt;client&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# drone secret add --image=&amp;lt;image-your-want-limit&amp;gt; account/repo KEY VALUE
+
+# docker login
+set -x DRONE_TOKEN &amp;lt;your-token-copy-from-gui&amp;gt;
+set -x DRONE_SERVER http://&amp;lt;your-drone-domain-or-ip&amp;gt;
+drone secret add --image=docker account/repo DOCKER_REGISTRY asia.gcr.io
+drone secret add --image=docker account/repo DOCKER_USERNAME _json_key
+
+set -lx PASSWORD (cat credential.json)
+drone secret add --image=docker account/repo DOCKER_PASSWORD &amp;quot;$PASSWORD&amp;quot;
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> Promise.all should use function as params &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/Promise-all-should-use-function-as-params/">Promise.all should use function as params</a></h2>
+          <span class="post-date">Oct 16, 2015 </span>
+          <div class="post-content">
+            <p>今天我們要聊的是：<code>Promise.all</code>，他吃一個 Array，Promise.all 會試著去 resolve 每一個 array 中的 element，直到 throw error。</p>
+
+<p>重點來了，當 <code>Promise.all</code> throw error 之後整個 <code>Promise.all</code> 就 reject 了，我想要拿到部分 resolve 的值就拿不到了，我只能選擇全部成功或是全部失敗，這樣好像有點爛。</p>
+
+<p>我有想到幾個解決方案：</p>
+
+<ol>
+<li>把每一個可能會 throw error 的 Promise 包起來自己 handle error，意味著我們的這個 Promise wrapper 只會 resolve，這個方法的缺點是你必須去包裝每一個 Promise 很費工。
+2.</li>
+</ol>
+
+<p>我就想到了Promise.all為什麼不做成 <code>Promise.all(arrayToBeResolve, arrayResolver, arrayRejector)</code>，讓 arrayResolver 跟 arrayRejector 去處理每一個 Promise.all 遍歷到的元素，但這樣又衍生了一個問題，就是 Promise.all 是 parallel 的處理 array，如果我想要 series 怎麼辦。</p>
+
+<p>所以我就應該有兩隻 function，一個是PromiseTryResolveAllParallel，一個是PromiseTryResolveAllSeries，signiture 一樣</p>
+
+<p>先來實作 PromiseTryResolveAllParallel：</p>
+
+<pre><code class="language-javascript">function PromiseTryResolveAllParallel (arrayToBeResolve, elementResolver, elementRejector) {
+  return new Promise((resolve, reject) =&gt; {
+    let counter = 0
+    let result = Array(arrayToBeResolve.length)
+    arrayToBeResolve.forEach((element, index) =&gt; {
+      element.then
+    })
+  })
+}
+</code></pre>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://replace-this-with-your-hugo-site.com/post/How-to-avoid-relative-paths-hell-in-nodejs/"> Prev</a>  
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/clean-cache-flow/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

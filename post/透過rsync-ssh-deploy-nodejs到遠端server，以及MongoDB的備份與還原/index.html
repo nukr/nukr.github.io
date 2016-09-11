@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> 透過rsync&#43;ssh deploy nodejs到遠端server，以及MongoDB的備份與還原 &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/%E9%80%8F%E9%81%8Ersync-ssh-deploy-nodejs%E5%88%B0%E9%81%A0%E7%AB%AFserver%EF%BC%8C%E4%BB%A5%E5%8F%8AMongoDB%E7%9A%84%E5%82%99%E4%BB%BD%E8%88%87%E9%82%84%E5%8E%9F/">透過rsync&#43;ssh deploy nodejs到遠端server，以及MongoDB的備份與還原</a></h2>
+          <span class="post-date">Oct 26, 2012 </span>
+          <div class="post-content">
+            <p>為什麼要用rsync+ssh？</p>
+
+<p>因為他最快，可以一鍵搞定，又可以在command line底下做</p>
+
+<!-- more -->
+
+<p>為什麼要把那麼多東西擠在同一篇？</p>
+
+<p>因為一次的部署(deploy)就是做這些事情，拆開就還要跑兩篇文章去查看，雖然多了點，但還是這樣比較方便。server端只要有sshd在跑即可，沒記錯的話<code>apt-get install ssh-server</code>就好client的話我假設你有bash，用windows的就抱歉了，不然你也可以去抓win-bash，還要有ssh-client。</p>
+
+<p><a href="http://kawsing.blogspot.tw/2011/05/ssh-rsync.html">參考網站</a><br />
+<a href="http://www.andowson.com/posts/list/191.page">參考網站</a></p>
+
+<p>先來無斷轉載MongoDB Backup and Restore</p>
+
+<p>mongodb的備份與還原
+mongodb提供了兩個命令來備份（mongodump ）和還原（mongorestore ）資料庫</p>
+
+<p>1.备份（mongodump ）</p>
+
+<p>用法 ：
+root@web3 3# mongodump &ndash;help
+options:
+&ndash;help                   produce help message
+-v  &ndash;verbose          be more verbose (include multiple times for more
+verbosity e.g. -vvvvv)
+-h  &ndash;host  arg        mongo host to connect to (&ldquo;left,right&rdquo; for pairs)
+-d  &ndash;db  arg          database to use
+-c  &ndash;collection  arg  collection to use (some commands)
+-u  &ndash;username  arg    username
+-p  &ndash;password  arg    password
+&ndash;dbpath arg             directly access mongod data files in the given path,
+instead of connecting to a mongod instance - needs
+to lock the data directory, so cannot be used if a
+mongod is currently accessing the same path
+&ndash;directoryperdb         if dbpath specified, each db is in a separate
+directory
+-o  &ndash;out  arg (=dump) output directory</p>
+
+<p>例子：</p>
+
+<p>root@web3 ~# mongodump -h 192.168.1.103 -d citys -o /backup/mongobak/3<br />
+connected to: 192.168.1.103<br />
+DATABASE: citys  to     /backup/mongobak/3/citys<br />
+citys.building to /backup/mongobak/3/citys/building.bson<br />
+13650 objects<br />
+citys.system.indexes to /backup/mongobak/3/citys/system.indexes.bson<br />
+1 objects</p>
+
+<p>备份出来的数据是二进制的，已经经过压缩。比实际数据库要小很多，我的数据库显示占用了260多M，备份后只有2M。</p>
+
+<p>2.恢复（mongorestore ）</p>
+
+<p>用法：
+root@web3 3# mongorestore &ndash;help
+usage: mongorestore options directory or filename to restore from
+options:
+&ndash;help                  produce help message
+-v  &ndash;verbose         be more verbose (include multiple times for more
+verbosity e.g. -vvvvv)
+-h  &ndash;host  arg       mongo host to connect to (&ldquo;left,right&rdquo; for pairs)
+-d  &ndash;db  arg         database to use
+-c  &ndash;collection  arg collection to use (some commands)
+-u  &ndash;username  arg   username
+-p  &ndash;password  arg   password
+&ndash;dbpath arg            directly access mongod data files in the given path,
+instead of connecting to a mongod instance - needs to
+lock the data directory, so cannot be used if a
+mongod is currently accessing the same path
+&ndash;directoryperdb        if dbpath specified, each db is in a separate
+directory
+&ndash;drop                  drop each collection before import
+&ndash;objcheck              validate object before inserting</p>
+
+<p>&ndash;drop参数可以在导入之前把collection先删掉。</p>
+
+<p>例子：</p>
+
+<p>root@web3 3# mongorestore -h 127.0.0.1 &ndash;directoryperdb /backup/mongobak/3/
+connected to: 127.0.0.1
+/backup/mongobak/3/citys/building.bson
+going into namespace citys.building
+13667 objects
+/backup/mongobak/3/citys/system.indexes.bson
+going into namespace citys.system.indexes
+1 objects</p>
+
+<p>另外mongodb还提供了mongoexport 和 mongoimport 这两个命令来导出或导入数据，导出的数据是json格式的。也可以实现备份和恢复的功能。
+例：
+mongoexport -d mixi_top_city_prod -c building_45 -q &lsquo;{ &ldquo;uid&rdquo; : &ldquo;10832545&rdquo; }&rsquo; &gt; mongo_10832545.bson
+mongoimport -d mixi_top_city -c building_45 &ndash;file mongo_10832545.bson</p>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://replace-this-with-your-hugo-site.com/post/%E5%A6%82%E4%BD%95%E7%94%A8Node-js%E5%92%8Cgithub%E4%BE%86%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E6%96%B0%E5%B0%88%E6%A1%88/"> Prev</a>  
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/Setup-Octopress-for-Mac-OS-X/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

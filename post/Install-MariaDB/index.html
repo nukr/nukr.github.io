@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> Install MariaDB &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/slim.css">
+<link rel="stylesheet" href="http://replace-this-with-your-hugo-site.com/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://replace-this-with-your-hugo-site.com/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://replace-this-with-your-hugo-site.com/post/Install-MariaDB/">Install MariaDB</a></h2>
+          <span class="post-date">Jul 13, 2013 </span>
+          <div class="post-content">
+            
+
+<h2 id="mariadb-in-os-x-lion">MariaDB in OS X Lion</h2>
+
+<pre><code class="language-bash">brew update
+brew install mariadb
+
+#Set up databases with:
+unset TMPDIR
+mysql_install_db --user=`whoami` --basedir=&quot;$(brew --prefix mariadb)&quot; --datadir=/usr/local/var/mysql --tmpdir=/tmp
+
+#To have launchd start mariadb at login:
+ln -sfv /usr/local/opt/mariadb/*.plist ~/Library/LaunchAgents
+
+#Then to load mariadb now:
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mariadb.plist
+
+#Or, if you don't want/need launchctl, you can just run:
+mysql.server start
+</code></pre>
+
+<h2 id="mariadb-in-linux-ubuntu-13-04-raring">MariaDB in Linux (Ubuntu 13.04 &ldquo;raring&rdquo;)</h2>
+
+<p><a href="https://downloads.mariadb.org/mariadb/repositories/">MariaDB repositories</a></p>
+
+<pre><code class="language-bash">#Here are the commands to run to add MariaDB to your Ubuntu system:
+
+sudo apt-get install software-properties-common
+sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
+sudo add-apt-repository 'deb http://ftp.yz.yamagata-u.ac.jp/pub/dbms/mariadb/repo/10.0/ubuntu raring main'
+
+#Once the key is imported and the repository added you can install MariaDB with:
+
+sudo apt-get update
+sudo apt-get install mariadb-server
+</code></pre>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://replace-this-with-your-hugo-site.com/post/Tmux-%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/"> Prev</a>  
+          <a class="btn next " href="http://replace-this-with-your-hugo-site.com/post/building-webapp-with-express-and-yeoman/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://replace-this-with-your-hugo-site.com/js/slim.js"></script>
+  <script src="http://replace-this-with-your-hugo-site.com/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>
