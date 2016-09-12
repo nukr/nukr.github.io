@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> use investigate memory leak &middot; Thinking </title>
+
+
+<link rel="stylesheet" href="http://nukr.github.io/css/slim.css">
+<link rel="stylesheet" href="http://nukr.github.io/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Thinking" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://nukr.github.io/">Thinking</a></h1>
+  <p class="site-tagline">Your site&#39;s subtitle/tagline</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/nukr">Github</a></li> 
+      <li><a href="https://twitter.com/nukr">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://nukr.github.io/post/use-investigate-memory-leak/">use investigate memory leak</a></h2>
+          <span class="post-date">Sep 12, 2016 </span>
+          <div class="post-content">
+            <p>我們先來看一下 Rob Pike 在 Google I/O 2012 的 talk &ldquo;Go Concurrency Patterns&rdquo; 中，有一段 snippet 會造成 momery leak。</p>
+
+<p>先解釋一下這段 code，First 吃兩個 parameters，很明顯的 query 是個字串，
+replicas 則是一個 slice of Search，那 Search 是什麼？這邊底下有看到
+<code>replicas[i](query)</code>，得知他是一個 func 而且還接受一個 string parameter。</p>
+
+<p>那他為什麼會 momery leak？</p>
+
+<p>我們看到有一個 for range loop 在 iterate replicas，for each replica 都建立一個
+goroutine 讓他去執行 search 的工作，當她完成了他會把結果塞進一個 type 是 Result
+的 channel，在 func First 的結尾有一個 <code>&lt;-c</code> 在 block，直到有一個 goroutine 把
+Result 塞進 channel，所以先回來的 goroutine 就會是 func First 的 return
+value，但是後回來的就會是一個 deadlock 沒有一個 channel 等待接收他的結果，因為
+func First 已經結束了。</p>
+
+<pre><code class="language-go">func First(query string, replicas ...Search) Result {  
+    c := make(chan Result)
+    searchReplica := func(i int) { c &lt;- replicas[i](query) }
+    for i := range replicas {
+        go searchReplica(i)
+    }
+    return &lt;-c
+}
+</code></pre>
+
+<p>我們要怎麼知道他真的 momery leak 了？</p>
+
+<p>我們要用 gdb！</p>
+
+<p>在用 gdb 之前，我們先要有一個完整可執行的範例程式</p>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;log&quot;
+	&quot;net/http&quot;
+	&quot;time&quot;
+)
+
+type search func(query string) result
+
+type result struct {
+	provider string
+	status   int
+}
+
+func main() {
+	replicas := []search{google, yahoo}
+	r := first(&quot;lovebugs&quot;, replicas...)
+	fmt.Println(r)
+	time.Sleep(2 * time.Second)
+	fmt.Println(&quot;woke up&quot;)
+}
+
+func google(query string) result {
+	res, err := http.Get(&quot;http://google.com?q=&quot; + query)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return result{
+		provider: &quot;google&quot;,
+		status:   res.StatusCode,
+	}
+}
+
+func yahoo(query string) result {
+	res, err := http.Get(&quot;http://yahoo.com/search?p=&quot; + query)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return result{
+		provider: &quot;yahoo&quot;,
+		status:   res.StatusCode,
+	}
+}
+
+func first(query string, replicas ...search) result {
+	c := make(chan result)
+	searchReplica := func(i int) {
+		c &lt;- replicas[i](query)
+	}
+	for i := range replicas {
+		go searchReplica(i)
+	}
+
+	return &lt;-c
+}
+</code></pre>
+
+<p>編譯他 <code>go build -gcflags &quot;-N -l&quot; main.go</code></p>
+
+<p>用 <code>gdb</code> 執行他 <code>gdb main</code></p>
+
+<p>看到下面這個畫面就是我們開始執行了</p>
+
+<pre><code>GNU gdb (GDB) 7.11.1
+Copyright (C) 2016 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type &quot;show copying&quot;
+and &quot;show warranty&quot; for details.
+This GDB was configured as &quot;x86_64-apple-darwin15.5.0&quot;.
+Type &quot;show configuration&quot; for configuration details.
+For bug reporting instructions, please see:
+&lt;http://www.gnu.org/software/gdb/bugs/&gt;.
+Find the GDB manual and other documentation resources online at:
+&lt;http://www.gnu.org/software/gdb/documentation/&gt;.
+For help, type &quot;help&quot;.
+Type &quot;apropos word&quot; to search for commands related to &quot;word&quot;...
+Reading symbols from main...done.
+Loading Go Runtime support.
+(gdb)
+</code></pre>
+
+<p>先把我們要的 breakpoint 下好</p>
+
+<pre><code>(gdb) b 51
+Breakpoint 1 at 0x29a5: file /Users/nukr/workspace/gocode/src/github.com/nukr/golang_test/blocked_goroutines_and_resource_lea
+ks/leaks/main.go, line 51.
+(gdb) b 22
+Breakpoint 2 at 0x221b: file /Users/nukr/workspace/gocode/src/github.com/nukr/golang_test/blocked_goroutines_and_resource_lea
+ks/leaks/main.go, line 22.
+(gdb)
+</code></pre>
+
+<p>第一個我們要看的是 goroutine 在執行的時候是在哪個位置，這樣才能知道在 func main
+結尾的時候，他的執行狀況。</p>
+
+<p>我們下 <code>run</code></p>
+
+<pre><code>(gdb) run
+Starting program: /Users/nukr/workspace/gocode/src/github.com/nukr/golang_test/blocked_goroutines_and_resource_leaks/leaks/ma
+in
+[New Thread 0x126f of process 9680]
+[New Thread 0x1403 of process 9680]
+[New Thread 0x1503 of process 9680]
+[New Thread 0x1603 of process 9680]
+
+Thread 1 hit Breakpoint 1, main.first.func1 (i=1)
+    at /Users/nukr/workspace/gocode/src/github.com/nukr/golang_test/blocked_goroutines_and_resource_leaks/leaks/main.go:51
+51                      c &lt;- replicas[i](query)
+</code></pre>
+
+<p>用 <code>info goroutine</code> 看一下</p>
+
+<pre><code>(gdb) info goroutines
+  1 waiting  runtime.gopark
+* 17 syscall  runtime.goexit
+  2 waiting  runtime.gopark
+  3 waiting  runtime.gopark
+  18 waiting  runtime.gopark
+* 19 running  main.first.func1
+* 20 running  main.first.func1
+</code></pre>
+
+<p>我們看到 19, 20 這兩個就是我們的兩個 goroutine</p>
+
+<p>再下 <code>c</code></p>
+
+<pre><code>(gdb) c
+Continuing.
+[Switching to Thread 0x1403 of process 9680]
+
+Thread 3 hit Breakpoint 1, main.first.func1 (i=0)
+    at /Users/nukr/workspace/gocode/src/github.com/nukr/golang_test/blocked_goroutines_and_resource_leaks/leaks/main.go:51
+51                      c &lt;- replicas[i](query)
+</code></pre>
+
+<p>用 <code>info goroutine</code> 看現在 goroutine 的狀況</p>
+
+<p>再下 <code>c</code> 到 <code>fmt.Println(&quot;woke up&quot;)</code>
+用 <code>info goroutine</code> 確認最後的 goroutine 狀況</p>
+
+<pre><code>(gdb) info goroutines
+* 1 running  runtime.gopark
+* 17 syscall  runtime.goexit
+  2 waiting  runtime.gopark
+  3 waiting  runtime.gopark
+  18 waiting  runtime.gopark
+  20 waiting  runtime.gopark
+  41 waiting  runtime.gopark
+* 4 syscall  runtime.systemstack_switch
+  38 waiting  runtime.gopark
+  33 waiting  runtime.gopark
+  50 waiting  runtime.gopark
+  37 waiting  runtime.gopark
+  51 waiting  runtime.gopark
+  39 waiting  runtime.gopark
+  36 waiting  runtime.gopark
+  10 waiting  runtime.gopark
+  31 waiting  runtime.gopark
+  42 waiting  runtime.gopark
+  32 waiting  runtime.gopark
+  66 waiting  runtime.gopark
+</code></pre>
+
+<p>我們看到我們等了兩秒了，但是 20 的 goroutine 還在 memory leak comfirm!</p>
+
+          </div>
+        </div>
+        <div class="pagination"> 
+          <a class="btn next " href="http://nukr.github.io/post/how-to-use-cli-tool-read-email-mutt-offlineimap/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://nukr.github.io/js/slim.js"></script>
+  <script src="http://nukr.github.io/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>

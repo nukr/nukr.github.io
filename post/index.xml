@@ -6,8 +6,216 @@
     <description>Recent content in Post-rsses on Thinking</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 11 Sep 2016 17:07:12 -0500</lastBuildDate>
+    <lastBuildDate>Mon, 12 Sep 2016 11:20:02 +0800</lastBuildDate>
     <atom:link href="http://nukr.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>use investigate memory leak</title>
+      <link>http://nukr.github.io/post/use-investigate-memory-leak/</link>
+      <pubDate>Mon, 12 Sep 2016 11:20:02 +0800</pubDate>
+      
+      <guid>http://nukr.github.io/post/use-investigate-memory-leak/</guid>
+      <description>&lt;p&gt;我們先來看一下 Rob Pike 在 Google I/O 2012 的 talk &amp;ldquo;Go Concurrency Patterns&amp;rdquo; 中，有一段 snippet 會造成 momery leak。&lt;/p&gt;
+
+&lt;p&gt;先解釋一下這段 code，First 吃兩個 parameters，很明顯的 query 是個字串，
+replicas 則是一個 slice of Search，那 Search 是什麼？這邊底下有看到
+&lt;code&gt;replicas[i](query)&lt;/code&gt;，得知他是一個 func 而且還接受一個 string parameter。&lt;/p&gt;
+
+&lt;p&gt;那他為什麼會 momery leak？&lt;/p&gt;
+
+&lt;p&gt;我們看到有一個 for range loop 在 iterate replicas，for each replica 都建立一個
+goroutine 讓他去執行 search 的工作，當她完成了他會把結果塞進一個 type 是 Result
+的 channel，在 func First 的結尾有一個 &lt;code&gt;&amp;lt;-c&lt;/code&gt; 在 block，直到有一個 goroutine 把
+Result 塞進 channel，所以先回來的 goroutine 就會是 func First 的 return
+value，但是後回來的就會是一個 deadlock 沒有一個 channel 等待接收他的結果，因為
+func First 已經結束了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func First(query string, replicas ...Search) Result {  
+    c := make(chan Result)
+    searchReplica := func(i int) { c &amp;lt;- replicas[i](query) }
+    for i := range replicas {
+        go searchReplica(i)
+    }
+    return &amp;lt;-c
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我們要怎麼知道他真的 momery leak 了？&lt;/p&gt;
+
+&lt;p&gt;我們要用 gdb！&lt;/p&gt;
+
+&lt;p&gt;在用 gdb 之前，我們先要有一個完整可執行的範例程式&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;log&amp;quot;
+	&amp;quot;net/http&amp;quot;
+	&amp;quot;time&amp;quot;
+)
+
+type search func(query string) result
+
+type result struct {
+	provider string
+	status   int
+}
+
+func main() {
+	replicas := []search{google, yahoo}
+	r := first(&amp;quot;lovebugs&amp;quot;, replicas...)
+	fmt.Println(r)
+	time.Sleep(2 * time.Second)
+	fmt.Println(&amp;quot;woke up&amp;quot;)
+}
+
+func google(query string) result {
+	res, err := http.Get(&amp;quot;http://google.com?q=&amp;quot; + query)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return result{
+		provider: &amp;quot;google&amp;quot;,
+		status:   res.StatusCode,
+	}
+}
+
+func yahoo(query string) result {
+	res, err := http.Get(&amp;quot;http://yahoo.com/search?p=&amp;quot; + query)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return result{
+		provider: &amp;quot;yahoo&amp;quot;,
+		status:   res.StatusCode,
+	}
+}
+
+func first(query string, replicas ...search) result {
+	c := make(chan result)
+	searchReplica := func(i int) {
+		c &amp;lt;- replicas[i](query)
+	}
+	for i := range replicas {
+		go searchReplica(i)
+	}
+
+	return &amp;lt;-c
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;編譯他 &lt;code&gt;go build -gcflags &amp;quot;-N -l&amp;quot; main.go&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;用 &lt;code&gt;gdb&lt;/code&gt; 執行他 &lt;code&gt;gdb main&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;看到下面這個畫面就是我們開始執行了&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;GNU gdb (GDB) 7.11.1
+Copyright (C) 2016 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later &amp;lt;http://gnu.org/licenses/gpl.html&amp;gt;
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type &amp;quot;show copying&amp;quot;
+and &amp;quot;show warranty&amp;quot; for details.
+This GDB was configured as &amp;quot;x86_64-apple-darwin15.5.0&amp;quot;.
+Type &amp;quot;show configuration&amp;quot; for configuration details.
+For bug reporting instructions, please see:
+&amp;lt;http://www.gnu.org/software/gdb/bugs/&amp;gt;.
+Find the GDB manual and other documentation resources online at:
+&amp;lt;http://www.gnu.org/software/gdb/documentation/&amp;gt;.
+For help, type &amp;quot;help&amp;quot;.
+Type &amp;quot;apropos word&amp;quot; to search for commands related to &amp;quot;word&amp;quot;...
+Reading symbols from main...done.
+Loading Go Runtime support.
+(gdb)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;先把我們要的 breakpoint 下好&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(gdb) b 51
+Breakpoint 1 at 0x29a5: file /Users/nukr/workspace/gocode/src/github.com/nukr/golang_test/blocked_goroutines_and_resource_lea
+ks/leaks/main.go, line 51.
+(gdb) b 22
+Breakpoint 2 at 0x221b: file /Users/nukr/workspace/gocode/src/github.com/nukr/golang_test/blocked_goroutines_and_resource_lea
+ks/leaks/main.go, line 22.
+(gdb)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;第一個我們要看的是 goroutine 在執行的時候是在哪個位置，這樣才能知道在 func main
+結尾的時候，他的執行狀況。&lt;/p&gt;
+
+&lt;p&gt;我們下 &lt;code&gt;run&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(gdb) run
+Starting program: /Users/nukr/workspace/gocode/src/github.com/nukr/golang_test/blocked_goroutines_and_resource_leaks/leaks/ma
+in
+[New Thread 0x126f of process 9680]
+[New Thread 0x1403 of process 9680]
+[New Thread 0x1503 of process 9680]
+[New Thread 0x1603 of process 9680]
+
+Thread 1 hit Breakpoint 1, main.first.func1 (i=1)
+    at /Users/nukr/workspace/gocode/src/github.com/nukr/golang_test/blocked_goroutines_and_resource_leaks/leaks/main.go:51
+51                      c &amp;lt;- replicas[i](query)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;用 &lt;code&gt;info goroutine&lt;/code&gt; 看一下&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(gdb) info goroutines
+  1 waiting  runtime.gopark
+* 17 syscall  runtime.goexit
+  2 waiting  runtime.gopark
+  3 waiting  runtime.gopark
+  18 waiting  runtime.gopark
+* 19 running  main.first.func1
+* 20 running  main.first.func1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我們看到 19, 20 這兩個就是我們的兩個 goroutine&lt;/p&gt;
+
+&lt;p&gt;再下 &lt;code&gt;c&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(gdb) c
+Continuing.
+[Switching to Thread 0x1403 of process 9680]
+
+Thread 3 hit Breakpoint 1, main.first.func1 (i=0)
+    at /Users/nukr/workspace/gocode/src/github.com/nukr/golang_test/blocked_goroutines_and_resource_leaks/leaks/main.go:51
+51                      c &amp;lt;- replicas[i](query)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;用 &lt;code&gt;info goroutine&lt;/code&gt; 看現在 goroutine 的狀況&lt;/p&gt;
+
+&lt;p&gt;再下 &lt;code&gt;c&lt;/code&gt; 到 &lt;code&gt;fmt.Println(&amp;quot;woke up&amp;quot;)&lt;/code&gt;
+用 &lt;code&gt;info goroutine&lt;/code&gt; 確認最後的 goroutine 狀況&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(gdb) info goroutines
+* 1 running  runtime.gopark
+* 17 syscall  runtime.goexit
+  2 waiting  runtime.gopark
+  3 waiting  runtime.gopark
+  18 waiting  runtime.gopark
+  20 waiting  runtime.gopark
+  41 waiting  runtime.gopark
+* 4 syscall  runtime.systemstack_switch
+  38 waiting  runtime.gopark
+  33 waiting  runtime.gopark
+  50 waiting  runtime.gopark
+  37 waiting  runtime.gopark
+  51 waiting  runtime.gopark
+  39 waiting  runtime.gopark
+  36 waiting  runtime.gopark
+  10 waiting  runtime.gopark
+  31 waiting  runtime.gopark
+  42 waiting  runtime.gopark
+  32 waiting  runtime.gopark
+  66 waiting  runtime.gopark
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我們看到我們等了兩秒了，但是 20 的 goroutine 還在 memory leak comfirm!&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>how to use cli tool read email.(mutt, offlineimap)</title>
@@ -1761,46 +1969,6 @@ sudo dd /dev/urandom | pv | sudo dd of=/dev/null
 &lt;p&gt;也可以這樣用&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;pv /home/user/bigfile.iso | md5sum
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>The Basic Of ES6 Generators （翻譯）</title>
-      <link>http://nukr.github.io/post/The-Basic-Of-ES6-Generators-%EF%BC%88%E7%BF%BB%E8%AD%AF%EF%BC%89/</link>
-      <pubDate>Sun, 11 Jan 2015 15:49:36 -0500</pubDate>
-      
-      <guid>http://nukr.github.io/post/The-Basic-Of-ES6-Generators-%EF%BC%88%E7%BF%BB%E8%AD%AF%EF%BC%89/</guid>
-      <description>
-
-&lt;p&gt;One of the most exciting new features coming in JavaScript ES6 is a new breed of function, called a generator. The name is a little strange, but the behavior may seem a lot stranger at first glance. This article aims to explain the basics of how they work, and build you up to understanding why they are so powerful for the future of JS.&lt;/p&gt;
-
-&lt;p&gt;Javascript ES6 有一項最令人興奮的新特性是一種新型態的 function 叫做 generator。這個名字有點奇怪，但是第一瞥他的行為似乎更奇怪了。本篇文章目標是解釋基本上他是如何運作的，並且讓你了解為何他在未來的 JS 中如此強大。&lt;/p&gt;
-
-&lt;h2 id=&#34;run-to-completion&#34;&gt;Run-To-Completion&lt;/h2&gt;
-
-&lt;h2 id=&#34;運行到完成&#34;&gt;運行到完成&lt;/h2&gt;
-
-&lt;p&gt;The first thing to observe as we talk about generators is how they differ from normal functions with respect to the &amp;ldquo;run to completion&amp;rdquo; expectation.&lt;/p&gt;
-
-&lt;p&gt;第一件事去觀察像我們談論關於 generators 是如何不同於普通的 function 並且遵照我們的「運行到完成」的期待。&lt;/p&gt;
-
-&lt;p&gt;Whether you realized it or not, you&amp;rsquo;ve always been able to assume something fairly fundamental about your functions: once the function starts running, it will always run to completion before any other JS code can run.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-language-javascript&#34;&gt;setTimeout(function(){
-    console.log(&amp;quot;Hello World&amp;quot;);
-},1);
-
-function foo() {
-    // NOTE: don&#39;t ever do crazy long-running loops like this
-    for (var i=0; i&amp;lt;=1E10; i++) {
-        console.log(i);
-    }
-}
-
-foo();
-// 0..1E10
-// &amp;quot;Hello World&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
