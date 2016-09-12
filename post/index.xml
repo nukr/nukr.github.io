@@ -23,8 +23,9 @@
 
 &lt;h2 id=&#34;offlineimap&#34;&gt;offlineimap&lt;/h2&gt;
 
-&lt;p&gt;touch ~/.offlineimaprc
-vi ~/.offlineimaprc&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;touch ~/.offlineimaprc&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;vi ~/.offlineimaprc&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-conf&#34;&gt;[general]
 accounts = myaccount
@@ -80,7 +81,7 @@ folderfilter = lambda folder: folder in [&#39;INBOX&#39;, &#39;Label1&#39;, &#39
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;code&gt;oauth2_client_id&lt;/code&gt;、&lt;code&gt;oauth2_client_secret&lt;/code&gt;、&lt;code&gt;oauth2_refresh_token&lt;/code&gt;，要如何取得？
-要先到 [](&lt;a href=&#34;https://console.developers.google.com&#34;&gt;https://console.developers.google.com&lt;/a&gt;) 點擊左側的 Credentials，然後在點擊 Create credentials -&amp;gt; Oauth client ID，
+要先到 &lt;a href=&#34;https://console.developers.google.com&#34;&gt;https://console.developers.google.com&lt;/a&gt; 點擊左側的 Credentials，然後在點擊 Create credentials -&amp;gt; Oauth client ID，
 如果你先前沒有建立過OAuth consent screen，網頁會引導你建立一個，這樣就會取得 &lt;code&gt;oauth_client_id&lt;/code&gt; 跟 &lt;code&gt;oauth_client_secret&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;code&gt;oauth2_refresh_token&lt;/code&gt; 要透過一個 python 的工具，先把它 clone 下來 &lt;code&gt;git clone https://github.com/google/gmail-oauth2-tools&lt;/code&gt;，

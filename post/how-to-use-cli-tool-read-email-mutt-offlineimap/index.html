@@ -51,8 +51,9 @@
 
 <h2 id="offlineimap">offlineimap</h2>
 
-<p>touch ~/.offlineimaprc
-vi ~/.offlineimaprc</p>
+<p><code>touch ~/.offlineimaprc</code></p>
+
+<p><code>vi ~/.offlineimaprc</code></p>
 
 <pre><code class="language-conf">[general]
 accounts = myaccount
@@ -108,7 +109,7 @@ folderfilter = lambda folder: folder in ['INBOX', 'Label1', 'Label2', 'Work']
 </code></pre>
 
 <p><code>oauth2_client_id</code>、<code>oauth2_client_secret</code>、<code>oauth2_refresh_token</code>，要如何取得？
-要先到 [](<a href="https://console.developers.google.com">https://console.developers.google.com</a>) 點擊左側的 Credentials，然後在點擊 Create credentials -&gt; Oauth client ID，
+要先到 <a href="https://console.developers.google.com">https://console.developers.google.com</a> 點擊左側的 Credentials，然後在點擊 Create credentials -&gt; Oauth client ID，
 如果你先前沒有建立過OAuth consent screen，網頁會引導你建立一個，這樣就會取得 <code>oauth_client_id</code> 跟 <code>oauth_client_secret</code></p>
 
 <p><code>oauth2_refresh_token</code> 要透過一個 python 的工具，先把它 clone 下來 <code>git clone https://github.com/google/gmail-oauth2-tools</code>，
