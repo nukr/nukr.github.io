@@ -6,15 +6,683 @@
     <description>Recent content in Post-rsses on Thinking</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 12 Sep 2016 11:20:02 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 12 Sep 2016 21:11:41 +0800</lastBuildDate>
     <atom:link href="http://nukr.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>use investigate memory leak</title>
-      <link>http://nukr.github.io/post/use-investigate-memory-leak/</link>
+      <title>12 fractured apps（翻譯）</title>
+      <link>http://nukr.github.io/post/12-fractured-apps-translate/</link>
+      <pubDate>Mon, 12 Sep 2016 21:11:41 +0800</pubDate>
+      
+      <guid>http://nukr.github.io/post/12-fractured-apps-translate/</guid>
+      <description>
+
+&lt;h1 id=&#34;12-fractured-apps-翻譯&#34;&gt;12 Fractured Apps（翻譯）&lt;/h1&gt;
+
+&lt;p&gt;原文 &lt;a href=&#34;https://medium.com/@kelseyhightower/12-fractured-apps-1080c73d481c#.1849fmubk&#34;&gt;https://medium.com/@kelseyhightower/12-fractured-apps-1080c73d481c#.1849fmubk&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Over the years I’ve witnessed more and more people discover the 12 Fact0r App
+manifesto and start implementing many of the suggestions outlined there. This
+has led to applications that are far easier to deploy and manage. However
+practical examples of 12 Factor were a rare sight to see in the wild.&lt;/p&gt;
+
+&lt;p&gt;在這一年我已經見證了越來越多的人發現 12 Factor App 宣言並且開始接受那裡的建議
+開始實作。這帶領了應用程式更容易部署以及管理。即使這樣還是很少看到實際野生的
+12 Factor 例子。&lt;/p&gt;
+
+&lt;p&gt;Once Docker hit the scene the benefits of the 12 Factor App (12FA) really
+started to shine. For example, 12FA recommends that logging should be done to
+stdout and be treated as an event stream. Ever run the docker logs command?
+That’s 12FA in action!&lt;/p&gt;
+
+&lt;p&gt;Docker 一度打到了 12 Factor App 的好處開始大放異彩。例如，12FA 建議 logging
+應該被 stdout 完成並且被當成 event stream。曾經用過 docker logs 指令？That&amp;rsquo;s
+12FA in action！&lt;/p&gt;
+
+&lt;p&gt;12FA also suggests applications should use environment variables for
+configuration. Again Docker makes this trivial by providing the ability to set
+env vars programmatically when creating containers.&lt;/p&gt;
+
+&lt;p&gt;12FA 也建議應用程式應該使用環境變數來設定。再一次 Docker 透過提供當建立容
+器時可程式設定環境變數的能力來解決這個問題。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Docker and 12 factor apps are a killer combo and offer a peek into the future
+of application design and deployment.&lt;/p&gt;
+
+&lt;p&gt;Docker 和 12 factor apps 是一個必殺組合技還提供了一窺未來程式設計和部署。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Docker also makes it somewhat easy to “lift and shift” legacy applications to
+containers. I say “somewhat” because what most people end up doing is treating
+Docker containers like VMs, resulting in 2GB container images built on top of
+full blown Linux distros.&lt;/p&gt;
+
+&lt;p&gt;Docker 也讓它有些容易&amp;rdquo;lif and shift&amp;rdquo; legacy 程式到容器中。我說&amp;rdquo;有些&amp;rdquo;是因為大多數人
+最後把 Docker 容器當成 VM 來用，產生了 2GB 的容器映像檔裡面放著完整的 Linux
+發行版。&lt;/p&gt;
+
+&lt;p&gt;Unfortunately legacy applications, including the soon-to-be-legacy application
+you are working on right now, have many shortcomings, especially around the
+startup process. Applications, even modern ones, make too many assumptions and
+do very little to ensure a clean startup. Applications that require an external
+database will normally initialize the database connection during startup.
+However, if that database is unreachable, even temporarily, many applications
+will simply exit. If you’re lucky you might get an error message and non-zero
+exit code to aid in troubleshooting.&lt;/p&gt;
+
+&lt;p&gt;很不幸的 legacy applications，包含了快要 legacy application，你現在正在做的，
+有很多缺點，特別是啟動程序。應用程式，即便是現代的，有著太多的假設並且太少去
+確定是一個乾淨的啟動。應用程式需要一個外部的資料庫將正常的初始化資料庫連線在
+開始時。然而，假如資料庫無法訪問，即便是暫時的，許多應用程式將直接結束。假設
+你很幸運你也許會得到一個錯誤訊息和一個 non-zero exit code 來幫助故障排除。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Many of the applications that are being packaged for Docker are broken in
+subtle ways. So subtle people would not call them broken, it’s more like a
+hairline fracture — it works but hurts like hell when you use them.&lt;/p&gt;
+
+&lt;p&gt;許多被 Docker 封裝的應用程式會在很微妙的情況下爆掉。微妙的人們不說他是爆掉，
+他們說那只是骨折，那可以動但是動起來很痛。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This kind of application behavior has forced many organizations into complex
+deployment processes and contributed to the rise of configuration management
+tools like Puppet or Ansible. Configuration management tools can solve the
+“missing” database problem by ensuring the database is started before the
+applications that depend on it. This is nothing more then a band-aid covering
+up the larger problem. The application should simply retry the database
+connection, using some sort of backoff, and log errors along the way. At some
+point either the database will come online, or your company will be out of
+business.&lt;/p&gt;
+
+&lt;p&gt;這種應用程式行為強迫許多組織進入一個很複雜的部署程序並且有助於提升設定檔管理工
+具像是 Puppet or Ansible。設定檔管理工具可以解決 &amp;ldquo;missing&amp;rdquo; 資料庫的問題，透過
+確認應用程式需要資料庫之前已經啟動，這僅僅是用ok蹦去掩蓋一個更大的問題。這個
+應用程式應該簡單的重試資料庫連線。使用某種備案，並且用 log errors 沿著這個方式。
+要嘛你的資料庫上線要嘛你的公司歇業。&lt;/p&gt;
+
+&lt;p&gt;Another challenge for applications moving to Docker is around configuration.
+Many applications, even modern ones, still rely on local, on-disk,
+configuration files. It’s often suggested to simply build new “deployment”
+containers that bundle the configuration files in the container image.&lt;/p&gt;
+
+&lt;p&gt;其他的挑戰為了應用程式轉移到 Docker 是圍繞著設定檔。甚至許多現代的程式，
+仍然依賴本地，在磁碟上的設定檔。這通常建議簡單的建置新的部署容器包含
+設定檔在容器映像檔。&lt;/p&gt;
+
+&lt;h2 id=&#34;don-t-do-this&#34;&gt;Don’t do this.&lt;/h2&gt;
+
+&lt;p&gt;If you go down this road you will end up with an endless number of container
+images named something like this:&lt;/p&gt;
+
+&lt;p&gt;如果你正在這樣做，最後你會有無數個這樣這樣名字的容器：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;application-v2–prod-01022015&lt;/li&gt;
+&lt;li&gt;application-v2-dev-02272015&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You’ll soon be in the market for a container image management tool.&lt;/p&gt;
+
+&lt;p&gt;你很快地就變成了容器管理工具。&lt;/p&gt;
+
+&lt;p&gt;The move to Docker has given people the false notion they no longer need any
+form of configuration management. I tend to agree, there is no need to use
+Puppet, Chef, or Ansible to build container images, but there is still a need
+to manage runtime configuration settings.&lt;/p&gt;
+
+&lt;p&gt;移動到 Docker 給了人們錯誤的觀念，以為他們不用再做設定檔管理。我傾向同意，不再
+需要使用 Puppet，Chef，或是 Ansible 去建立容器映像檔，但是仍然需要管理執行期的
+設定。&lt;/p&gt;
+
+&lt;p&gt;The same logic used to do away with configuration management is often used to
+avoid all init systems in favor of the docker run command.&lt;/p&gt;
+
+&lt;p&gt;相同的邏輯用在廢除設定檔管理是通常避免所有的初始化系統有利於 docker run 指令。&lt;/p&gt;
+
+&lt;p&gt;To compensate for the lack of configuration management tools and robust init
+systems, Docker users have turned to shell scripts to mask application
+shortcomings around initial bootstrapping and the startup process.&lt;/p&gt;
+
+&lt;p&gt;要補償缺少的設定檔管理工具以及強健初始系統，Docker 使用者已經轉變到
+shell scripts 來隱藏應用程式缺點 環繞在初始化以及啟動程序。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Once you go all in on Docker and refuse to use tools that don’t bear the
+Docker logo you paint yourself into a corner and start abusing Docker.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;一旦你完全使用 Docker 並且拒絕使用不用 Docker 的工具，你已經開始濫用 Docker。&lt;/p&gt;
+
+&lt;h2 id=&#34;example-application&#34;&gt;Example Application&lt;/h2&gt;
+
+&lt;p&gt;The remainder of this post will utilize an example program to demonstrate a few
+common startup tasks preformed by a typical application. The example
+application performs the following tasks during startup:&lt;/p&gt;
+
+&lt;p&gt;接下來的文章將採用範例程式來展示一些常見的啟動任務典型的應用程式。該範例應用程式
+表現接下來的任務在啟動程序中。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Load configuration settings from a JSON encoded config file&lt;/li&gt;
+&lt;li&gt;Access a working data directory&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Establish a connection to an external mysql database&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;讀取設定檔從 JSON encoded config file&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;存取工作資料目錄&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;建立連線到外部的 mysql database&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;database/sql&amp;quot;
+    &amp;quot;encoding/json&amp;quot;
+    &amp;quot;fmt&amp;quot;
+    &amp;quot;io/ioutil&amp;quot;
+    &amp;quot;log&amp;quot;
+    &amp;quot;net&amp;quot;
+    &amp;quot;os&amp;quot;
+
+    _ &amp;quot;github.com/go-sql-driver/mysql&amp;quot;
+)
+
+var (
+    config Config
+    db     *sql.DB
+)
+
+type Config struct {
+    DataDir string `json:&amp;quot;datadir&amp;quot;`
+
+    // Database settings.
+    Host     string `json:&amp;quot;host&amp;quot;`
+    Port     string `json:&amp;quot;port&amp;quot;`
+    Username string `json:&amp;quot;username&amp;quot;`
+    Password string `json:&amp;quot;password&amp;quot;`
+    Database string `json:&amp;quot;database&amp;quot;`
+}
+
+func main() {
+    log.Println(&amp;quot;Starting application...&amp;quot;)
+    // Load configuration settings.
+    data, err := ioutil.ReadFile(&amp;quot;/etc/config.json&amp;quot;)
+    if err != nil {
+        log.Fatal(err)
+    }
+    if err := json.Unmarshal(data, &amp;amp;config); err != nil {
+        log.Fatal(err)
+    }
+
+    // Use working directory.
+    _, err = os.Stat(config.DataDir)
+    if err != nil {
+        log.Fatal(err)
+    }
+    // Connect to database.
+    hostPort := net.JoinHostPort(config.Host, config.Port)
+    dsn := fmt.Sprintf(&amp;quot;%s:%s@tcp(%s)/%s?timeout=30s&amp;quot;,
+        config.Username, config.Password, hostPort, config.Database)
+
+    db, err = sql.Open(&amp;quot;mysql&amp;quot;, dsn)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    if err := db.Ping(); err != nil {
+        log.Fatal(err)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The complete source code of the example program is available on GitHub.&lt;/p&gt;
+
+&lt;p&gt;完整的原始碼範例程式在 Github 上&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;As you can see there’s nothing special here, but if you look closely you can
+see this application will only startup under specific conditions, which we’ll
+call the happy path. If the configuration file or working directory is missing,
+or the database is not available during startup, the above application will
+fail to start. Let’s deploy the example application via Docker and examine this
+first hand.&lt;/p&gt;
+
+&lt;p&gt;就像你看到的沒什麼特別的地方，但是假如你仔細一點看你可以看到這個應用程式只在
+特定的情況下啟動，我們叫這做快樂路徑。假如設定檔或是工作資料夾不存在或是資料
+庫在程式啟動的時候還不能連結，這上面的應用程式會啟動失敗。讓我們部署這個範例
+應用程式透過 Docker 檢查第一手資訊。&lt;/p&gt;
+
+&lt;p&gt;Build the application using the go build command:&lt;/p&gt;
+
+&lt;p&gt;建構應用程式使用 go build 指令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ GOOS=linux go build -o app .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Create a Docker image using the following Dockerfile:&lt;/p&gt;
+
+&lt;p&gt;建立 Docker 映像檔使用下列的 Dockerfile：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-dockerfile&#34;&gt;FROM scratch
+MAINTAINER Kelsey Hightower &amp;lt;kelsey.hightower@gmail.com&amp;gt;
+COPY app /app
+ENTRYPOINT [&amp;quot;/app&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;All I’m doing here is copying the application binary into place. This container
+image will use the scratch base image, resulting in a minimal Docker image
+suitable for deploying our application. Remember, ship artifacts not build
+environments.&lt;/p&gt;
+
+&lt;p&gt;我在這裡做的只有把應用程式複製到裡面去。這個容器映像檔將使用 scratch base image，
+會得到一個最小的 Docker 映像檔剛好符合我們的需要來部署我們的應用程式。記住，發送
+artifacts 不是建立環境。&lt;/p&gt;
+
+&lt;p&gt;Create the Docker image using the docker build command:&lt;/p&gt;
+
+&lt;p&gt;產生 Docker 映像檔使用 docker build 指令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ docker build -t app:v1 .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Finally, create a Docker container from the app:v1 Docker image using the docker run command:
+最後，產生 Docker 容器從 app:v1 Docker 映像檔使用 docker run 指令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ docker run --rm app:v1
+2015/12/13 04:00:34 Starting application...
+2015/12/13 04:00:34 open /etc/config.json: no such file or directory
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Let the pain begin! Right out of the gate I hit the first startup problem.
+Notice the application fails to start because of the missing /etc/config.json
+configuration file. I can fix this by bind mounting the configuration file at
+runtime:&lt;/p&gt;
+
+&lt;p&gt;讓我們痛苦的開始！馬上遇到啟動的問題。注意到應用程式啟動失敗因為我們缺少
+/etc/config.json 設定檔。我能在執行期綁定設定檔的掛載點來修正這個問題：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ docker run --rm \
+  -v /etc/config.json:/etc/config.json \
+  app:v1
+2015/12/13 07:36:27 Starting application...
+2015/12/13 07:36:27 stat /var/lib/data: no such file or directory
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Another error! This time the application fails to start because the
+/var/lib/data directory does not exist. I can easily work around the missing
+data directory by bind mounting another host dir into the container:&lt;/p&gt;
+
+&lt;p&gt;又一個錯誤！這次應用程式啟動失敗因為 /var/lib/data 資料夾不存在。我能簡單
+work around 缺少資料夾的錯誤透過綁定掛載點到另一個 host 的資料夾到容器中：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ docker run --rm \
+  -v /etc/config.json:/etc/config.json \
+  -v /var/lib/data:/var/lib/data \
+  app:v1
+2015/12/13 07:44:18 Starting application...
+2015/12/13 07:44:48 dial tcp 203.0.113.10:3306: i/o timeout
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now we are making progress, but I forgot to configure access to the database
+for this Docker instance.&lt;/p&gt;
+
+&lt;p&gt;現在有進展了，但是我忘記設定這個 Docker 實體如何存取 database。&lt;/p&gt;
+
+&lt;p&gt;This is the point where some people start suggesting that configuration
+management tools should be used to ensure that all these dependencies are in
+place before starting the application. While that works, it’s pretty much
+overkill and often the wrong approach for application-level concerns.&lt;/p&gt;
+
+&lt;p&gt;這是一個重點 有一些人開始糾結在啟動應用程式時應該使用設定檔管理工具確認所有的相依性。
+當他可以工作時，他會太矯枉過正並且通常是個在應用程式層級錯誤的方法。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;I can hear the silent cheers from hipster “sysadmins” sipping on a cup of
+Docker Kool-Aid eagerly waiting to suggest using a custom Docker entrypoint
+to solve our bootstrapping problems.&lt;/p&gt;
+
+&lt;p&gt;我能聽的無聲的喝采從一些嬉皮&amp;rdquo;sysadmins&amp;rdquo;啜飲一口 Docker 風味的 Kool-Aid 迫不及待
+的建議你使用自訂 Docker entrypoint 來解決這個問題。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;custom-docker-entrypoints-to-the-rescue&#34;&gt;Custom Docker entrypoints to the rescue&lt;/h2&gt;
+
+&lt;p&gt;One way to address our startup problems is to create a shell script and use it
+as the Docker entrypoint in place of the actual application. Here’s a short
+list of things we can accomplish using a shell script as the Docker entrypoint:&lt;/p&gt;
+
+&lt;p&gt;一個解決啟動問題的方法是建立一個 shell script 並且把它用在 Docker entrypoint
+跟實際的應用程式放在一起。這邊有一個簡短的清單我們可以透過 shell script 跟
+Docker entrypoint 做到的。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Generate the required /etc/config.json configuration file&lt;/li&gt;
+&lt;li&gt;Create the required /var/lib/data directory&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Test the database connection and block until it’s available&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;產生必要的 /etc/config.json 設定檔&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;建立必要的 /var/lib/data 資料夾&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;測試資料庫連線並且停住直到可以連線&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The following shell script tackles the first two items by adding the ability to
+use environment variables in-place of the /etc/config.json configuration file
+and creating the missing /var/lib/data directory during the startup process.
+The script executes the example application as the final step, preserving the
+original behavior of starting the application by default.&lt;/p&gt;
+
+&lt;p&gt;這下面的 shell script 抓住了前兩項項目透過增加了使用環境變數的能力在 /etc/config.json
+內部使用並且建立的缺少的 /var/lib/data 資料夾在啟動程序中。這個script 執行了範例應用程式
+像是最後階段，保留了原來應用程式啟動的行為。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;#!/bin/sh
+set -e
+datadir=${APP_DATADIR:=&amp;quot;/var/lib/data&amp;quot;}
+host=${APP_HOST:=&amp;quot;127.0.0.1&amp;quot;}
+port=${APP_PORT:=&amp;quot;3306&amp;quot;}
+username=${APP_USERNAME:=&amp;quot;&amp;quot;}
+password=${APP_PASSWORD:=&amp;quot;&amp;quot;}
+database=${APP_DATABASE:=&amp;quot;&amp;quot;}
+cat &amp;lt;&amp;lt;EOF &amp;gt; /etc/config.json
+{
+  &amp;quot;datadir&amp;quot;: &amp;quot;${datadir}&amp;quot;,
+  &amp;quot;host&amp;quot;: &amp;quot;${host}&amp;quot;,
+  &amp;quot;port&amp;quot;: &amp;quot;${port}&amp;quot;,
+  &amp;quot;username&amp;quot;: &amp;quot;${username}&amp;quot;,
+  &amp;quot;password&amp;quot;: &amp;quot;${password}&amp;quot;,
+  &amp;quot;database&amp;quot;: &amp;quot;${database}&amp;quot;
+}
+EOF
+mkdir -p ${APP_DATADIR}
+exec &amp;quot;/app&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The Docker image can now be rebuilt using the following Dockerfile:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-dockerfile&#34;&gt;FROM alpine:3.1
+MAINTAINER Kelsey Hightower &amp;lt;kelsey.hightower@gmail.com&amp;gt;
+COPY app /app
+COPY docker-entrypoint.sh /entrypoint.sh
+ENTRYPOINT [&amp;quot;/entrypoint.sh&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Notice the custom shell script is copied into the Docker image and used as
+the entrypoint in place of the application binary.&lt;/p&gt;
+
+&lt;p&gt;注意自訂的 shell script 是複製到 Docker 映像檔並且當成 entrypoint 跟應用程式
+放在一起。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Build the app:v2 Docker image using the docker build command:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ docker build -t app:v2 .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now run it:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ docker run --rm \
+  -e &amp;quot;APP_DATADIR=/var/lib/data&amp;quot; \
+  -e &amp;quot;APP_HOST=203.0.113.10&amp;quot; \
+  -e &amp;quot;APP_PORT=3306&amp;quot; \
+  -e &amp;quot;APP_USERNAME=user&amp;quot; \
+  -e &amp;quot;APP_PASSWORD=password&amp;quot; \
+  -e &amp;quot;APP_DATABASE=test&amp;quot; \
+  app:v2
+2015/12/13 04:44:29 Starting application...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The custom entrypoint is working. Using only environment variables we are now
+able to configure and run our application.&lt;/p&gt;
+
+&lt;p&gt;自訂的 entrypoint 可以動了。僅使用環境變數我們現在可以設定和執行我們的應用程式。&lt;/p&gt;
+
+&lt;p&gt;But why are we doing this?&lt;/p&gt;
+
+&lt;p&gt;但我們為什麼要這樣做？&lt;/p&gt;
+
+&lt;p&gt;Why do we need to use such a complex wrapper script? Some will say it’s much
+easier to write this functionality in shell then doing it in the app. But the
+cost is not only in managing shell scripts. Notice the other difference between
+the v1 and v2 Dockerfiles?&lt;/p&gt;
+
+&lt;p&gt;為什麼我們需要使用像這樣複雜的包裝 script？某些人會說這比做在你的應用程式中容
+易多了。但是這個成本不只管理 shell script。注意 v1 and v2 中還有其他的不同，
+Dockerfile？&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-dockerfile&#34;&gt;FROM alpine:3.1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The v2 Dockerfile uses the alpine base image to provide a scripting
+environment, while small, it does double the size of our Docker image:&lt;/p&gt;
+
+&lt;p&gt;這個 v2 Dockerfile 使用 alpine base image 去提供能執行 script 的環境，
+縱然小他還是我們 Docker 映像檔兩倍的大小。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ docker images
+REPOSITORY  TAG  IMAGE ID      CREATED      VIRTUAL SIZE
+app         v2   1b47f1fbc7dd  2 hours ago  10.99 MB
+app         v1   42273e8664d5  2 hours ago  5.952 MB
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The other drawback to this approach is the inability to use a configuration
+file with the image. We can continue scripting and add support for both the
+configuration file and env vars, but this is just going down the wrong path,
+and it will come back to bite us at some point when the wrapper script gets out
+of sync with the application.&lt;/p&gt;
+
+&lt;p&gt;這個方法另外的缺點是這個映像檔無法使用設定檔。我們可以繼續編寫 script 並且增加支援
+兩者，設定檔和環境變數，但是這只是在走錯路，並且他將會在未來某一天回來咬你一口
+當你忘了同步你的 wrapper script 跟應用程式。&lt;/p&gt;
+
+&lt;p&gt;There is another way to fix this problem.&lt;/p&gt;
+
+&lt;p&gt;有其他的方法修正這個問題。&lt;/p&gt;
+
+&lt;h2 id=&#34;programming-to-the-rescue&#34;&gt;Programming to the rescue&lt;/h2&gt;
+
+&lt;p&gt;Yep, good old fashion programming. Each of the issues being addressed in the
+docker-entrypoint.sh script can be handled directly by the application.&lt;/p&gt;
+
+&lt;p&gt;是的，好的舊程式方法。每一個問題可以被 docker-entrypoint.sh 解決的都可以直接
+被應用程式處理。&lt;/p&gt;
+
+&lt;p&gt;Don’t get me wrong, using an entrypoint script is ok for applications you don’t
+have control over, but when you rely on custom entrypoint scripts for
+applications you write, you add another layer of complexity to the deployment
+process for no good reason.&lt;/p&gt;
+
+&lt;p&gt;別誤會我，使用 entrypoint script 是可以接受為了你沒能力控制應用程式，但是當你
+依賴自訂 entrypoint script 為了你寫的應用程式時，你就增加了另一層的複雜度到你
+的部署，for no good reason。&lt;/p&gt;
+
+&lt;h3 id=&#34;config-files-should-be-optional&#34;&gt;Config files should be optional&lt;/h3&gt;
+
+&lt;p&gt;There is absolutely no reason to require a configuration file after the 90s. I
+would suggest loading the configuration file if it exists, and falling back to
+sane defaults. The following code snippet does just that.&lt;/p&gt;
+
+&lt;p&gt;絕對沒有任何理由需要引入設定檔在九十秒之後。我會建議載入設定檔如果它存在的話，
+並且可以倒回合理的預設值。這下面的程式碼片段就在做這件事。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// Load configuration settings.
+data, err := ioutil.ReadFile(&amp;quot;/etc/config.json&amp;quot;)
+// Fallback to default values.
+switch {
+    case os.IsNotExist(err):
+        log.Println(&amp;quot;Config file missing using defaults&amp;quot;)
+        config = Config{
+            DataDir: &amp;quot;/var/lib/data&amp;quot;,
+            Host: &amp;quot;127.0.0.1&amp;quot;,
+            Port: &amp;quot;3306&amp;quot;,
+            Database: &amp;quot;test&amp;quot;,
+        }
+    case err == nil:
+        if err := json.Unmarshal(data, &amp;amp;config); err != nil {
+            log.Fatal(err)
+        }
+    default:
+        log.Println(err)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Using env vars for config&lt;/p&gt;
+
+&lt;p&gt;This is one of the easiest things you can do directly in your application. In
+the following code snippet env vars are used to override configuration
+settings.&lt;/p&gt;
+
+&lt;p&gt;這是最簡單的一件事你可以直接在你的應用程式裡面做。在下面的程式碼片段中環境
+變數是用來覆蓋設定檔的。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;log.Println(&amp;quot;Overriding configuration from env vars.&amp;quot;)
+if os.Getenv(&amp;quot;APP_DATADIR&amp;quot;) != &amp;quot;&amp;quot; {
+    config.DataDir = os.Getenv(&amp;quot;APP_DATADIR&amp;quot;)
+}
+if os.Getenv(&amp;quot;APP_HOST&amp;quot;) != &amp;quot;&amp;quot; {
+    config.Host = os.Getenv(&amp;quot;APP_HOST&amp;quot;)
+}
+if os.Getenv(&amp;quot;APP_PORT&amp;quot;) != &amp;quot;&amp;quot; {
+    config.Port = os.Getenv(&amp;quot;APP_PORT&amp;quot;)
+}
+if os.Getenv(&amp;quot;APP_USERNAME&amp;quot;) != &amp;quot;&amp;quot; {
+    config.Username = os.Getenv(&amp;quot;APP_USERNAME&amp;quot;)
+}
+if os.Getenv(&amp;quot;APP_PASSWORD&amp;quot;) != &amp;quot;&amp;quot; {
+    config.Password = os.Getenv(&amp;quot;APP_PASSWORD&amp;quot;)
+}
+if os.Getenv(&amp;quot;APP_DATABASE&amp;quot;) != &amp;quot;&amp;quot; {
+    config.Database = os.Getenv(&amp;quot;APP_DATABASE&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;manage-the-application-working-directories&#34;&gt;Manage the application working directories&lt;/h3&gt;
+
+&lt;p&gt;Instead of punting the responsibility of creating working directories to
+external tools or custom entrypoint scripts your application should manage them
+directly. If they are missing create them. If that fails be sure to log an
+error with the details:&lt;/p&gt;
+
+&lt;p&gt;你的應用程式應該直接管理工作資料夾，而不是 custom entrypoint 或是外部工具。
+假設沒有建立它。假設他失敗了當然應該 log 詳細錯誤：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// Use working directory.
+_, err = os.Stat(config.DataDir)
+if os.IsNotExist(err) {
+    log.Println(&amp;quot;Creating missing data directory&amp;quot;, config.DataDir)
+    err = os.MkdirAll(config.DataDir, 0755)
+}
+if err != nil {
+    log.Fatal(err)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;eliminate-the-need-to-deploy-services-in-a-specific-order&#34;&gt;Eliminate the need to deploy services in a specific order&lt;/h3&gt;
+
+&lt;p&gt;Do not require anyone to start your application in a specific order. I’ve seen
+too many deployment guides warn users to deploy an application after the
+database because the application would fail to start.&lt;/p&gt;
+
+&lt;p&gt;任何人啟動你的應用程式都不必要遵照特定的順序。我曾經看過許多部署的指南警告
+使用者說部署應用程式應該在 database 啟動後因為這樣應用程式會啟動失敗。&lt;/p&gt;
+
+&lt;p&gt;Stop doing this. Here’s how:&lt;/p&gt;
+
+&lt;p&gt;別這樣做。這裡告訴你該如何做：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ docker run --rm \
+  -e &amp;quot;APP_DATADIR=/var/lib/data&amp;quot; \
+  -e &amp;quot;APP_HOST=203.0.113.10&amp;quot; \
+  -e &amp;quot;APP_PORT=3306&amp;quot; \
+  -e &amp;quot;APP_USERNAME=user&amp;quot; \
+  -e &amp;quot;APP_PASSWORD=password&amp;quot; \
+  -e &amp;quot;APP_DATABASE=test&amp;quot; \
+  app:v3
+2015/12/13 05:36:10 Starting application...
+2015/12/13 05:36:10 Config file missing using defaults
+2015/12/13 05:36:10 Overriding configuration from env vars.
+2015/12/13 05:36:10 Creating missing data directory /var/lib/data
+2015/12/13 05:36:10 Connecting to database at 203.0.113.10:3306
+2015/12/13 05:36:40 dial tcp 203.0.113.10:3306: i/o timeout
+2015/12/13 05:37:11 dial tcp 203.0.113.10:3306: i/o timeout
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Notice in the above output that I’m not able to connect to the target database
+running at 203.0.113.10.&lt;/p&gt;
+
+&lt;p&gt;After running the following command to grant access to the “mysql” database:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ gcloud sql instances patch mysql \
+  --authorized-networks &amp;quot;203.0.113.20/32&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The application is able to connect to the database and complete the startup process.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;2015/12/13 05:37:43 dial tcp 203.0.113.10:3306: i/o timeout
+2015/12/13 05:37:46 Application started successfully.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The code to make this happen looks like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// Connect to database.
+hostPort := net.JoinHostPort(config.Host, config.Port)
+log.Println(&amp;quot;Connecting to database at&amp;quot;, hostPort)
+dsn := fmt.Sprintf(&amp;quot;%s:%s@tcp(%s)/%s?timeout=30s&amp;quot;,
+    config.Username, config.Password, hostPort, config.Database)
+db, err = sql.Open(&amp;quot;mysql&amp;quot;, dsn)
+if err != nil {
+    log.Println(err)
+}
+var dbError error
+maxAttempts := 20
+for attempts := 1; attempts &amp;lt;= maxAttempts; attempts++ {
+    dbError = db.Ping()
+    if dbError == nil {
+        break
+    }
+    log.Println(dbError)
+    time.Sleep(time.Duration(attempts) * time.Second)
+}
+if dbError != nil {
+    log.Fatal(dbError)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Nothing fancy here. I’m simply retrying the database connection and increasing
+the time between each attempt.&lt;/p&gt;
+
+&lt;p&gt;Finally, we wrap up the startup process with a friendly log message that the
+application has started correctly. Trust me, your sysadmin will thank you.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;log.Println(&amp;quot;Application started successfully.&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;Everything in this post is about improving the deployment process for your
+applications, specifically those running in a Docker container, but these ideas
+should apply almost anywhere. On the surface it may seem like a good idea to
+push application bootstrapping tasks to custom wrapper scripts, but I urge you
+to reconsider. Deal with application bootstrapping tasks as close to the
+application as possible and avoid pushing this burden onto your users, which in
+the future could very well be you.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>use gdb investigate memory leak</title>
+      <link>http://nukr.github.io/post/use-gdb-investigate-memory-leak/</link>
       <pubDate>Mon, 12 Sep 2016 11:20:02 +0800</pubDate>
       
-      <guid>http://nukr.github.io/post/use-investigate-memory-leak/</guid>
+      <guid>http://nukr.github.io/post/use-gdb-investigate-memory-leak/</guid>
       <description>&lt;p&gt;我們先來看一下 Rob Pike 在 Google I/O 2012 的 talk &amp;ldquo;Go Concurrency Patterns&amp;rdquo; 中，有一段 snippet 會造成 momery leak。&lt;/p&gt;
 
 &lt;p&gt;先解釋一下這段 code，First 吃兩個 parameters，很明顯的 query 是個字串，
@@ -1947,28 +2615,6 @@ $ sudo apt-get update
 $ sudo apt-get install mongodb-org
 $ sudo service mongod start
 $ sudo service mongod stop
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>How to monitor dd progress in Mac OSX</title>
-      <link>http://nukr.github.io/post/How-to-monitor-dd-progress-in-Mac-OSX/</link>
-      <pubDate>Mon, 27 Apr 2015 00:37:28 -0500</pubDate>
-      
-      <guid>http://nukr.github.io/post/How-to-monitor-dd-progress-in-Mac-OSX/</guid>
-      <description>&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;brew install pv
-sudo dd /dev/urandom | pv | sudo dd of=/dev/null
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;輸出&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;1,74MB 0:00:09 [ 198kB/s] [      &amp;lt;=&amp;gt;                            ]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;也可以這樣用&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;pv /home/user/bigfile.iso | md5sum
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
