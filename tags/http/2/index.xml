@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Thinking</title>
-    <link>http://nukr.github.io/tags/http/2/index.xml</link>
+    <link>https://nukr.github.io/tags/http/2/index.xml</link>
     <description>Recent content on Thinking</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://nukr.github.io/tags/http/2/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://nukr.github.io/tags/http/2/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Rules of Thumb for HTTP/2 Push (translate 9%)</title>
-      <link>http://nukr.github.io/post/Rules-of-Thumb-for-HTTP-2-Push-translate/</link>
+      <link>https://nukr.github.io/post/Rules-of-Thumb-for-HTTP-2-Push-translate/</link>
       <pubDate>Thu, 04 Aug 2016 11:31:20 -0500</pubDate>
       
-      <guid>http://nukr.github.io/post/Rules-of-Thumb-for-HTTP-2-Push-translate/</guid>
+      <guid>https://nukr.github.io/post/Rules-of-Thumb-for-HTTP-2-Push-translate/</guid>
       <description>
 
 &lt;p&gt;&lt;a href=&#34;https://docs.google.com/document/d/1K0NykTXBbbbTlv60t5MyJvXjqKGsCVNYHyLEXIxYMv0/edit#heading=h.ke8t5vjw3jh4&#34;&gt;source&lt;/a&gt;&lt;/p&gt;

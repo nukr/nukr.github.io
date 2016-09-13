@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Post-rsses on Thinking</title>
-    <link>http://nukr.github.io/post/index.xml</link>
+    <link>https://nukr.github.io/post/index.xml</link>
     <description>Recent content in Post-rsses on Thinking</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 12 Sep 2016 21:11:41 +0800</lastBuildDate>
-    <atom:link href="http://nukr.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://nukr.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>12 fractured apps（翻譯）</title>
-      <link>http://nukr.github.io/post/12-fractured-apps-translate/</link>
+      <link>https://nukr.github.io/post/12-fractured-apps-translate/</link>
       <pubDate>Mon, 12 Sep 2016 21:11:41 +0800</pubDate>
       
-      <guid>http://nukr.github.io/post/12-fractured-apps-translate/</guid>
+      <guid>https://nukr.github.io/post/12-fractured-apps-translate/</guid>
       <description>
 
 &lt;h1 id=&#34;12-fractured-apps-翻譯&#34;&gt;12 Fractured Apps（翻譯）&lt;/h1&gt;
@@ -679,10 +679,10 @@ the future could very well be you.&lt;/p&gt;
     
     <item>
       <title>use gdb investigate memory leak</title>
-      <link>http://nukr.github.io/post/use-gdb-investigate-memory-leak/</link>
+      <link>https://nukr.github.io/post/use-gdb-investigate-memory-leak/</link>
       <pubDate>Mon, 12 Sep 2016 11:20:02 +0800</pubDate>
       
-      <guid>http://nukr.github.io/post/use-gdb-investigate-memory-leak/</guid>
+      <guid>https://nukr.github.io/post/use-gdb-investigate-memory-leak/</guid>
       <description>&lt;p&gt;我們先來看一下 Rob Pike 在 Google I/O 2012 的 talk &amp;ldquo;Go Concurrency Patterns&amp;rdquo; 中，有一段 snippet 會造成 momery leak。&lt;/p&gt;
 
 &lt;p&gt;先解釋一下這段 code，First 吃兩個 parameters，很明顯的 query 是個字串，
@@ -887,10 +887,10 @@ Thread 3 hit Breakpoint 1, main.first.func1 (i=0)
     
     <item>
       <title>how to use cli tool read email.(mutt, offlineimap)</title>
-      <link>http://nukr.github.io/post/how-to-use-cli-tool-read-email-mutt-offlineimap/</link>
+      <link>https://nukr.github.io/post/how-to-use-cli-tool-read-email-mutt-offlineimap/</link>
       <pubDate>Sun, 11 Sep 2016 17:07:12 -0500</pubDate>
       
-      <guid>http://nukr.github.io/post/how-to-use-cli-tool-read-email-mutt-offlineimap/</guid>
+      <guid>https://nukr.github.io/post/how-to-use-cli-tool-read-email-mutt-offlineimap/</guid>
       <description>
 
 &lt;p&gt;放假沒事又在自虐，如何使用 commandline tool 收發 email，過程實在麻煩，不得不紀錄一下。&lt;/p&gt;
@@ -1003,10 +1003,10 @@ macro index G &amp;quot;!/usr/local/bin/offlineimap \n&amp;quot; &amp;quot;Check
     
     <item>
       <title>golang test pattern</title>
-      <link>http://nukr.github.io/post/golang-test-pattern/</link>
+      <link>https://nukr.github.io/post/golang-test-pattern/</link>
       <pubDate>Sun, 04 Sep 2016 01:38:53 -0500</pubDate>
       
-      <guid>http://nukr.github.io/post/golang-test-pattern/</guid>
+      <guid>https://nukr.github.io/post/golang-test-pattern/</guid>
       <description>&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func TestGetReleaseTagMessage(t *testing.T) {
         cases := []struct {
                 f           FakeReleaseInfoer
@@ -1051,10 +1051,10 @@ macro index G &amp;quot;!/usr/local/bin/offlineimap \n&amp;quot; &amp;quot;Check
     
     <item>
       <title>mo hotkey</title>
-      <link>http://nukr.github.io/post/mo-hotkey/</link>
+      <link>https://nukr.github.io/post/mo-hotkey/</link>
       <pubDate>Tue, 16 Aug 2016 21:26:30 -0500</pubDate>
       
-      <guid>http://nukr.github.io/post/mo-hotkey/</guid>
+      <guid>https://nukr.github.io/post/mo-hotkey/</guid>
       <description>&lt;pre&gt;&lt;code&gt;MO熱鍵中英文對照表
 F2 – &amp;quot;Pass Priority/OK&amp;quot; The system will click OK to the current prompt.
 按下OK：
@@ -1104,10 +1104,10 @@ M – &amp;quot;Auto-Tap Mana (hold)&amp;quot; Holding this key while clicking
     
     <item>
       <title>vim tips</title>
-      <link>http://nukr.github.io/post/vim-tips/</link>
+      <link>https://nukr.github.io/post/vim-tips/</link>
       <pubDate>Thu, 04 Aug 2016 11:41:14 -0500</pubDate>
       
-      <guid>http://nukr.github.io/post/vim-tips/</guid>
+      <guid>https://nukr.github.io/post/vim-tips/</guid>
       <description>&lt;p&gt;我想要重新調整文章的格式讓我整篇文章都在 80 行換行，且要考慮到 word 的完整性
 &lt;a href=&#34;http://stackoverflow.com/questions/3033423/vim-command-to-restructure-force-text-to-80-columns&#34;&gt;source&lt;/a&gt;&lt;/p&gt;
 
@@ -1119,10 +1119,10 @@ M – &amp;quot;Auto-Tap Mana (hold)&amp;quot; Holding this key while clicking
     
     <item>
       <title>Rules of Thumb for HTTP/2 Push (translate 9%)</title>
-      <link>http://nukr.github.io/post/Rules-of-Thumb-for-HTTP-2-Push-translate/</link>
+      <link>https://nukr.github.io/post/Rules-of-Thumb-for-HTTP-2-Push-translate/</link>
       <pubDate>Thu, 04 Aug 2016 11:31:20 -0500</pubDate>
       
-      <guid>http://nukr.github.io/post/Rules-of-Thumb-for-HTTP-2-Push-translate/</guid>
+      <guid>https://nukr.github.io/post/Rules-of-Thumb-for-HTTP-2-Push-translate/</guid>
       <description>
 
 &lt;p&gt;&lt;a href=&#34;https://docs.google.com/document/d/1K0NykTXBbbbTlv60t5MyJvXjqKGsCVNYHyLEXIxYMv0/edit#heading=h.ke8t5vjw3jh4&#34;&gt;source&lt;/a&gt;&lt;/p&gt;
@@ -2280,10 +2280,10 @@ discussion here.&lt;/p&gt;
     
     <item>
       <title>drone-0.5-build-process</title>
-      <link>http://nukr.github.io/post/drone-0-5-build-process/</link>
+      <link>https://nukr.github.io/post/drone-0-5-build-process/</link>
       <pubDate>Sat, 30 Jul 2016 12:45:32 -0500</pubDate>
       
-      <guid>http://nukr.github.io/post/drone-0-5-build-process/</guid>
+      <guid>https://nukr.github.io/post/drone-0-5-build-process/</guid>
       <description>
 
 &lt;h1 id=&#34;drone-0-5-build-process&#34;&gt;Drone 0.5 build process&lt;/h1&gt;
@@ -2366,10 +2366,10 @@ drone secret add --image=docker account/repo DOCKER_PASSWORD &amp;quot;$PASSWORD
     
     <item>
       <title>How to avoid relative paths hell in nodejs?</title>
-      <link>http://nukr.github.io/post/How-to-avoid-relative-paths-hell-in-nodejs/</link>
+      <link>https://nukr.github.io/post/How-to-avoid-relative-paths-hell-in-nodejs/</link>
       <pubDate>Wed, 04 Nov 2015 10:32:06 -0500</pubDate>
       
-      <guid>http://nukr.github.io/post/How-to-avoid-relative-paths-hell-in-nodejs/</guid>
+      <guid>https://nukr.github.io/post/How-to-avoid-relative-paths-hell-in-nodejs/</guid>
       <description>&lt;p&gt;我只推薦一個方法就是 package.json postinstall script&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;&amp;quot;postinstall&amp;quot;: &amp;quot;ln -s ../src node_modules/mc&amp;quot;
@@ -2379,10 +2379,10 @@ drone secret add --image=docker account/repo DOCKER_PASSWORD &amp;quot;$PASSWORD
     
     <item>
       <title>Promise.all should use function as params</title>
-      <link>http://nukr.github.io/post/Promise-all-should-use-function-as-params/</link>
+      <link>https://nukr.github.io/post/Promise-all-should-use-function-as-params/</link>
       <pubDate>Fri, 16 Oct 2015 23:12:27 -0500</pubDate>
       
-      <guid>http://nukr.github.io/post/Promise-all-should-use-function-as-params/</guid>
+      <guid>https://nukr.github.io/post/Promise-all-should-use-function-as-params/</guid>
       <description>&lt;p&gt;今天我們要聊的是：&lt;code&gt;Promise.all&lt;/code&gt;，他吃一個 Array，Promise.all 會試著去 resolve 每一個 array 中的 element，直到 throw error。&lt;/p&gt;
 
 &lt;p&gt;重點來了，當 &lt;code&gt;Promise.all&lt;/code&gt; throw error 之後整個 &lt;code&gt;Promise.all&lt;/code&gt; 就 reject 了，我想要拿到部分 resolve 的值就拿不到了，我只能選擇全部成功或是全部失敗，這樣好像有點爛。&lt;/p&gt;
@@ -2415,10 +2415,10 @@ drone secret add --image=docker account/repo DOCKER_PASSWORD &amp;quot;$PASSWORD
     
     <item>
       <title>clean cache flow</title>
-      <link>http://nukr.github.io/post/clean-cache-flow/</link>
+      <link>https://nukr.github.io/post/clean-cache-flow/</link>
       <pubDate>Fri, 24 Jul 2015 15:15:24 -0500</pubDate>
       
-      <guid>http://nukr.github.io/post/clean-cache-flow/</guid>
+      <guid>https://nukr.github.io/post/clean-cache-flow/</guid>
       <description>&lt;p&gt;客戶取得資料的方法有2&lt;/p&gt;
 
 &lt;p&gt;get&lt;/p&gt;
@@ -2451,10 +2451,10 @@ drone secret add --image=docker account/repo DOCKER_PASSWORD &amp;quot;$PASSWORD
     
     <item>
       <title>taxas holdem api</title>
-      <link>http://nukr.github.io/post/taxas-holdem-api/</link>
+      <link>https://nukr.github.io/post/taxas-holdem-api/</link>
       <pubDate>Wed, 08 Jul 2015 20:03:54 -0500</pubDate>
       
-      <guid>http://nukr.github.io/post/taxas-holdem-api/</guid>
+      <guid>https://nukr.github.io/post/taxas-holdem-api/</guid>
       <description>
 
 &lt;h2 id=&#34;flow&#34;&gt;flow&lt;/h2&gt;
@@ -2494,10 +2494,10 @@ all in&lt;/p&gt;
     
     <item>
       <title>neovim python YouCompleteMe 安裝紀錄</title>
-      <link>http://nukr.github.io/post/neovim-python-YouCompleteMe-%E5%AE%89%E8%A3%9D%E7%B4%80%E9%8C%84/</link>
+      <link>https://nukr.github.io/post/neovim-python-YouCompleteMe-%E5%AE%89%E8%A3%9D%E7%B4%80%E9%8C%84/</link>
       <pubDate>Tue, 07 Jul 2015 09:52:31 -0500</pubDate>
       
-      <guid>http://nukr.github.io/post/neovim-python-YouCompleteMe-%E5%AE%89%E8%A3%9D%E7%B4%80%E9%8C%84/</guid>
+      <guid>https://nukr.github.io/post/neovim-python-YouCompleteMe-%E5%AE%89%E8%A3%9D%E7%B4%80%E9%8C%84/</guid>
       <description>
 
 &lt;p&gt;注意！不要用內建 python 安裝任何東西&lt;/p&gt;
@@ -2531,10 +2531,10 @@ $ npm i
     
     <item>
       <title>登入流程詳解</title>
-      <link>http://nukr.github.io/post/%E7%99%BB%E5%85%A5%E6%B5%81%E7%A8%8B%E8%A9%B3%E8%A7%A3/</link>
+      <link>https://nukr.github.io/post/%E7%99%BB%E5%85%A5%E6%B5%81%E7%A8%8B%E8%A9%B3%E8%A7%A3/</link>
       <pubDate>Wed, 17 Jun 2015 10:13:09 -0500</pubDate>
       
-      <guid>http://nukr.github.io/post/%E7%99%BB%E5%85%A5%E6%B5%81%E7%A8%8B%E8%A9%B3%E8%A7%A3/</guid>
+      <guid>https://nukr.github.io/post/%E7%99%BB%E5%85%A5%E6%B5%81%E7%A8%8B%E8%A9%B3%E8%A7%A3/</guid>
       <description>
 
 &lt;h2 id=&#34;preface&#34;&gt;Preface&lt;/h2&gt;
@@ -2605,10 +2605,10 @@ yield r.dbCreate(user.generated_keys[0].replace(/-/g, ‘_’))
     
     <item>
       <title>Install MongoDB in Ubuntu 14.10</title>
-      <link>http://nukr.github.io/post/Install-MongoDB-in-Ubuntu-14-10/</link>
+      <link>https://nukr.github.io/post/Install-MongoDB-in-Ubuntu-14-10/</link>
       <pubDate>Sat, 13 Jun 2015 09:24:02 -0500</pubDate>
       
-      <guid>http://nukr.github.io/post/Install-MongoDB-in-Ubuntu-14-10/</guid>
+      <guid>https://nukr.github.io/post/Install-MongoDB-in-Ubuntu-14-10/</guid>
       <description>&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
 $ echo &amp;quot;deb http://repo.mongodb.org/apt/ubuntu &amp;quot;$(lsb_release -sc)&amp;quot;/mongodb-org/3.0 multiverse&amp;quot; | sudo tee /etc/apt/sources.list.d/mongodb.list
 $ sudo apt-get update
