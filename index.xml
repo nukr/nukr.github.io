@@ -6,8 +6,48 @@
     <description>Recent content on Thinking</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 12 Sep 2016 21:11:41 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 15 Sep 2016 15:05:18 +0800</lastBuildDate>
     <atom:link href="https://nukr.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>chinese simplified to chinese traditional</title>
+      <link>https://nukr.github.io/post/chinese-simplified-to-chinese-traditional/</link>
+      <pubDate>Thu, 15 Sep 2016 15:05:18 +0800</pubDate>
+      
+      <guid>https://nukr.github.io/post/chinese-simplified-to-chinese-traditional/</guid>
+      <description>
+
+&lt;h1 id=&#34;繁簡轉換-by-commandline-tool&#34;&gt;繁簡轉換 by commandline tool&lt;/h1&gt;
+
+&lt;p&gt;&lt;code&gt;brew install opencc&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;opencc -i simplified -o traditional&lt;/code&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>big5 to utf 8 command line macos</title>
+      <link>https://nukr.github.io/post/big5-to-utf-8-command-line-macos/</link>
+      <pubDate>Thu, 15 Sep 2016 14:16:21 +0800</pubDate>
+      
+      <guid>https://nukr.github.io/post/big5-to-utf-8-command-line-macos/</guid>
+      <description>
+
+&lt;h1 id=&#34;charset-conversion-eg-big5-to-utf-8-by-command-line-tool&#34;&gt;Charset conversion eg. big5 to utf-8 by command line tool&lt;/h1&gt;
+
+&lt;h2 id=&#34;why&#34;&gt;Why&lt;/h2&gt;
+
+&lt;p&gt;有時候我們要看影片但是發現字幕檔是 gbk 編碼的，播放軟體放出來全是亂碼。&lt;/p&gt;
+
+&lt;h2 id=&#34;how&#34;&gt;How&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;iconv -f FROM_CHARSET -t TO_CHARSET filename &amp;gt; newfile&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;extra&#34;&gt;Extra&lt;/h2&gt;
+
+&lt;p&gt;[繁簡轉換]()&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>12 fractured apps（翻譯）</title>
@@ -2526,96 +2566,6 @@ $ npm i
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;不照這個步驟裝很容易失敗&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>登入流程詳解</title>
-      <link>https://nukr.github.io/post/%E7%99%BB%E5%85%A5%E6%B5%81%E7%A8%8B%E8%A9%B3%E8%A7%A3/</link>
-      <pubDate>Wed, 17 Jun 2015 10:13:09 -0500</pubDate>
-      
-      <guid>https://nukr.github.io/post/%E7%99%BB%E5%85%A5%E6%B5%81%E7%A8%8B%E8%A9%B3%E8%A7%A3/</guid>
-      <description>
-
-&lt;h2 id=&#34;preface&#34;&gt;Preface&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;let user = yield r.db(‘system’)
-  .table(‘accounts’)
-  .insert({
-    username: username,
-    password: yield pbkdf2(password),
-    services: [
-      {name: serviceName, token: uuid.v4()}
-    ]
-  })
-
-yield r.dbCreate(user.generated_keys[0].replace(/-/g, ‘_’))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;signup&#34;&gt;Signup&lt;/h2&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;Register Account Form from frontend&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;username&lt;/li&gt;
-&lt;li&gt;password&lt;/li&gt;
-&lt;li&gt;first service name&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Post to Backend service&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;username&lt;/li&gt;
-&lt;li&gt;password (pbkdf2 encrypted)&lt;/li&gt;
-&lt;li&gt;use rethinkdb account id replace - to _ as db name&lt;/li&gt;
-&lt;li&gt;generate a service token for first service&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Return Login Data to Frontend&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;services with tokens (maybe not)&lt;/li&gt;
-&lt;li&gt;Application Id ??&lt;/li&gt;
-&lt;li&gt;current login session token (maybe jsonwebtoken)&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;FrontEnd need to tell me every request&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;X-Meepcloud-Access-Token&lt;/li&gt;
-&lt;li&gt;X-Meepcloud-Application-Id&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;eg.&lt;/p&gt;
-
-&lt;p&gt;url
-    &lt;a href=&#34;https://api.meepcloud.com/v1/Object/Products/&#34;&gt;https://api.meepcloud.com/v1/Object/Products/&lt;/a&gt; &amp;hellip;&lt;/p&gt;
-
-&lt;p&gt;header
-    X-Meepcloud-Access-Token
-    X-Meepcloud-Application-Id&lt;/p&gt;
-
-&lt;h2 id=&#34;login&#34;&gt;Login&lt;/h2&gt;
-
-&lt;p&gt;Login for maintain token only otherwise just application with token&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Install MongoDB in Ubuntu 14.10</title>
-      <link>https://nukr.github.io/post/Install-MongoDB-in-Ubuntu-14-10/</link>
-      <pubDate>Sat, 13 Jun 2015 09:24:02 -0500</pubDate>
-      
-      <guid>https://nukr.github.io/post/Install-MongoDB-in-Ubuntu-14-10/</guid>
-      <description>&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
-$ echo &amp;quot;deb http://repo.mongodb.org/apt/ubuntu &amp;quot;$(lsb_release -sc)&amp;quot;/mongodb-org/3.0 multiverse&amp;quot; | sudo tee /etc/apt/sources.list.d/mongodb.list
-$ sudo apt-get update
-$ sudo apt-get install mongodb-org
-$ sudo service mongod start
-$ sudo service mongod stop
-&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     
