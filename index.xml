@@ -6,8 +6,19 @@
     <description>Recent content on Thinking</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 15 Sep 2016 15:05:18 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 30 Oct 2016 17:19:31 +0800</lastBuildDate>
     <atom:link href="https://nukr.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>nice docker usage</title>
+      <link>https://nukr.github.io/post/nice-docker-usage/</link>
+      <pubDate>Sun, 30 Oct 2016 17:19:31 +0800</pubDate>
+      
+      <guid>https://nukr.github.io/post/nice-docker-usage/</guid>
+      <description>&lt;p&gt;看到了一篇很棒的 docker &lt;a href=&#34;https://flynnbundy.com/2016/10/20/how-docker-can-abstract-complexity/&#34;&gt;使用範例&lt;/a&gt; 裡面用到了 docker cp，
+以前沒用過這個 command，這樣可以很方便的使用一些暫時性功能的軟體，而不用安裝他們。&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>chinese simplified to chinese traditional</title>
@@ -2529,43 +2540,6 @@ match card type
 raise
 check
 all in&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>neovim python YouCompleteMe 安裝紀錄</title>
-      <link>https://nukr.github.io/post/neovim-python-YouCompleteMe-%E5%AE%89%E8%A3%9D%E7%B4%80%E9%8C%84/</link>
-      <pubDate>Tue, 07 Jul 2015 09:52:31 -0500</pubDate>
-      
-      <guid>https://nukr.github.io/post/neovim-python-YouCompleteMe-%E5%AE%89%E8%A3%9D%E7%B4%80%E9%8C%84/</guid>
-      <description>
-
-&lt;p&gt;注意！不要用內建 python 安裝任何東西&lt;/p&gt;
-
-&lt;p&gt;我是全新安裝Mac OSX Yosemite、Xcode、Commandline Tools&lt;/p&gt;
-
-&lt;h3 id=&#34;homebrew&#34;&gt;Homebrew&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ brew install python
-$ pip install neovim --user
-
-$ brew install python3
-$ pip3 install neovim --user
-
-$ brew tap neovim/neovim
-$ brew install --HEAD neovim
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;install-youcompleteme-with-vundle&#34;&gt;install YouCompleteMe with Vundle&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ cd ~/.vim/bundle/YouCompleteMe
-$ ./install.sh --clang-completer
-
-$ cd ~/.vim/tern_for_vim
-$ npm i
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;不照這個步驟裝很容易失敗&lt;/p&gt;
 </description>
     </item>
     
