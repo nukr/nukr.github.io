@@ -6,8 +6,22 @@
     <description>Recent content in Post-rsses on Thinking</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 30 Oct 2016 17:19:31 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 30 Oct 2016 17:34:44 +0800</lastBuildDate>
     <atom:link href="https://nukr.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>grpc resources</title>
+      <link>https://nukr.github.io/post/grpc-resources/</link>
+      <pubDate>Sun, 30 Oct 2016 17:34:44 +0800</pubDate>
+      
+      <guid>https://nukr.github.io/post/grpc-resources/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://cloud.google.com/service-management/reference/rpc/google.api#httprule&#34;&gt;http rule&lt;/a&gt; 這邊描述了 grpc rest api option 中能給什麼選項&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.grpc.io/docs/tutorials/basic/go.html&#34;&gt;tutorial&lt;/a&gt; 比較完整的 grpc tutorial 有談到 stream&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://developers.google.com/protocol-buffers/docs/proto3&#34;&gt;protobuf types&lt;/a&gt; 有 grpc 就不能沒有 protobuf&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>nice docker usage</title>
@@ -2497,49 +2511,6 @@ drone secret add --image=docker account/repo DOCKER_PASSWORD &amp;quot;$PASSWORD
 &lt;p&gt;刪除一筆&lt;/p&gt;
 
 &lt;p&gt;刪除多筆&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>taxas holdem api</title>
-      <link>https://nukr.github.io/post/taxas-holdem-api/</link>
-      <pubDate>Wed, 08 Jul 2015 20:03:54 -0500</pubDate>
-      
-      <guid>https://nukr.github.io/post/taxas-holdem-api/</guid>
-      <description>
-
-&lt;h2 id=&#34;flow&#34;&gt;flow&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;signup&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;signin&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;open-table&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;decide blind&lt;/li&gt;
-&lt;li&gt;people&lt;/li&gt;
-&lt;li&gt;limit&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;join-table&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;charge coin&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;table-process&#34;&gt;table process&lt;/h2&gt;
-
-&lt;p&gt;draw card
-dealer
-blind
-river
-match card type
-raise
-check
-all in&lt;/p&gt;
 </description>
     </item>
     
